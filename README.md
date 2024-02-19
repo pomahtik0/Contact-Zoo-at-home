@@ -9,3 +9,43 @@
   Some pets may be even purchused after your play session, if this option is set in it's profile, in case you will fill attached to it ^^.
 
   Pets may be chosen from the veriaty of our partners: zoo-shops, or animal-shelters, ot even individual owners.
+
+## Project
+
+represents general idea of the project.
+
+### General
+- Project looks like a sort of delivery service where you choose pets you like.
+- Only registered users can make orders, unsighned users still may watch full list of animals, and animal profiles.
+- After making an order, user is waiting to be contact by all pets owners and discussing details, after that an initial payment should be made.
+
+### Apperence
+1. main pages
+   - About
+   - List of pets (Rename later)
+   - our partners (list of all zoo-shops or animal-shelters with their local profiles)
+   - Contact Us
+2. sub pages
+   - user profile + settings
+   - Animal profile + settings
+   - company profile + maybe settings
+   - pet cart/basket (корзинка з тваринками, віііі)
+
+### Behind scene logic
+One orders pets. One being contact. Both(or more) parties agree. On the date, all pets come with their owners or other human-friend-representitives[^1]. If something indangers pets during they stay, the contract is automaticly declined.
+
+In case one of the pets can't be a part of the contract anymore(before delivery), user gets full refund for this pet, or for all list of pets from this company.
+
+### Payment logic
+1. User pays after all parties contacted with him, and everyone agrees to the contract.
+2. User can get full refund if there is one or more days before contact left.
+   2.a. If there is less then 24-hours left, that he may get half of his sum.
+3. Pet owner can decline contract in any time before delivery, and user gets full refund.
+4. If there are any controversyes on the contract, money may be frozen untill third-party investigation.
+
+### Pet profile apperence
+
+### Other
+
+## ToDo List
+- [ ] ToDo ToDo List
