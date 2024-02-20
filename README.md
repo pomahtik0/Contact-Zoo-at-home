@@ -16,6 +16,7 @@ represents general idea of the project.
 
 ### General
 - Project looks like a sort of delivery service where you choose pets you like.
+- Comments and raiting and all needed information of the pet may be watched in it's profile.
 - Only registered users can make orders, unsighned users still may watch full list of animals, and animal profiles.
 - After making an order, user is waiting to be contact by all pets owners and discussing details, after that an initial payment should be made.
 
@@ -30,13 +31,16 @@ represents general idea of the project.
    - Animal profile + settings
    - company profile + maybe settings
    - pet cart/basket (корзинка з тваринками, віііі)
+   - Sign in / sign up
 
 ### Behind scene logic
+
 One orders pets. One being contact. Both(or more) parties agree. On the date, all pets come with their owners or other human-friend-representitives[^1]. If something indangers pets during they stay, the contract is automaticly declined.
 
 In case one of the pets can't be a part of the contract anymore(before delivery), user gets full refund for this pet, or for all list of pets from this company.
 
 ### Payment logic
+
 1. User pays after all parties contacted with him, and everyone agrees to the contract.
 2. User can get full refund if there is one or more days before contact left.
    2.a. If there is less then 24-hours left, that he may get half of his sum.
@@ -45,7 +49,17 @@ In case one of the pets can't be a part of the contract anymore(before delivery)
 
 ### Pet profile apperence
 
+- Name
+- Species
+- Link to owner
+- raiting
+- short/long description
+- general info about pet (size, color, height, etc.)
+- price + price per hour
+- comments from others
+
 ### Other
+
 
 ## ToDo List
 - [ ] ToDo ToDo List
