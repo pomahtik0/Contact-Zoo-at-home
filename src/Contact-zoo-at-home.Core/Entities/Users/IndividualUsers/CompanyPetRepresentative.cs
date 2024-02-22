@@ -9,17 +9,17 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
     internal class CompanyPetRepresentative : IUser, IPetRepresentative
     {
-        private string _fullName = "";
+        private string _fullName = string.Empty;
 
-        private string _userName = "";
+        private string _userName = string.Empty;
 
-        private string _password = "";
+        private string _password = string.Empty;
 
         private byte[] _profileImage = [];
 
-        private string? _contactPhone = "";
+        private string? _contactPhone = string.Empty;
 
-        private string? _contactEmail = "";
+        private string? _contactEmail = string.Empty;
 
         private IEnumerable<IContract> _activeContracts = [];
 
