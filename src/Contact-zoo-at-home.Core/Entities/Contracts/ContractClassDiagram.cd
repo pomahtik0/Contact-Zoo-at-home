@@ -7,12 +7,5 @@
       <FileName>Entities\Contracts\IContract.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Contact_zoo_at_home.Core.Entities.Contracts.IContractActions" Collapsed="true">
-    <Position X="6" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Entities\Contracts\IContractActions.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
