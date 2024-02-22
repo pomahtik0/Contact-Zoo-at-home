@@ -14,5 +14,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string? ContactPhone { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string? ContactEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICompany Company { get; set; }
     }
 }
