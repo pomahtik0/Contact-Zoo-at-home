@@ -22,12 +22,12 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         private string? _contactEmail = string.Empty;
 
         private IEnumerable<Pet> _ownedPets = [];
-        public string FullName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string UserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Password { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public byte[] ProfileImage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? ContactPhone { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? ContactEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<Pet> OwnedPets { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FullName { get => _fullName; set => _fullName = value; }
+        public string UserName { get => _userName; set => _userName = value; }
+        public string Password { get => _password; set => _password = value; }
+        public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
+        public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
+        public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
+        public IEnumerable<Pet> OwnedPets { get => _ownedPets; set => _ownedPets = value; }
     }
 }
