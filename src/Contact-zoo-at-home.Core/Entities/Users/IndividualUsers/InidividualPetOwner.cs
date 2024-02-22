@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
-    internal class InidividualPetOwner : IUser, IPetOwner
+    internal class InidividualPetOwner : IUser, IPetOwner, IPetRepresentative
     {
         private string _fullName = string.Empty;
 
@@ -22,6 +23,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         private string? _contactEmail = string.Empty;
 
         private IEnumerable<Pet> _ownedPets = [];
+
+        private IEnumerable<IContract> _activeContracts = [];
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
         public string Password { get => _password; set => _password = value; }
@@ -29,5 +32,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
         public IEnumerable<Pet> OwnedPets { get => _ownedPets; set => _ownedPets = value; }
+        public IEnumerable<IContract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
     }
 }
