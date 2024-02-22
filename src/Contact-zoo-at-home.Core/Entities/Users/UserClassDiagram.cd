@@ -40,10 +40,10 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IUser" Collapsed="true">
+  <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IUser">
     <Position X="5.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAIACAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
       <FileName>Entities\Users\IUser.cs</FileName>
     </TypeIdentifier>
   </Interface>

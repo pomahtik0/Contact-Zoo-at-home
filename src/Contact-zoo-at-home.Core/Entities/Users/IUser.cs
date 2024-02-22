@@ -8,5 +8,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 {
     internal interface IUser
     {
+        string FullName { get; set; }
+        string UserName { get; set; }
+        int Password { get; set; }
+        byte[] ProfileImage { get; set; }
     }
 }
