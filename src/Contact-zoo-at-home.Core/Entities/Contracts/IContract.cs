@@ -1,6 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
-using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
     //TODO: seperate interface for contractors
     internal interface IContract
     {
-        CustomerUser Customer { get; set; }
+        IUser Customer { get; set; }
         IPetOwner Contractor { get; set; }
         IEnumerable<Pet> PetsInContract {  get; set; }
         IEnumerable<IPetRepresentative> PetRepresentatives { get; set; }
