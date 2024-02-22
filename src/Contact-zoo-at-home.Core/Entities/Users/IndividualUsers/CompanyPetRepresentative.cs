@@ -8,12 +8,24 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
     internal class CompanyPetRepresentative : IUser
     {
-        public string FullName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string UserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Password { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public byte[] ProfileImage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? ContactPhone { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string? ContactEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private string _fullName = "";
+
+        private string _userName = "";
+
+        private string _password = "";
+
+        private byte[] _profileImage = [];
+
+        private string? _contactPhone = "";
+
+        private string? _contactEmail = "";
+
+        public string FullName { get => _fullName; set => _fullName = value; }
+        public string UserName { get => _userName; set => _userName = value; }
+        public string Password { get => _password; set => _password = value; }
+        public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
+        public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
+        public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
         public ICompany Company { get; set; }
     }
 }
