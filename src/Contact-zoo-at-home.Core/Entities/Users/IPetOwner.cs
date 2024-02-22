@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 {
     internal interface IPetOwner
     {
-        System.Collections.Generic.IEnumerable<Contact_zoo_at_home.Core.Entities.Pets.Pet> OwnedPets { get; set; }
+        IEnumerable<Pet> OwnedPets { get; set; }
     }
 }
