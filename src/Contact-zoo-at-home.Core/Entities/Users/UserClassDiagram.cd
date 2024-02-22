@@ -59,29 +59,10 @@
   </Interface>
   <Interface Name="Contact_zoo_at_home.Core.Entities.Users.ICompany">
     <Position X="2.25" Y="2" Width="1.5" />
-    <AssociationLine Name="ActiveContracts" Type="Contact_zoo_at_home.Core.Entities.Contracts.IContract" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.75" Y="2.831" />
-        <Point X="8.812" Y="2.831" />
-        <Point X="8.812" Y="3.5" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="ArchivedContracts" Type="Contact_zoo_at_home.Core.Entities.Contracts.IContract" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.438" Y="2.997" />
-        <Point X="3.438" Y="3.812" />
-        <Point X="8" Y="3.812" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\Users\ICompany.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="CompanyPetRepresentatives" />
-      <Property Name="ActiveContracts" />
-      <Property Name="ArchivedContracts" />
-    </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IPetOwner" Collapsed="true">
     <Position X="4.5" Y="1.75" Width="1.5" />

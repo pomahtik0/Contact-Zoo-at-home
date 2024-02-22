@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
     internal interface ICompany : IUser
     {
-        System.Collections.Generic.IEnumerable<Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        System.Collections.Generic.IEnumerable<Contact_zoo_at_home.Core.Entities.Contracts.IContract> ActiveContracts { get; set; }
-        System.Collections.Generic.IEnumerable<Contact_zoo_at_home.Core.Entities.Contracts.IContract> ArchivedContracts { get; set; }
+        IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
+        IEnumerable<IContract> ActiveContracts { get; set; }
+        IEnumerable<IContract> ArchivedContracts { get; set; }
     }
 }
