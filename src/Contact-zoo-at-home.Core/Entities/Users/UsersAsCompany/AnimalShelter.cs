@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
-    internal class AnimalShelter
+    internal class AnimalShelter : ICompany, IPetOwner
     {
     }
 }
