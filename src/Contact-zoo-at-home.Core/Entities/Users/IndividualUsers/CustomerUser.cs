@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,12 +27,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string? ContactPhone { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string? ContactEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public System.Collections.Generic.IEnumerable<Contact_zoo_at_home.Core.Entities.Contracts.IContract> ActiveContracts
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public IEnumerable<IContract> ActiveContracts { get; set; } = [];
     }
 }
