@@ -20,6 +20,8 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         void CustomerAccepts(); // throw if something went wrong
         void ContractorAccepts(); // notify customer after
+        void ContractClosed();
+        void ContractDeclined();
         void NotifyAllParties(string messageTitle, string messageBody);
         void NotifyCustomer(string messageTitle, string messageBody);
         void NotifyContractor(string messageTitle, string messageBody);
