@@ -12,5 +12,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         string UserName { get; set; }
         int Password { get; set; }
         byte[] ProfileImage { get; set; }
+        string ContactPhone { get; set; }
+        string ContactEmail { get; set; }
     }
 }
