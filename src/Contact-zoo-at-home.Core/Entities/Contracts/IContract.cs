@@ -19,7 +19,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         // Other data: date, paymentstatus, ect.
 
-        void CustomerAccepts(CustomerUser customer); // throw if something went wrong
-        void ContractorAccepts(IPetOwner contractor); // notify customer after
+        void CustomerAccepts(); // throw if something went wrong
+        void ContractorAccepts(); // notify customer after
     }
 }
