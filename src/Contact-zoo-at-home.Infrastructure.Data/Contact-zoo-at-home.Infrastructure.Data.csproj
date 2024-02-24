@@ -11,4 +11,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EntityMappingConfiguration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contact-zoo-at-home.Core\Contact-zoo-at-home.Core.csproj" />
+  </ItemGroup>
+
 </Project>
