@@ -16,7 +16,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
     {
         public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
-
+            builder.ToTable("Users");
+            builder.HasDiscriminator<string>("UserType").HasValue("Customer").IsComplete(false);
+            builder.HasKey(e => e.Id);
         }
     }
 }
