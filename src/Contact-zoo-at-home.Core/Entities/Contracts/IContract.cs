@@ -18,8 +18,8 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         // Other data: date, paymentstatus, ect.
 
-        void CustomerAccepts(ICustomer customer); // throw if something went wrong
-        void ContractorAccepts(IContractor contractor); // notify customer after
+        void CustomerAccepts(ICustomer customer);
+        void ContractorAccepts(IContractor contractor);
         void ContractClosed();
         void ContractDeclinedByContractor(IContractor contractor);
         void ContractDeclinedByCustomer(ICustomer customer);
