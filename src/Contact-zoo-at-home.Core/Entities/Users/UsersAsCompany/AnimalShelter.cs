@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
-    internal class AnimalShelter : ICompany, IPetOwner
+    internal class AnimalShelter : ICompany, IPetOwner, IContractor
     {
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<IContract> ActiveContracts { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

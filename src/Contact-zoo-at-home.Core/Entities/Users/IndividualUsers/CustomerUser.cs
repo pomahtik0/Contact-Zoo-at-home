@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
-    internal class CustomerUser : IUser
+    internal class CustomerUser : IUser, ICustomer
     {
         private string _fullName = string.Empty;
 
