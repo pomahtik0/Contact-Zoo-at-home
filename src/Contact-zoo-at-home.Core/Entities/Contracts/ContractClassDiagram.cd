@@ -1,24 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Interface Name="Contact_zoo_at_home.Core.Entities.Contracts.IContract" Collapsed="true">
-    <Position X="9.5" Y="2" Width="1.5" />
+  <Class Name="Contact_zoo_at_home.Core.Entities.Pets.Pet" Collapsed="true">
+    <Position X="8.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAQCAAAAQAAABQAAAEAAAAAIAwAAAgAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAACAAQggAAAAAAAAAAQAAAAAAAEAAAAAAIAAAAA=</HashCode>
+      <FileName>Entities\Pets\Pet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Contact_zoo_at_home.Core.Entities.Contracts.IContract" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIEAQCQAAAQAAAAAAAAEAAAAAIAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\Contracts\IContract.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Contractor" />
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="PetsInContract" />
+      <Property Name="PetRepresentatives" />
+    </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="Contact_zoo_at_home.Core.Entities.Users.ICustomer" Collapsed="true">
-    <Position X="12.5" Y="2" Width="1.5" />
+    <Position X="5.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAAAAIAAAAAAAAAAAAAEAAAAAAAABAAA=</HashCode>
+      <HashCode>AABEAAAAAAAAAIAAIAAAAAAAAAAABAEAAAAAAAABAAA=</HashCode>
       <FileName>Entities\Users\ICustomer.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IContractor" Collapsed="true">
-    <Position X="6" Y="2" Width="1.5" />
+    <Position X="11.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAEAAACEAAAAEAAABAAA=</HashCode>
       <FileName>Entities\Users\IContractor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IPetRepresentative" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Users\IPetRepresentative.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
