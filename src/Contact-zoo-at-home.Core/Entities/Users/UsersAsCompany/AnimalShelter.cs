@@ -11,16 +11,16 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
     internal class AnimalShelter : ICompany, IPetOwner, IContractor
     {
-        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        public IEnumerable<IContract> ActiveContracts { get; set; }
-        public IEnumerable<IContract> ArchivedContracts { get; set; }
-        public string FullName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public byte[] ProfileImage { get; set; }
+        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; } = [];
+        public IEnumerable<IContract> ActiveContracts { get; set; } = [];
+        public IEnumerable<IContract> ArchivedContracts { get; set; } = [];
+        public string FullName { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public byte[] ProfileImage { get; set; } = [];
         public string? ContactPhone { get; set; }
         public string? ContactEmail { get; set; }
-        public IEnumerable<Pet> OwnedPets { get; set; }
+        public IEnumerable<Pet> OwnedPets { get; set; } = [];
 
         public void AcceptContract(IContract contract)
         {
