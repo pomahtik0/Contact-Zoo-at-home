@@ -21,12 +21,13 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private string? _contactEmail = string.Empty;
 
+        private IEnumerable<IContract> _activeContracts = [];
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
         public string Password { get => _password; set => _password = value; }
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactEmail; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public IEnumerable<IContract> ActiveContracts { get; set; } = [];
+        public IEnumerable<IContract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
     }
 }
