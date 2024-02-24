@@ -17,6 +17,13 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         IEnumerable<IContract> ActiveContracts { get; }
 
         void CreateContract(IContract contract, IEnumerable<Pet> petsInContract);
+
+        /// <summary>
+        /// Accepting contract if all parties accept.
+        /// </summary>
+        /// <param name="contract">Contract to accept</param>
+        /// <exception cref="ContractNotExistException">throws if contract does not exist.</exception>
+        /// <exception cref="InvalidOperationException">throws if not all other parties excepted contract</exception>
         void AcceptContract(IContract contract);
 
         /// <summary>
