@@ -19,6 +19,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
             builder.ToTable("Users");
             builder.HasDiscriminator<string>("UserType").HasValue("Customer").IsComplete(false);
             builder.HasKey(e => e.Id);
+            builder.Ignore(e => e.ActiveContracts); // ignore contracts for now
         }
     }
 }
