@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
-    public class InidividualPetOwner : IUser, IPetOwner, IPetRepresentative, IContractor
+    public class IndividualPetOwner : IUser, IPetOwner, IPetRepresentative, IContractor
     {
         private string _fullName = string.Empty;
 
