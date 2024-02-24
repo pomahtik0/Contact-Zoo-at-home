@@ -1,4 +1,7 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    static internal class UserEntityConfiguration
+    internal class UserEntityConfiguration : IEntityTypeConfiguration<CustomerUser>
     {
-        static public void Configure(ModelBuilder builder)
+        public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
 
         }
