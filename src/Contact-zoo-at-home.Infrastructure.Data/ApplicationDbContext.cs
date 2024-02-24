@@ -10,7 +10,7 @@ using Contact_zoo_at_home.Core.Entities.Contracts;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<IUser> Users { get; set; }
         public DbSet<Pet> Pets { get; set; }
