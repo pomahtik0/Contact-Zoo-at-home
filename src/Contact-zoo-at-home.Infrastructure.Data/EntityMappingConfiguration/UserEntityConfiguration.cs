@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class UserEntityConfiguration
+    static internal class UserEntityConfiguration
     {
-        public void Configure(ModelBuilder builder)
+        static public void Configure(ModelBuilder builder)
         {
 
         }
