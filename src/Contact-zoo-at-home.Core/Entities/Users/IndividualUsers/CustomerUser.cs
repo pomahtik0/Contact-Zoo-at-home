@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,20 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public string? ContactPhone { get => _contactEmail; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
         public IEnumerable<IContract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
+
+        public void AcceptContract(IContract contract)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateContract(IContract contract, IEnumerable<Pet> petsInContract, object? options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeclineContract(IContract contract, string message, object? options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
