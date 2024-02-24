@@ -18,7 +18,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
             
             builder.HasKey(x => x.Id);
             
-            builder.HasDiscriminator<string>("UserType").HasValue("IndividualPetOwner").IsComplete(false);
+            builder.ToTable("Users").HasDiscriminator<string>("UserType").HasValue("IndividualPetOwner").IsComplete(false);
             
             builder
                 .Ignore(e => e.ActiveContracts)
