@@ -10,7 +10,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// <summary>
     /// Interface for those who can accept contracts, and execute them.
     /// </summary>
-    internal interface IContractor
+    public interface IContractor
     {
         IEnumerable<IContract> ActiveContracts { get; }
         IEnumerable<IContract> ArchivedContracts { get; }

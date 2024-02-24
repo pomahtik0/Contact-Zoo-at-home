@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    internal interface IPetRepresentative
+    public interface IPetRepresentative
     {
         string FullName {  get; set; }
         string ContactPhone {  get; set; }

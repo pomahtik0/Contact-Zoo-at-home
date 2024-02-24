@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// <summary>
     /// Interface for those who can create contracts.
     /// </summary>
-    internal interface ICustomer
+    public interface ICustomer
     {
         string FullName { get; }
         string? ContactPhone { get; }

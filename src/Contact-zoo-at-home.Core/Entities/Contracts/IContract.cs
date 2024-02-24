@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Contact_zoo_at_home.Core.Entities.Contracts
 {
     //TODO: seperate interface for contractors
-    internal interface IContract
+    public interface IContract
     {
         ICustomer Customer { get; set; }
         IContractor Contractor { get; set; }

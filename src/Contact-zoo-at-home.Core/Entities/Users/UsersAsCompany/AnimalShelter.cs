@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
-    internal class AnimalShelter : ICompany, IPetOwner, IContractor
+    public class AnimalShelter : ICompany, IPetOwner, IContractor
     {
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; } = [];
         public IEnumerable<IContract> ActiveContracts { get; set; } = [];

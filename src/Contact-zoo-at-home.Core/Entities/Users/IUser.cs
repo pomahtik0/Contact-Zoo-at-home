@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    internal interface IUser
+    public interface IUser
     {
         string FullName { get; set; }
         string UserName { get; set; }

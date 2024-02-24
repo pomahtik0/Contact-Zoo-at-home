@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    internal interface IPetOwner
+    public interface IPetOwner
     {
         IEnumerable<Pet> OwnedPets { get; set; }
     }
