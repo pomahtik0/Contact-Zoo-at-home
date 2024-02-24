@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
+    /// <summary>
+    /// Interface for those who can accept contracts, and execute them.
+    /// </summary>
     internal interface IContractor
     {
     }
