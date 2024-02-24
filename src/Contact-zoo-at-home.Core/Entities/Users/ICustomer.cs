@@ -14,6 +14,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// </summary>
     internal interface ICustomer
     {
+        string FullName { get; }
+        string? ContactPhone { get; }
+        string? ContactEmail {  get; }
         IEnumerable<IContract> ActiveContracts { get; }
 
         /// <summary>
