@@ -9,6 +9,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration;
 using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
+using System.Reflection;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -28,7 +29,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<CustomerUser>().HasDiscriminator().IsComplete(true);
         }
     }
 }
