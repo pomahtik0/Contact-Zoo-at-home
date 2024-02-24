@@ -11,6 +11,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     {
         string FullName {  get; set; }
         string ContactPhone {  get; set; }
-        IEnumerable<IContract> ContractsToRepresent { get; set; }
+        IEnumerable<Contract> ContractsToRepresent { get; set; }
     }
 }

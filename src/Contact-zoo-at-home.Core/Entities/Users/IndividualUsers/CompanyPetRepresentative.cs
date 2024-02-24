@@ -21,7 +21,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private string? _contactEmail = string.Empty;
 
-        private IEnumerable<IContract> _activeContracts = [];
+        private IEnumerable<Contract> _activeContracts = [];
 
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
@@ -29,7 +29,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public virtual IEnumerable<IContract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
+        public virtual IEnumerable<Contract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
         public virtual ICompany CompanyRepresented { get; set; }
     }
 }

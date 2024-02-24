@@ -11,7 +11,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     public interface ICompany : IUser
     {
         IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        IEnumerable<IContract> ActiveContracts { get; set; }
-        IEnumerable<IContract> ArchivedContracts { get; set; }
+        IEnumerable<Contract> ActiveContracts { get; set; }
+        IEnumerable<Contract> ArchivedContracts { get; set; }
     }
 }

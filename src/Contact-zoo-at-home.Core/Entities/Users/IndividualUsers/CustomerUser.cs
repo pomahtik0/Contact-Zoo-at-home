@@ -22,26 +22,26 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private string? _contactEmail = string.Empty;
 
-        private IEnumerable<IContract> _activeContracts = [];
+        private IEnumerable<Contract> _activeContracts = [];
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
         public string Password { get => _password; set => _password = value; }
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactEmail; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public IEnumerable<IContract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
+        public IEnumerable<Contract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
 
-        public void AcceptContract(IContract contract)
+        public void AcceptContract(Contract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateContract(IContract contract, IEnumerable<Pet> petsInContract, object? options)
+        public void CreateContract(Contract contract, IEnumerable<Pet> petsInContract, object? options)
         {
             throw new NotImplementedException();
         }
 
-        public void DeclineContract(IContract contract, string message, object? options)
+        public void DeclineContract(Contract contract, string message, object? options)
         {
             throw new NotImplementedException();
         }

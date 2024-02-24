@@ -24,11 +24,11 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private IEnumerable<Pet> _ownedPets = [];
 
-        private IEnumerable<IContract> _activeContracts = [];
+        private IEnumerable<Contract> _activeContracts = [];
 
-        private IEnumerable<IContract> _archivedContracts = [];
+        private IEnumerable<Contract> _archivedContracts = [];
 
-        private IEnumerable<IContract> _representsContracts = [];
+        private IEnumerable<Contract> _representsContracts = [];
 
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
@@ -37,28 +37,28 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
         public IEnumerable<Pet> OwnedPets { get => _ownedPets; set => _ownedPets = value; }
-        public IEnumerable<IContract> ContractsToRepresent { get => _representsContracts; set => _representsContracts = value; }
+        public IEnumerable<Contract> ContractsToRepresent { get => _representsContracts; set => _representsContracts = value; }
 
-        public IEnumerable<IContract> ActiveContracts => _activeContracts;
+        public IEnumerable<Contract> ActiveContracts => _activeContracts;
 
-        public IEnumerable<IContract> ArchivedContracts => _activeContracts;
+        public IEnumerable<Contract> ArchivedContracts => _activeContracts;
 
-        public void AcceptContract(IContract contract)
+        public void AcceptContract(Contract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void CloseContract(IContract contract)
+        public void CloseContract(Contract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void DeclineContract(IContract contract)
+        public void DeclineContract(Contract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void ModifyContract(IContract contract, object? options)
+        public void ModifyContract(Contract contract, object? options)
         {
             throw new NotImplementedException();
         }
