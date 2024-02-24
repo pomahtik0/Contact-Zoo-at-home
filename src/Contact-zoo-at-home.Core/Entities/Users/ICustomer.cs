@@ -22,6 +22,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         /// <param name="contract">Contract with basic data.</param>
         /// <param name="petsInContract">pets included in contract</param>
         /// <param name="options">other options</param>
+        /// <exception cref="InvalidOperationException">throws if invalid operation with contract.</exception>
+        /// <exception cref="ArgumentNullException">throws if options are needed but not passed.</exception>
+        /// <exception cref="ArgumentException">throws if options formed wrong.</exception>
         void CreateContract(IContract contract, IEnumerable<Pet> petsInContract, object? options);
 
         /// <summary>
