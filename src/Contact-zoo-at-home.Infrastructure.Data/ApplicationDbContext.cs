@@ -15,5 +15,16 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<IUser> Users { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<IContract> Contracts { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(); // insert connection string
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
