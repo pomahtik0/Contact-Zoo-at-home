@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -22,9 +23,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-            base.OnModelCreating(modelBuilder);
+            UserEntityConfiguration.Configure(modelBuilder);
         }
     }
 }
