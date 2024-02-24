@@ -9,6 +9,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 {
     public abstract class Pet
     {
+        public int Id { get; set; }
         public IPetOwner? Owner { get; set; }
         public string Name { get; set; } = string.Empty;
         public string ShortDescription { get; set; } = string.Empty;

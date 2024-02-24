@@ -11,6 +11,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
     //TODO: seperate interface for contractors
     public abstract class Contract
     {
+        public int Id { get; set; }
         public ICustomer Customer { get; set; }
         public IContractor Contractor { get; set; }
         public IEnumerable<Pet> PetsInContract {  get; set; }

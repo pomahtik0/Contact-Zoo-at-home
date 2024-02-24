@@ -11,6 +11,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
     public class ZooShop : ICompany, IPetOwner, IContractor
     {
+        public int Id { get; set; }
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; } = [];
         public IEnumerable<Contract> ActiveContracts { get; set; } = [];
         public IEnumerable<Contract> ArchivedContracts { get; set; } = [];

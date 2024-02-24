@@ -30,6 +30,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private IEnumerable<Contract> _representsContracts = [];
 
+        public int Id { get; set; }
         public string FullName { get => _fullName; set => _fullName = value; }
         public string UserName { get => _userName; set => _userName = value; }
         public string Password { get => _password; set => _password = value; }
