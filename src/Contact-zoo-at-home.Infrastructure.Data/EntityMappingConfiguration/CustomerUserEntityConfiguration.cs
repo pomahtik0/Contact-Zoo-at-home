@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class UserEntityConfiguration : IEntityTypeConfiguration<CustomerUser>
+    internal class CustomerUserEntityConfiguration : IEntityTypeConfiguration<CustomerUser>
     {
         public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
