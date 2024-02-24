@@ -11,15 +11,15 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
     //TODO: seperate interface for contractors
     internal interface IContract
     {
-        IUser Customer { get; set; }
-        IPetOwner Contractor { get; set; }
+        ICustomer Customer { get; set; }
+        IContractor Contractor { get; set; }
         IEnumerable<Pet> PetsInContract {  get; set; }
         IEnumerable<IPetRepresentative> PetRepresentatives { get; set; }
 
         // Other data: date, paymentstatus, ect.
 
-        void CustomerAccepts(); // throw if something went wrong
-        void ContractorAccepts(); // notify customer after
+        void CustomerAccepts(ICustomer customer); // throw if something went wrong
+        void ContractorAccepts(IContractor contractor); // notify customer after
         void ContractClosed();
         void ContractDeclined();
         void NotifyAllParties(string messageTitle, string messageBody);
