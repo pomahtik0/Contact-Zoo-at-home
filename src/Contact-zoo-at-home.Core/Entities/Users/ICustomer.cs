@@ -16,7 +16,13 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     {
         IEnumerable<IContract> ActiveContracts { get; }
 
-        void CreateContract(IContract contract, IEnumerable<Pet> petsInContract);
+        /// <summary>
+        /// Create contract details.
+        /// </summary>
+        /// <param name="contract">Contract with basic data.</param>
+        /// <param name="petsInContract">pets included in contract</param>
+        /// <param name="options">other options</param>
+        void CreateContract(IContract contract, IEnumerable<Pet> petsInContract, object? options);
 
         /// <summary>
         /// Accepting contract if all parties accept.
