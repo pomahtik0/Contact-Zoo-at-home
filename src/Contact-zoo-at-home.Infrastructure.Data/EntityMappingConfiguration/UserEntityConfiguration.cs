@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class UserEntityConfiguration : IEntityTypeConfiguration<IUser>
+    internal class UserEntityConfiguration
     {
-        public void Configure(EntityTypeBuilder<IUser> builder)
+        public void Configure(ModelBuilder builder)
         {
+
         }
     }
 }
