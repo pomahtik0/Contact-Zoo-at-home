@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Contact_zoo_at_home.Core.Entities.Contracts
 {
     //TODO: seperate interface for contractors
-    public abstract class Contract
+    public abstract class AbstractContract
     {
         public int Id { get; set; }
         public ICustomer Customer { get; set; }

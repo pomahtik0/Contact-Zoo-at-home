@@ -12,12 +12,12 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// </summary>
     public interface IContractor
     {
-        IEnumerable<Contract> ActiveContracts { get; }
-        IEnumerable<Contract> ArchivedContracts { get; }
+        IEnumerable<AbstractContract> ActiveContracts { get; }
+        IEnumerable<AbstractContract> ArchivedContracts { get; }
 
-        void AcceptContract(Contract contract);
-        void DeclineContract(Contract contract);
-        void CloseContract(Contract contract);
-        void ModifyContract(Contract contract, object? options);
+        void AcceptContract(AbstractContract contract);
+        void DeclineContract(AbstractContract contract);
+        void CloseContract(AbstractContract contract);
+        void ModifyContract(AbstractContract contract, object? options);
     }
 }

@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private string? _contactEmail = string.Empty;
 
-        private IEnumerable<Contract> _activeContracts = [];
+        private IEnumerable<AbstractContract> _activeContracts = [];
 
         public int Id {  get; set; }
         public string FullName { get => _fullName; set => _fullName = value; }
@@ -31,19 +31,19 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactEmail; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public IEnumerable<Contract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
+        public IEnumerable<AbstractContract> ActiveContracts { get => _activeContracts; set => _activeContracts = value; }
 
-        public void AcceptContract(Contract contract)
+        public void AcceptContract(AbstractContract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateContract(Contract contract, IEnumerable<AbstractPet> petsInContract, object? options)
+        public void CreateContract(AbstractContract contract, IEnumerable<AbstractPet> petsInContract, object? options)
         {
             throw new NotImplementedException();
         }
 
-        public void DeclineContract(Contract contract, string message, object? options)
+        public void DeclineContract(AbstractContract contract, string message, object? options)
         {
             throw new NotImplementedException();
         }
