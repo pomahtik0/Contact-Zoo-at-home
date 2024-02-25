@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,11 +15,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<IndividualPetOwner> builder)
         {
-            builder.ToTable("Users");
-
-            builder.HasKey(x => x.Id);
-
-            builder.ToTable("Users").HasDiscriminator<string>("UserType").HasValue("IndividualPetOwner").IsComplete(false);
+            builder.HasBaseType<AbstractUser>();
 
             builder
                 .Ignore(e => e.ActiveContracts)

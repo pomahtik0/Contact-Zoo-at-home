@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+﻿using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,9 +15,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<ZooShop> builder)
         {
-            builder.HasKey(x => x.Id);
-
-            builder.ToTable("Users").HasDiscriminator<string>("UserType").HasValue("ZooShop").IsComplete(false);
+            builder.HasBaseType<AbstractUser>();
 
             builder
                 .Ignore(e => e.ActiveContracts)

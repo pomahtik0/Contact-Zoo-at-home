@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contact_zoo_at_home.Core.Entities.Users;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.ConcreteMapping
 {
@@ -13,8 +14,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<AnimalShelter> builder)
         {
-            builder.HasKey(x => x.Id);
-
+            builder.HasBaseType<AbstractUser>();
             builder
                 .Ignore(e => e.ActiveContracts)
                 .Ignore(e => e.ArchivedContracts)
