@@ -31,6 +31,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
         public virtual IEnumerable<Contract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
-        public virtual ICompany CompanyRepresented { get; set; }
+        public virtual AbstractCompany CompanyRepresented { get; set; }
     }
 }
