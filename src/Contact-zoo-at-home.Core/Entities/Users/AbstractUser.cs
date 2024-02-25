@@ -9,11 +9,11 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     public interface AbstractUser
     {
         public int Id { get; set; }
-        string FullName { get; set; }
-        string UserName { get; set; }
-        string Password { get; set; }
-        byte[] ProfileImage { get; set; }
-        string? ContactPhone { get; set; }
-        string? ContactEmail { get; set; }
+        public string FullName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public byte[] ProfileImage { get; set; }
+        public string? ContactPhone { get; set; }
+        public string? ContactEmail { get; set; }
     }
 }
