@@ -8,7 +8,7 @@ using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    public interface ICompany : IUser
+    public interface ICompany : AbstractUser
     {
         IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
         IEnumerable<Contract> ActiveContracts { get; set; }
