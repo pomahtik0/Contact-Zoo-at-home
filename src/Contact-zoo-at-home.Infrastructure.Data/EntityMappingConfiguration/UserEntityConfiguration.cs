@@ -17,13 +17,13 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
         public void Configure(EntityTypeBuilder<AbstractUser> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.ToTable("Users")
-                .HasDiscriminator<string>("userType")
-                .HasValue<CustomerUser>("Customer")
-                .HasValue<IndividualPetOwner>("IndividualPetOwner")
-                .HasValue<CompanyPetRepresentative>("CompanyPetRepresentative")
-                .HasValue<AnimalShelter>("AnimalShelter")
-                .HasValue<ZooShop>("ZooShop");
+            builder.UseTptMappingStrategy().ToTable("Users");
+                //.HasDiscriminator<string>("userType")
+                //.HasValue<CustomerUser>("Customer")
+                //.HasValue<IndividualPetOwner>("IndividualPetOwner")
+                //.HasValue<CompanyPetRepresentative>("CompanyPetRepresentative")
+                //.HasValue<AnimalShelter>("AnimalShelter")
+                //.HasValue<ZooShop>("ZooShop");
         }
     }
 }

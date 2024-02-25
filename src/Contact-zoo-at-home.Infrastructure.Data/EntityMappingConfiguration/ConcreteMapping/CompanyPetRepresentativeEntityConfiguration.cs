@@ -20,7 +20,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
 
             builder
                 .HasOne(e => e.CompanyRepresented)
-                .WithMany(e => e.CompanyPetRepresentatives);
+                .WithMany(e => e.CompanyPetRepresentatives)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
