@@ -17,10 +17,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
         public void Configure(EntityTypeBuilder<AbstractCompany> builder)
         {
             builder.HasBaseType<AbstractUser>();
-
-            builder.HasMany(e => e.CompanyPetRepresentatives)
-                .WithOne(e => e.CompanyRepresented)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
