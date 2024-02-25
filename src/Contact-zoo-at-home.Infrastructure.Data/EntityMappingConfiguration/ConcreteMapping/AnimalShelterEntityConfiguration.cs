@@ -17,8 +17,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
             builder.HasBaseType<AbstractUser>();
             builder
                 .Ignore(e => e.ActiveContracts)
-                .Ignore(e => e.ArchivedContracts)
-                .Ignore(e => e.CompanyPetRepresentatives);
+                .Ignore(e => e.ArchivedContracts);
 
             builder.HasMany(e => e.OwnedPets)
                 .WithOne(e => e.Owner as AnimalShelter)
