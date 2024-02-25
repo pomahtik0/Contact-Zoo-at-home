@@ -38,7 +38,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
             throw new NotImplementedException();
         }
 
-        public void CreateContract(Contract contract, IEnumerable<Pet> petsInContract, object? options)
+        public void CreateContract(Contract contract, IEnumerable<AbstractPet> petsInContract, object? options)
         {
             throw new NotImplementedException();
         }

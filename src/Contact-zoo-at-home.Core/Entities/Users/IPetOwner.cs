@@ -9,6 +9,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 {
     public interface IPetOwner
     {
-        IEnumerable<Pet> OwnedPets { get; set; }
+        IEnumerable<AbstractPet> OwnedPets { get; set; }
     }
 }

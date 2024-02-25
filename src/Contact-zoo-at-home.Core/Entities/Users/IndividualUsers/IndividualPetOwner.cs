@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         private string? _contactEmail = string.Empty;
 
-        private IEnumerable<Pet> _ownedPets = [];
+        private IEnumerable<AbstractPet> _ownedPets = [];
 
         private IEnumerable<Contract> _activeContracts = [];
 
@@ -37,7 +37,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public IEnumerable<Pet> OwnedPets { get => _ownedPets; set => _ownedPets = value; }
+        public IEnumerable<AbstractPet> OwnedPets { get => _ownedPets; set => _ownedPets = value; }
         public IEnumerable<Contract> ContractsToRepresent { get => _representsContracts; set => _representsContracts = value; }
 
         public IEnumerable<Contract> ActiveContracts => _activeContracts;

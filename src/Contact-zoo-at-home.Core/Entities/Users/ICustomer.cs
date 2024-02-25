@@ -28,7 +28,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         /// <exception cref="InvalidOperationException">throws if invalid operation with contract.</exception>
         /// <exception cref="ArgumentNullException">throws if options are needed but not passed.</exception>
         /// <exception cref="ArgumentException">throws if options formed wrong.</exception>
-        void CreateContract(Contract contract, IEnumerable<Pet> petsInContract, object? options);
+        void CreateContract(Contract contract, IEnumerable<AbstractPet> petsInContract, object? options);
 
         /// <summary>
         /// Accepting contract if all parties accept.

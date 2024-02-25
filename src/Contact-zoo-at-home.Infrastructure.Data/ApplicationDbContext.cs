@@ -21,7 +21,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<ZooShop> ZooShops { get; set; }
         public DbSet<AnimalShelter> AnimalShelters { get; set; }
 
-        public DbSet<Pet> Pets { get; set; }
+        public DbSet<AbstractPet> Pets { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pomahtik\\source\\repos\\Contact-zoo-at-home\\src\\Contact-zoo-at-home.Infrastructure.Data\\Database1.mdf;Integrated Security=True;Connect Timeout=30"); // insert connection string

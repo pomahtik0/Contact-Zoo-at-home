@@ -26,7 +26,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
                 .Ignore(e => e.ContractsToRepresent); // ignore contracts for now
             
             builder
-                .HasMany<Pet>(e => e.OwnedPets)
+                .HasMany<AbstractPet>(e => e.OwnedPets)
                 .WithOne(e => (IndividualPetOwner?)e.Owner)
                 .OnDelete(DeleteBehavior.SetNull);
 

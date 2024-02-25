@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Pets
 {
-    public abstract class Pet
+    public abstract class AbstractPet
     {
         public int Id { get; set; }
         public IPetOwner? Owner { get; set; }

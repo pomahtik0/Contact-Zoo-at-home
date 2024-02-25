@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Pets
 {
-    public class Dog : Pet
+    public class Dog : AbstractPet
     {
     }
 }
