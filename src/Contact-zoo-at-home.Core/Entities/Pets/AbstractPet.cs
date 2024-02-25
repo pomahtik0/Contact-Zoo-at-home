@@ -10,7 +10,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
     public abstract class AbstractPet
     {
         public int Id { get; set; }
-        public IPetOwner? Owner { get; set; }
+        public AbstractUser? Owner { get; set; } // IPetOwner only
         public string Name { get; set; } = string.Empty;
         public string ShortDescription { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
