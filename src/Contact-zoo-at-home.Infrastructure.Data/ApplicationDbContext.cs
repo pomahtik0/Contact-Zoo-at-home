@@ -28,7 +28,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.Entity<CustomerUser>().HasDiscriminator().IsComplete(true);
         }
     }
 }
