@@ -10,8 +10,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 {
     public abstract class AbstractCompany : AbstractUser
     {
-        IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        IEnumerable<Contract> ActiveContracts { get; set; }
-        IEnumerable<Contract> ArchivedContracts { get; set; }
+        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
+        public IEnumerable<Contract> ActiveContracts { get; set; }
+        public IEnumerable<Contract> ArchivedContracts { get; set; }
     }
 }
