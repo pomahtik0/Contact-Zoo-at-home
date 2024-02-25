@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
+namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.ConcreteMapping
 {
     internal class CompanyPetRepresentativeEntityConfiguration : IEntityTypeConfiguration<CompanyPetRepresentative>
     {
@@ -21,8 +21,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 
             builder
                 .Ignore(e => e.CompanyRepresented);
-                //.HasOne(e => e.CompanyRepresented)
-                //.WithMany(e => e.CompanyPetRepresentatives);
+            //.HasOne(e => e.CompanyRepresented)
+            //.WithMany(e => e.CompanyPetRepresentatives);
         }
     }
 }
