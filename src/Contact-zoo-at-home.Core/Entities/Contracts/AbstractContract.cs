@@ -2,12 +2,14 @@
 using Contact_zoo_at_home.Core.Entities.Users;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Contracts
 {
+    [NotMapped]
     public abstract class AbstractContract
     {
         public int Id { get; set; }
