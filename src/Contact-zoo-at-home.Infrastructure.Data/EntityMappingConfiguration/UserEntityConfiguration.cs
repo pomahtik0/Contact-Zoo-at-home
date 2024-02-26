@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class UserEntityConfiguration : IEntityTypeConfiguration<AbstractUser>
+    internal class UserEntityConfiguration : IEntityTypeConfiguration<BaseUser>
     {
-        public void Configure(EntityTypeBuilder<AbstractUser> builder)
+        public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
             builder.HasKey(x => x.Id);
             builder.UseTptMappingStrategy().ToTable("Users");

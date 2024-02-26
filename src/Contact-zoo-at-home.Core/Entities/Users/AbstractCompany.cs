@@ -8,7 +8,7 @@ using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    public abstract class AbstractCompany : AbstractUser
+    public abstract class AbstractCompany : BaseUser
     {
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
         public IEnumerable<BaseContract> ActiveContracts { get; set; }

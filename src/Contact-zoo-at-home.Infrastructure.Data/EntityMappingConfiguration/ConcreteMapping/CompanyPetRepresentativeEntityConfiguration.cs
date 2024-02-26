@@ -14,7 +14,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<CompanyPetRepresentative> builder)
         {
-            builder.HasBaseType<AbstractUser>();
+            builder.HasBaseType<BaseUser>();
 
             builder.Ignore(e => e.ContractsToRepresent);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
-    public abstract class AbstractUser
+    public abstract class BaseUser
     {
         public int Id { get; set; }
         public string FullName { get; set; }

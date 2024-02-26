@@ -16,7 +16,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
-            builder.HasBaseType<AbstractUser>();
+            builder.HasBaseType<BaseUser>();
             builder.Ignore(e => e.ActiveContracts); // ignore contracts for now
         }
     }
