@@ -70,11 +70,11 @@ Represents action only within app.
   - Watch companies etc;
   - Form PetCart, if possible, but no ordering.
   
-  1.1. Signed User:
-    - All above;
-    - Leave comments.
+2. Signed User:
+  - All above;
+  - Leave comments.
 
-2. CustomerUser:
+3. CustomerUser:
   - Can do everything Signed User can;
   - But also make orders;
   - Look through his current orders;
@@ -82,7 +82,7 @@ Represents action only within app.
   - ReAccept order if some changes were made;
   - And rate pets after order is finished.
 
-3. PetOwner:
+4. PetOwner:
   - Can do everething Signed User can;
   - Add new of his pets;
   - Look through new contracts;
@@ -94,16 +94,16 @@ Represents action only within app.
   - Set his pets as imposible to order.
   - Sign unregistered user as his pet representative in contract.
 
-4. CompanyAsUser:
+5. CompanyAsUser:
   - Can do everething Signed User can;
   - Can do everething PetOwner can;
   - Add new employees to the app.
 
-5. PetRepresentative:
+6. PetRepresentative:
   - Can do everething Signed User can;
   - Can look through contracts that he is involved in.
 
-6. SiteAdmin:
+7. SiteAdmin:
   - Register new companies;
   - Freeze contracts if needed;
   - Freeze payment if needed (actualy == freezing contracts).
