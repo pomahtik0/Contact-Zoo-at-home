@@ -30,7 +30,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         public byte[] ProfileImage { get => _profileImage; set => _profileImage = value; }
         public string? ContactPhone { get => _contactPhone; set => _contactPhone = value; }
         public string? ContactEmail { get => _contactEmail; set => _contactEmail = value; }
-        public virtual IEnumerable<BaseContract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
-        public virtual BaseCompany CompanyRepresented { get; set; }
+        public IEnumerable<BaseContract> ContractsToRepresent { get => _activeContracts; set => _activeContracts = value; }
+        public BaseCompany CompanyRepresented { get; set; }
     }
 }
