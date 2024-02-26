@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Contact_zoo_at_home.Core.Entities.Contracts
 {
     [NotMapped]
-    public abstract class AbstractContract
+    public abstract class BaseContract
     {
         public int Id { get; set; }
         public ICustomer Customer { get; set; }

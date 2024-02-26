@@ -17,7 +17,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         string FullName { get; }
         string? ContactPhone { get; }
         string? ContactEmail {  get; }
-        IEnumerable<AbstractContract> ActiveContracts { get; }
+        IEnumerable<BaseContract> ActiveContracts { get; }
 
         /// <summary>
         /// Create contract details.
@@ -28,7 +28,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         /// <exception cref="InvalidOperationException">throws if invalid operation with contract.</exception>
         /// <exception cref="ArgumentNullException">throws if options are needed but not passed.</exception>
         /// <exception cref="ArgumentException">throws if options formed wrong.</exception>
-        void CreateContract(AbstractContract contract, IEnumerable<AbstractPet> petsInContract, object? options);
+        void CreateContract(BaseContract contract, IEnumerable<AbstractPet> petsInContract, object? options);
 
         /// <summary>
         /// Accepting contract if all parties accept.
@@ -36,7 +36,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         /// <param name="contract">Contract to accept</param>
         /// <exception cref="ContractNotExistException">throws if contract does not exist.</exception>
         /// <exception cref="InvalidOperationException">throws if not all other parties excepted contract</exception>
-        void AcceptContract(AbstractContract contract);
+        void AcceptContract(BaseContract contract);
 
         /// <summary>
         /// Declines Contract
@@ -48,6 +48,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         /// <exception cref="InvalidOperationException">throws if invalid operation with contract.</exception>
         /// <exception cref="ArgumentNullException">throws if options are needed but not passed.</exception>
         /// <exception cref="ArgumentException">throws if options formed wrong.</exception>
-        void DeclineContract(AbstractContract contract, string message, object? options);
+        void DeclineContract(BaseContract contract, string message, object? options);
     }
 }

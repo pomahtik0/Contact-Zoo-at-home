@@ -13,8 +13,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
     {
         public int Id {  get; set; }
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; } = [];
-        public IEnumerable<AbstractContract> ActiveContracts { get; set; } = [];
-        public IEnumerable<AbstractContract> ArchivedContracts { get; set; } = [];
+        public IEnumerable<BaseContract> ActiveContracts { get; set; } = [];
+        public IEnumerable<BaseContract> ArchivedContracts { get; set; } = [];
         public string FullName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
@@ -23,22 +23,22 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
         public string? ContactEmail { get; set; }
         public IEnumerable<AbstractPet> OwnedPets { get; set; } = [];
 
-        public void AcceptContract(AbstractContract contract)
+        public void AcceptContract(BaseContract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void CloseContract(AbstractContract contract)
+        public void CloseContract(BaseContract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void DeclineContract(AbstractContract contract)
+        public void DeclineContract(BaseContract contract)
         {
             throw new NotImplementedException();
         }
 
-        public void ModifyContract(AbstractContract contract, object? options)
+        public void ModifyContract(BaseContract contract, object? options)
         {
             throw new NotImplementedException();
         }
