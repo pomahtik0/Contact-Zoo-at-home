@@ -65,47 +65,48 @@ In case one of the pets can't be a part of the contract anymore(before delivery)
 Represents action only within app.
 
 1. Unsigned User:
- - Watch pets;
- - Watch comments;
- - Watch companies etc;
- - Form PetCart, if possible, but no ordering.
- 1.1. Signed User:
-  - All above;
-  - Leave comments.
+  - Watch pets;
+  - Watch comments;
+  - Watch companies etc;
+  - Form PetCart, if possible, but no ordering.
+  
+  1.1. Signed User:
+    - All above;
+    - Leave comments.
 
 2. CustomerUser:
- - Can do everything Signed User can;
- - But also make orders;
- - Look through his current orders;
- - Decline current order (with some refund logic);
- - ReAccept order if some changes were made;
- - And rate pets after order is finished.
+  - Can do everything Signed User can;
+  - But also make orders;
+  - Look through his current orders;
+  - Decline current order (with some refund logic);
+  - ReAccept order if some changes were made;
+  - And rate pets after order is finished.
 
 3. PetOwner:
- - Can do everething Signed User can;
- - Add new of his pets;
- - Look through new contracts;
- - Look through active contracts;
- - Look through closed contracts;
- - Accept new contracts making them active;
- - Modify new or active contracts;
- - Remove pets if they were bought or smt;
- - Set his pets as imposible to order.
- - Sign unregistered user as his pet representative in contract.
+  - Can do everething Signed User can;
+  - Add new of his pets;
+  - Look through new contracts;
+  - Look through active contracts;
+  - Look through closed contracts;
+  - Accept new contracts making them active;
+  - Modify new or active contracts;
+  - Remove pets if they were bought or smt;
+  - Set his pets as imposible to order.
+  - Sign unregistered user as his pet representative in contract.
 
-4: CompanyAsUser:
- - Can do everething Signed User can;
- - Can do everething PetOwner can;
- - Add new employees to the app;
- 
+4. CompanyAsUser:
+  - Can do everething Signed User can;
+  - Can do everething PetOwner can;
+  - Add new employees to the app.
+
 5. PetRepresentative:
- - Can do everething Signed User can;
- - Can look through contracts that he is involved in.
+  - Can do everething Signed User can;
+  - Can look through contracts that he is involved in.
 
 6. SiteAdmin:
- - Register new companies;
- - Freeze contracts if needed;
- - Freeze payment if needed (actualy == freezing contracts).
+  - Register new companies;
+  - Freeze contracts if needed;
+  - Freeze payment if needed (actualy == freezing contracts).
 
 ## ToDo List
 - [ ] ToDo ToDo List
