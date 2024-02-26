@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class CompanyEntityConfiguration : IEntityTypeConfiguration<AbstractCompany>
+    internal class CompanyEntityConfiguration : IEntityTypeConfiguration<BaseCompany>
     {
-        public void Configure(EntityTypeBuilder<AbstractCompany> builder)
+        public void Configure(EntityTypeBuilder<BaseCompany> builder)
         {
             builder.HasBaseType<BaseUser>();
         }
