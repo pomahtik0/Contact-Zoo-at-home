@@ -107,6 +107,3 @@ Represents action only within app.
   - Register new companies;
   - Freeze contracts if needed;
   - Freeze payment if needed (actualy == freezing contracts).
-
-## ToDo List
-- [ ] ToDo ToDo List
