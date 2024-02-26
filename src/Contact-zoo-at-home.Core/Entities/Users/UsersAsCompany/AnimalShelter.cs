@@ -21,7 +21,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
         public byte[] ProfileImage { get; set; } = [];
         public string? ContactPhone { get; set; }
         public string? ContactEmail { get; set; }
-        public IEnumerable<AbstractPet> OwnedPets { get; set; } = [];
+        public IEnumerable<BasePet> OwnedPets { get; set; } = [];
 
         public void AcceptContract(BaseContract contract)
         {

@@ -15,7 +15,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
         public int Id { get; set; }
         public ICustomer Customer { get; set; }
         public IContractor Contractor { get; set; }
-        public IEnumerable<AbstractPet> PetsInContract {  get; set; }
+        public IEnumerable<BasePet> PetsInContract {  get; set; }
         public IEnumerable<IPetRepresentative> PetRepresentatives { get; set; }
 
         // Other data: date, paymentstatus, ect.
