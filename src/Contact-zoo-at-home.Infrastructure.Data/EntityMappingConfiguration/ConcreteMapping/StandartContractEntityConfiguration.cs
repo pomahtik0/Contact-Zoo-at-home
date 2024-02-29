@@ -1,4 +1,4 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +11,11 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.ConcreteMapping
 {
-    internal class IndividualPetOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualPetOwner>
+    internal class StandartContractEntityConfiguration : IEntityTypeConfiguration<StandartContract>
     {
-        public void Configure(EntityTypeBuilder<IndividualPetOwner> builder)
+        public void Configure(EntityTypeBuilder<StandartContract> builder)
         {
-            builder.HasBaseType<BaseUser>();
-
-            builder
-                .Ignore(e => e.ActiveContracts)
-                .Ignore(e => e.ArchivedContracts)
-                .Ignore(e => e.ContractsToRepresent);
+            builder.HasBaseType<BaseContract>();
         }
     }
 }

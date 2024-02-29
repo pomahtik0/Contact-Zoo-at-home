@@ -19,6 +19,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<BaseUser> Users { get; set; }
         public DbSet<BaseCompany> Companies { get; set; }
         public DbSet<BasePet> Pets { get; set; }
+        public DbSet<BaseContract> Contracts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

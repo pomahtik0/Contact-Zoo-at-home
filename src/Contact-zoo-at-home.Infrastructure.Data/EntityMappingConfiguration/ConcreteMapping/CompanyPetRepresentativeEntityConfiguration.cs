@@ -16,12 +16,13 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
         {
             builder.HasBaseType<BaseUser>();
 
-            builder.Ignore(e => e.ContractsToRepresent);
-
             builder
                 .HasOne(e => e.CompanyRepresented)
                 .WithMany(e => e.CompanyPetRepresentatives)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Ignore(e => e.ContractsToRepresent);
         }
     }
 }

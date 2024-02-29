@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
@@ -18,12 +19,21 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
         {
             builder.HasKey(x => x.Id);
             builder.UseTptMappingStrategy().ToTable("Users");
-                //.HasDiscriminator<string>("userType")
-                //.HasValue<CustomerUser>("Customer")
-                //.HasValue<IndividualPetOwner>("IndividualPetOwner")
-                //.HasValue<CompanyPetRepresentative>("CompanyPetRepresentative")
-                //.HasValue<AnimalShelter>("AnimalShelter")
-                //.HasValue<ZooShop>("ZooShop");
+
+            builder.HasMany(typeof(BaseContract))
+                .WithOne("_customer")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(typeof(BaseContract))
+                .WithOne("_contractor")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(typeof(BaseContract))
+                .WithMany();
+
+            builder.HasMany<BasePet>()
+                .WithOne(e => e.Owner)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
