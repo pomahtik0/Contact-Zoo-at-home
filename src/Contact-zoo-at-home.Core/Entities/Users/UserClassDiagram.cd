@@ -6,7 +6,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAECEAAAAEAAABAAA=</HashCode>
       <FileName>Entities\Users\UsersAsCompany\ZooShop.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany.AnimalShelter" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="5.5" Y="3.25" Width="1.5" />
@@ -14,7 +14,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAECEAAAAEAAABAAA=</HashCode>
       <FileName>Entities\Users\UsersAsCompany\AnimalShelter.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CustomerUser" Collapsed="true">
     <Position X="10" Y="1.75" Width="1.5" />
@@ -22,7 +22,7 @@
       <HashCode>AABAAAAAAAAAEAAAIAAAAAAAAAAAAAEAAAAAAAABAAA=</HashCode>
       <FileName>Entities\Users\IndividualUsers\CustomerUser.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.IndividualPetOwner" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14.5" Y="1.75" Width="1.5" />
@@ -30,7 +30,7 @@
       <HashCode>AABAAAAAAgAAAAAAAAAAAAAAAEAAECEAAAAEAAABAAA=</HashCode>
       <FileName>Entities\Users\IndividualUsers\IndividualPetOwner.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CompanyPetRepresentative" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="12.25" Y="1.75" Width="1.5" />
@@ -38,7 +38,7 @@
       <HashCode>AAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\Users\IndividualUsers\CompanyPetRepresentative.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Contact_zoo_at_home.Core.Entities.Pets.BasePet" Collapsed="true">
     <Position X="17" Y="0.5" Width="1.5" />
@@ -50,7 +50,7 @@
   <Class Name="Contact_zoo_at_home.Core.Entities.Users.BaseUser" Collapsed="true">
     <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAGAAAAAAAAAIACAAAAAAAAAAAABAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAGAAAIAAAAAIACAAAAAAAAAQAABAEAAQAAAAAAAAA=</HashCode>
       <FileName>Entities\Users\BaseUser.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -67,6 +67,9 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\Users\IPetOwner.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="OwnedPets" />
+    </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="Contact_zoo_at_home.Core.Entities.Users.IContractor" Collapsed="true">
     <Position X="17" Y="2.5" Width="1.5" />

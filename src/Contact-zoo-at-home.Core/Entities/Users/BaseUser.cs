@@ -19,7 +19,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public string? ContactEmail { get; set; }
         public decimal Rating { get; private set; }
         public int RatedBy { get; private set; }
-        public decimal AddToRating(decimal addingRateMark)
+
+        public decimal AddToRating(decimal addingRateMark) // ToDo: Check calculations
         {
             if (RatedBy == 0)
             {
