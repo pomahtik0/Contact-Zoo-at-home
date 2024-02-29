@@ -64,18 +64,18 @@ In case one of the pets can't be a part of the contract anymore(before delivery)
 
 Represents action only within app.
 
-1. Unsigned User:
+1. Unauthorized User:
   - Watch pets;
   - Watch comments;
   - Watch companies etc;
   - Form PetCart, if possible, but no ordering.
   
-2. Signed User:
+2. Authorized User:
   - All above;
   - Leave comments.
 
 3. CustomerUser:
-  - Can do everything Signed User can;
+  - Can do everything Authorized User can;
   - But also make orders;
   - Look through his current orders;
   - Decline current order (with some refund logic);
@@ -83,7 +83,7 @@ Represents action only within app.
   - And rate pets after order is finished.
 
 4. PetOwner:
-  - Can do everething Signed User can;
+  - Can do everething Authorized User can;
   - Add new of his pets;
   - Look through new contracts;
   - Look through active contracts;
@@ -95,12 +95,12 @@ Represents action only within app.
   - Sign unregistered user as his pet representative in contract.
 
 5. CompanyAsUser:
-  - Can do everething Signed User can;
+  - Can do everething Authorized User can;
   - Can do everething PetOwner can;
   - Add new employees to the app.
 
 6. PetRepresentative:
-  - Can do everething Signed User can;
+  - Can do everething Authorized User can;
   - Can look through contracts that he is involved in.
 
 7. SiteAdmin:
