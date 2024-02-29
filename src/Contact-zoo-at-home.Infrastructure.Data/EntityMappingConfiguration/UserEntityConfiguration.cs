@@ -17,8 +17,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
     {
         public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            builder.HasKey(x => x.Id);
             builder.UseTptMappingStrategy().ToTable("Users");
+            
+            builder.HasKey(x => x.Id).HasName("UserId");
 
             builder.HasMany(typeof(BaseContract))
                 .WithOne("_customer")
@@ -29,7 +30,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(typeof(BaseContract))
-                .WithMany();
+                .WithMany()
+                .UsingEntity(join => join.ToTable("ContractPetRepresentatives"));
 
             builder.HasMany<BasePet>()
                 .WithOne(e => e.Owner)
