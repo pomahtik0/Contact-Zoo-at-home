@@ -14,6 +14,11 @@ using Contact_zoo_at_home.Core.Entities.Users;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
+    // ToDo:
+    // PetsToContracts ManyToMany relation
+    // Configure Contract PetRepresentative relations
+    // Configure Pets owner (smt wierd)
+
     public class ApplicationDbContext : DbContext
     {
         public DbSet<BaseUser> Users { get; set; }
