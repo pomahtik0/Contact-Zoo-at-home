@@ -17,7 +17,12 @@ namespace Contact_zoo_at_home.Infrastructure.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<BaseUser> Users { get; set; }
+        public DbSet<CustomerUser> Customers { get; set; }
+        public DbSet<IndividualPetOwner> IndividualPetOwners { get; set; }
+        public DbSet<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
         public DbSet<BaseCompany> Companies { get; set; }
+        public DbSet<ZooShop> ZooShops { get; set; }
+        public DbSet<AnimalShelter> AnimalShelters {  get; set; }
         public DbSet<BasePet> Pets { get; set; }
         public DbSet<BaseContract> Contracts { get; set; }
 
