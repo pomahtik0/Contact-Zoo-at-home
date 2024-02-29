@@ -19,7 +19,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
         {
             builder.UseTptMappingStrategy().ToTable("Users");
             
-            builder.HasKey(x => x.Id).HasName("UserId");
+            builder.HasKey(x => x.Id);
 
             builder.HasMany(typeof(BaseContract))
                 .WithOne("_customer")
