@@ -17,5 +17,21 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public byte[] ProfileImage { get; set; } = [];
         public string? ContactPhone { get; set; }
         public string? ContactEmail { get; set; }
+        public decimal Rating { get; private set; }
+        public int RatedBy { get; private set; }
+        public decimal AddToRating(decimal addingRateMark)
+        {
+            if (RatedBy == 0)
+            {
+                this.Rating = addingRateMark;
+            }
+            else
+            {
+                this.Rating = (this.Rating + addingRateMark / RatedBy) * ((decimal)RatedBy / RatedBy + 1);
+            }
+
+            RatedBy++;
+            return this.Rating;
+        }
     }
 }
