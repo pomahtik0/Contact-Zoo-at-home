@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
+    /// <summary>
+    /// Interface that indicates class owning pets.
+    /// </summary>
     public interface IPetOwner
     {
         IEnumerable<BasePet> OwnedPets { get; }

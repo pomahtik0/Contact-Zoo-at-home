@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
     /// <summary>
-    /// Interface for those who can create contracts.
+    /// Interface for those who can create contracts. And pay for them.
     /// </summary>
     public interface ICustomer
     {

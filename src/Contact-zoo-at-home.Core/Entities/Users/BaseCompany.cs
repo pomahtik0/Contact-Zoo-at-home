@@ -8,10 +8,13 @@ using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
+    /// <summary>
+    /// Class that represents registered companies.
+    /// </summary>
     public abstract class BaseCompany : BaseUser
     {
-        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        public IEnumerable<BaseContract> ActiveContracts { get; set; }
-        public IEnumerable<BaseContract> ArchivedContracts { get; set; }
+        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; } = [];
+        public IEnumerable<BaseContract> ActiveContracts { get; } = [];
+        public IEnumerable<BaseContract> ArchivedContracts { get; } = [];
     }
 }
