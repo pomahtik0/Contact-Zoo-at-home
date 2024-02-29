@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Contracts
 {
-    [NotMapped]
     public abstract class BaseContract
     {
         public int Id { get; set; }
-        public ICustomer Customer { get; set; }
-        public IContractor Contractor { get; set; }
+        private BaseUser _customer;
+        private BaseUser _contractor;
+        public ICustomer Customer { get => (ICustomer)_customer; set => _customer = (BaseUser)value; }
+        public IContractor Contractor { get => (IContractor)_contractor; set => _contractor = (BaseUser)value; }
         public IEnumerable<BasePet> PetsInContract {  get; set; }
         public IEnumerable<IPetRepresentative> PetRepresentatives { get; set; }
 
