@@ -11,17 +11,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
     public class AnimalShelter : BaseCompany, IPetOwner, IContractor
     {
-        public int Id {  get; set; }
-        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; } = [];
-        public IEnumerable<BaseContract> ActiveContracts { get; set; } = [];
-        public IEnumerable<BaseContract> ArchivedContracts { get; set; } = [];
-        public string FullName { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public byte[] ProfileImage { get; set; } = [];
-        public string? ContactPhone { get; set; }
-        public string? ContactEmail { get; set; }
-        public IEnumerable<BasePet> OwnedPets { get; set; } = [];
+        public IEnumerable<BasePet> OwnedPets { get; } = [];
 
         public void AcceptContract(BaseContract contract)
         {

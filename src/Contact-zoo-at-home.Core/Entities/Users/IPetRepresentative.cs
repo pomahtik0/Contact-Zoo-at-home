@@ -10,7 +10,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     public interface IPetRepresentative
     {
         string FullName {  get; set; }
-        string ContactPhone {  get; set; }
-        IEnumerable<BaseContract> ContractsToRepresent { get; set; }
+        string? ContactPhone {  get; set; }
+        IEnumerable<BaseContract> ContractsToRepresent { get; }
     }
 }
