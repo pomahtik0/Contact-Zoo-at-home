@@ -24,8 +24,12 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         public string ShortDescription { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
+        public double Weight { get; set; }
+        public string Color { get; set; } = string.Empty;
+        public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
         public PetSpecies Species { get; set; } // Replace with string mb
-        public IEnumerable<BaseContract> PartOfContract { get; } = [];
+        public IEnumerable<DateTime> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
+        public IEnumerable<BaseContract> PartOfContract { get; } = []; // mb not needed, have no idea.
 
         #region Images
 
