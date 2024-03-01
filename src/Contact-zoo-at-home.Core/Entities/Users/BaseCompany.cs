@@ -15,6 +15,5 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     {
         public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get; } = [];
         public IEnumerable<BaseContract> ActiveContracts { get; } = [];
-        public IEnumerable<BaseContract> ArchivedContracts { get; } = [];
     }
 }

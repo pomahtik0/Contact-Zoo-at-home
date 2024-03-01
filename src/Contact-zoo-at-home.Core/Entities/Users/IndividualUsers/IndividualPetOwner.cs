@@ -16,8 +16,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 
         public IEnumerable<BaseContract> ActiveContracts { get; } = [];
 
-        public IEnumerable<BaseContract> ArchivedContracts { get; } = [];
-
         public void AcceptContract(BaseContract contract)
         {
             throw new NotImplementedException();

@@ -13,7 +13,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     public interface IContractor
     {
         IEnumerable<BaseContract> ActiveContracts { get; }
-        IEnumerable<BaseContract> ArchivedContracts { get; }
 
         void AcceptContract(BaseContract contract);
         void DeclineContract(BaseContract contract);
