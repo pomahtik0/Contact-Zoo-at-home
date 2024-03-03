@@ -19,17 +19,42 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
     public abstract class BasePet
     {
         public int Id { get; set; }
-        public BaseUser? Owner { get; set; } // IPetOwner only
         public string Name { get; set; } = string.Empty;
         public string ShortDescription { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
-        public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
         public PetSpecies Species { get; set; } // Replace with string mb
+
+        #region DatesManagementLogic
+        // ToDo: Work in progress
+        public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
         public IEnumerable<DateTime> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
+
+        #endregion
+
+        #region Relations
+
+        public BaseUser _owner;
+        public BaseUser Owner 
+        { 
+            get => _owner;
+            set 
+            {
+                if (value is IPetOwner)
+                {
+                    throw new ArgumentException("User should have IPetOwner interface", nameof(value));
+                }
+                else
+                {
+                    _owner = value;
+                }
+            } 
+        }
         public IEnumerable<BaseContract> PartOfContract { get; } = []; // mb not needed, have no idea.
+
+        #endregion
 
         #region Images
 
