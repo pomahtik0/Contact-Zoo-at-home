@@ -21,6 +21,8 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         // Other data: date, paymentstatus, ect.
 
+        // ToDo: override Equals()
+
         public abstract void CustomerAccepts(ICustomer customer);
         public abstract void ContractorAccepts(IContractor contractor);
         public abstract void ContractClosed();
