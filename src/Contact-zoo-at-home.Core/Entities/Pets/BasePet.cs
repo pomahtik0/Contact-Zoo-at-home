@@ -52,6 +52,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
                 }
             } 
         }
+
         public IEnumerable<BaseContract> PartOfContract { get; } = []; // mb not needed, have no idea.
 
         #endregion
