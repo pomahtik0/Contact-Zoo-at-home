@@ -2,7 +2,7 @@
 {
     public enum DogSubSpecies
     {
-        Ordinary_Dog,
-        Extraordinary_Dog
+        OrdinaryDog,
+        ExtraordinaryDog
     }
 }

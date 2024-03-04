@@ -2,9 +2,9 @@
 {
     public enum CatSubSpecies
     {
-        British_Shorthair,
-        Egyptian_Mau,
-        Maine_Coon,
+        BritishShorthair,
+        EgyptianMau,
+        MaineCoon,
         Persian
     }
 }
