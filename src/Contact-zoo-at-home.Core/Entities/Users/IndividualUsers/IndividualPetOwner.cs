@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
         {
             if (_ownedPets.Any(_pet => _pet.Equals(pet)))
             {
-                throw new InvalidOperationException("Pet is already owned by this pet representative");
+                throw new InvalidOperationException("Pet is already owned by this pet owner");
             }
             _ownedPets.Add(pet);
             pet.Owner = this;
