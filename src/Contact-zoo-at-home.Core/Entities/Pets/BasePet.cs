@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,13 +10,6 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Pets
 {
-    public enum PetSpecies // move to other file?
-    {
-        Dog,
-        Cat,
-        Snake 
-    }
-
     public abstract class BasePet
     {
         public int Id { get; set; }
