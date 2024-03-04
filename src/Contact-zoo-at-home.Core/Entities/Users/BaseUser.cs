@@ -17,6 +17,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public byte[] ProfileImage { get; set; } = [];
         public string? ContactPhone { get; set; }
         public string? ContactEmail { get; set; }
+
+        #region Rating
+
         public decimal Rating { get; private set; }
         public int RatedBy { get; private set; }
 
@@ -34,5 +37,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users
             RatedBy++;
             return this.Rating;
         }
+
+        #endregion
+
     }
 }
