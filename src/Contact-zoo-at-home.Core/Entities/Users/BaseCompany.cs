@@ -27,6 +27,10 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public void AddNewContract(BaseContract contract)
         {
             if (_activeContracts.Any(_contract => _contract.Equals(contract)))
+            {
+                throw new ArgumentException("Contract is already added", nameof(contract));
+            }
+
             // ToDo: Set contract as UnderConsideration
             _activeContracts.Add(contract);
             contract.Contractor = this;
