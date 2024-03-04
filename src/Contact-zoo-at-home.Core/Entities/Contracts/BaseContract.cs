@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,16 +13,48 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
     public abstract class BaseContract
     {
         public int Id { get; set; }
+
+        #region CustumerToContractor
+
         private BaseUser _customer;
+        
         private BaseUser _contractor;
-        public ICustomer Customer { get => (ICustomer)_customer; set => _customer = (BaseUser)value; }
-        public IContractor Contractor { get => (IContractor)_contractor; set => _contractor = (BaseUser)value; }
-        public IEnumerable<BasePet> PetsInContract {  get; set; }
-        public IEnumerable<IPetRepresentative> PetRepresentatives { get; set; }
+        
+        public BaseUser Customer 
+        {
+            get => _customer;
+            set
+            {
+                if (value is not ICustomer)
+                {
+                    throw new ArgumentException("Current user cannot be customer", nameof(value));
+                }
+                _customer = value;
+            }
+        }
 
-        // Other data: date, paymentstatus, ect.
+        public BaseUser Contractor 
+        {
+            get => _contractor;
+            set
+            {
+                if (value is not IContractor)
+                {
+                    throw new ArgumentException("Current user cannot be contractor", nameof(value));
+                }
+                _contractor = value;
+            }
+        }
 
-        // ToDo: override Equals()
+        #endregion
+
+        public IEnumerable<BasePet> PetsInContract { get; init; } = [];
+        public IEnumerable<IPetRepresentative> PetRepresentatives { get; init; } = [];
+
+        public ContractStatus StatusOfTheContract { get; set; }
+        public DateTime ContractDate { get; set; }
+
+        // ToDo: override Equals()?
 
         public abstract void CustomerAccepts(ICustomer customer);
         public abstract void ContractorAccepts(IContractor contractor);

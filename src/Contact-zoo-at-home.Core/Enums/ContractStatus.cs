@@ -9,6 +9,8 @@
         AcceptedByContractor,
         AcceptedByCustomer,
         Active,
-        Frozen
+        Frozen,
+        Canceled,
+        Closed,
     }
 }

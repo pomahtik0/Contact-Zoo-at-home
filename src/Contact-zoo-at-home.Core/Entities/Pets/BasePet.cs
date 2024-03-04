@@ -36,14 +36,12 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
             get => _owner;
             set 
             {
-                if (value is IPetOwner)
+                if (value is not IPetOwner)
                 {
                     throw new ArgumentException("User should have IPetOwner interface", nameof(value));
                 }
-                else
-                {
-                    _owner = value;
-                }
+                
+                _owner = value;
             } 
         }
 
