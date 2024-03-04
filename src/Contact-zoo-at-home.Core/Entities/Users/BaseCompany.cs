@@ -20,10 +20,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         private IList<BaseContract> _activeContracts = [];
         public IEnumerable<BaseContract> ActiveContracts { get => new ReadOnlyCollection<BaseContract>(_activeContracts); }
 
-        /// <summary>
-        /// Is used by user to add new contract for the company.
-        /// </summary>
-        /// <param name="contract">new contract to accept</param>
         public void AddNewContract(BaseContract contract)
         {
             if (_activeContracts.Any(_contract => _contract.Equals(contract)))

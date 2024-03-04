@@ -14,6 +14,11 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     {
         IEnumerable<BaseContract> ActiveContracts { get; }
 
+        /// <summary>
+        /// Is used by user to add new contract for the company.
+        /// </summary>
+        /// <param name="contract">new contract to accept</param>
+        public void AddNewContract(BaseContract contract);
         void AcceptContract(BaseContract contract);
         void DeclineContract(BaseContract contract);
         void CloseContract(BaseContract contract);
