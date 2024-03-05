@@ -1,5 +1,7 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Core.Entities.Users.Special;
 using Contact_zoo_at_home.Core.Enums;
 using System;
 using System.Collections.Generic;
@@ -49,11 +51,14 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
         #endregion
 
         public IEnumerable<Pet> PetsInContract { get; init; } = [];
-        public IEnumerable<IPetRepresentative> PetRepresentatives { get; init; } = [];
+        public IEnumerable<CompanyPetRepresentative> PetRepresentatives { get; init; } = [];
+        public IEnumerable<UnregisteredPetRepresentative> UnregisteredPetRepresentatives { get; init; } = [];
+        public IEnumerable<IPetRepresentative> AllPetRepresentatives => (PetRepresentatives as IEnumerable<IPetRepresentative>).Concat(UnregisteredPetRepresentatives);
 
         public ContractStatus StatusOfTheContract { get; set; }
         public DateTime ContractDate { get; set; }
-
+        public string ContractAdress { get; set; } = string.Empty;
+        public PetActivityType ActivityType { get; set; }
         // ToDo: override Equals()?
 
         public abstract void CustomerAccepts(ICustomer customer);
