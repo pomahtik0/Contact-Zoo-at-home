@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+﻿using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Enums;
 using System;
@@ -20,6 +21,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
         public PetSpecies Species { get; set; } // Replace with string mb
+        public IEnumerable<PetComment> Comments { get; } = [];
 
         #region DatesManagementLogic
         // ToDo: Work in progress
