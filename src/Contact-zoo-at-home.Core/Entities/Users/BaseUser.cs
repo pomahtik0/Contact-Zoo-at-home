@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public string? ContactEmail { get; set; }
         public IEnumerable<UserComment> Comments { get; } = [];
         public IEnumerable<BaseComment> MyComments { get; } = [];
+        public NotificationOptions NotificationOptions { get; set; } = new NotificationOptions();
 
         #region Rating
 
