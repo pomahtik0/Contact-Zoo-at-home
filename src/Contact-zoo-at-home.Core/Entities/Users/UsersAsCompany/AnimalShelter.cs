@@ -12,9 +12,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany
 {
     public class AnimalShelter : BaseCompany, IPetOwner, IContractor
     {
-        private IList<BasePet> _ownedPets = [];
-        public IEnumerable<BasePet> OwnedPets { get => new ReadOnlyCollection<BasePet>(_ownedPets); }
-        public void AddPet(BasePet pet)
+        private IList<Pet> _ownedPets = [];
+        public IEnumerable<Pet> OwnedPets { get => new ReadOnlyCollection<Pet>(_ownedPets); }
+        public void AddPet(Pet pet)
         {
             if (_ownedPets.Any(_pet => _pet.Equals(pet)))
             {

@@ -48,7 +48,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         #endregion
 
-        public IEnumerable<BasePet> PetsInContract { get; init; } = [];
+        public IEnumerable<Pet> PetsInContract { get; init; } = [];
         public IEnumerable<IPetRepresentative> PetRepresentatives { get; init; } = [];
 
         public ContractStatus StatusOfTheContract { get; set; }

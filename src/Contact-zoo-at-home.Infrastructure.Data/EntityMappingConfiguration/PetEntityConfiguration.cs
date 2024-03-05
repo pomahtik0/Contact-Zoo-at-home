@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
 {
-    internal class PetEntityConfiguration : IEntityTypeConfiguration<BasePet>
+    internal class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
     {
-        public void Configure(EntityTypeBuilder<BasePet> builder)
+        public void Configure(EntityTypeBuilder<Pet> builder)
         {
             builder.HasKey(x => x.Id);
             builder.ToTable("Pets")

@@ -36,7 +36,7 @@ namespace testingEFCore
                 Contractor = individualPetOwner,
                 Customer = customerUser,
                 PetRepresentatives = new List<IPetRepresentative> { individualPetOwner },
-                PetsInContract = new List<BasePet> { dog }
+                PetsInContract = new List<Pet> { dog }
             };
 
             using (ApplicationDbContext context = new ApplicationDbContext())

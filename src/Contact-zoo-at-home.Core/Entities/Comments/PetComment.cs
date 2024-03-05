@@ -9,7 +9,7 @@ namespace Contact_zoo_at_home.Core.Entities.Comments
 {
     public class PetComment : BaseComment
     {
-        public BasePet CommentTarget { get; set; }
+        public Pet CommentTarget { get; set; }
         public PetComment? AnswerTo { get; set; }
     }
 }

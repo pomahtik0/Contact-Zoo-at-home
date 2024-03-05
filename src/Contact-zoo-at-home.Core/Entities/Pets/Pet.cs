@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Pets
 {
-    public abstract class BasePet
+    public class Pet
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

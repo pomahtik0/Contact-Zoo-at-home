@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// </summary>
     public interface IPetOwner
     {
-        IEnumerable<BasePet> OwnedPets { get; }
-        public void AddPet(BasePet pet);
+        IEnumerable<Pet> OwnedPets { get; }
+        public void AddPet(Pet pet);
     }
 }

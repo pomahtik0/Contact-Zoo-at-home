@@ -15,7 +15,7 @@ namespace Contact_zoo_at_home.Core.Entities.Notifications
     {
         public float RateMark { get; set; }
         public string? CommentText { get; set; }
-        public BasePet? RateTargetPet { get; set; }
+        public Pet? RateTargetPet { get; set; }
         public BaseUser? RateTargetUser { get; set; }
     }
 }

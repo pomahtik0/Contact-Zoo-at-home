@@ -33,7 +33,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
                 .WithMany()
                 .UsingEntity(join => join.ToTable("ContractPetRepresentatives"));
 
-            builder.HasMany<BasePet>()
+            builder.HasMany<Pet>()
                 .WithOne(e => e.Owner)
                 .OnDelete(DeleteBehavior.NoAction);
         }
