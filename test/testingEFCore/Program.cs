@@ -24,26 +24,18 @@ namespace testingEFCore
                 ContactPhone = "12312-3123-2"
             };
 
-            Dog dog = new Dog()
-            {
-                Owner = individualPetOwner
-            };
 
-            individualPetOwner.OwnedPets.Append(dog);
 
             StandartContract standartContract = new StandartContract()
             {
                 Contractor = individualPetOwner,
                 Customer = customerUser,
-                PetRepresentatives = new List<IPetRepresentative> { individualPetOwner },
-                PetsInContract = new List<Pet> { dog }
             };
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 context.Attach(customerUser);
                 context.Attach(individualPetOwner);
-                context.Attach(dog);
                 context.Attach(standartContract);
                 context.SaveChanges();
             }
