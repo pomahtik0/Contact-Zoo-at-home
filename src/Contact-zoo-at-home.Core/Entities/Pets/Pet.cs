@@ -30,7 +30,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         #region DatesManagementLogic
         // ToDo: Work in progress
         public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
-        public IEnumerable<DateTime> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
+        public IEnumerable<PetBlockedDate> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
 
         #endregion
 
