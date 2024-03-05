@@ -9,6 +9,6 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 {
     public class Dog : BasePet
     {
-        public string SubSpecies { get; set; } = string.Empty;
+        public DogSubSpecies SubSpecies { get; set; }
     }
 }
