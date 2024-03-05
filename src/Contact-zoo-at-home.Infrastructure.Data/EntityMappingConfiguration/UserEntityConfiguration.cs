@@ -21,21 +21,47 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
             
             builder.HasKey(x => x.Id);
 
-            builder.HasMany(typeof(BaseContract))
-                .WithOne("_customer")
+            builder.Property(x => x.Id) // id will be set by identityUser (i hope)
+                .ValueGeneratedNever()
+                .IsRequired();
+
+            builder.Property(x => x.FullName)
+                .IsRequired(false)
+                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+
+            builder.Property(x => x.UserName)
+                .IsRequired()
+                .HasMaxLength(ConstantsForEFCore.Sizes.userNameLength);
+
+            builder.Property(x => x.ProfileImage)
+                .IsRequired(false)
+                .HasMaxLength(ConstantsForEFCore.Sizes.profileImageMax);
+
+            builder.Property(x => x.ContactPhone)
+                .IsRequired(false)
+                .HasMaxLength(ConstantsForEFCore.Sizes.phoneNumberLength);
+
+            builder.Property(x => x.ContactEmail)
+                .IsRequired(false)
+                .HasMaxLength(ConstantsForEFCore.Sizes.emailLenght);
+
+            builder.Property(x => x.Rating)
+                .HasColumnType("decimal(3,2)")
+                .IsRequired();
+
+            builder.Property(x => x.RatedBy)
+                .IsRequired();
+
+            builder.HasMany(x => x.Comments)
+                .WithOne(comment => comment.CommentTarget)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(typeof(BaseContract))
-                .WithOne("_contractor")
+            builder.HasMany(x => x.MyComments)
+                .WithOne(x => x.Author)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(typeof(BaseContract))
-                .WithMany()
-                .UsingEntity(join => join.ToTable("ContractPetRepresentatives"));
-
-            builder.HasMany<Pet>()
-                .WithOne(e => e.Owner)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.OwnsOne(x => x.NotificationOptions)
+                .WithOwner();
         }
     }
 }

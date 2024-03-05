@@ -18,8 +18,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
         {
             builder.HasBaseType<BaseUser>();
             builder
-                .Ignore(e => e.ActiveContracts)
-                .Ignore(e => e.ArchivedContracts);
+                .Ignore(e => e.ActiveContracts);
         }
     }
 }

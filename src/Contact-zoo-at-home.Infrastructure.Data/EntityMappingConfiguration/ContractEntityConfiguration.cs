@@ -15,11 +15,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
     {
         public void Configure(EntityTypeBuilder<BaseContract> builder)
         {
-            builder.UseTptMappingStrategy();
-            builder.Ignore(e=>e.Customer)
-                .Ignore(e=>e.Contractor)
-                .Ignore(e=>e.PetRepresentatives);
-            builder.HasKey(x => x.Id);
+            builder.Ignore(x => x.AllPetRepresentatives)
+                .Ignore(x => x.PetRepresentatives)
+                .Ignore(x => x.UnregisteredPetRepresentatives)
+                .Ignore(x => x.Contractor)
+                .Ignore(x => x.Customer);
         }
     }
 }

@@ -11,6 +11,7 @@ using Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration;
 using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
 using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.Special;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -29,7 +30,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<ZooShop> ZooShops { get; set; }
         public DbSet<AnimalShelter> AnimalShelters {  get; set; }
         public DbSet<Pet> Pets { get; set; }
-        public DbSet<BaseContract> Contracts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
