@@ -16,7 +16,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
-        public byte[] ProfileImage { get; set; } = [];
+        public byte[]? ProfileImage { get; set; } = [];
         public string? ContactPhone { get; set; }
         public string? ContactEmail { get; set; }
         public IEnumerable<UserComment> Comments { get; } = [];
@@ -25,10 +25,10 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 
         #region Rating
 
-        public decimal Rating { get; private set; }
+        public float Rating { get; private set; }
         public int RatedBy { get; private set; }
 
-        public decimal AddToRating(decimal addingRateMark) // ToDo: Check calculations
+        public float AddToRating(float addingRateMark) // ToDo: Check calculations
         {
             if (RatedBy == 0)
             {
@@ -36,7 +36,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
             }
             else
             {
-                this.Rating = (this.Rating + addingRateMark / RatedBy) * ((decimal)RatedBy / RatedBy + 1);
+                this.Rating = (this.Rating + addingRateMark / RatedBy) * ((float)RatedBy / RatedBy + 1);
             }
 
             RatedBy++;
