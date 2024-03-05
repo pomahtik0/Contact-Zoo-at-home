@@ -20,8 +20,9 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         public double Price { get; set; }
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
-        public PetSpecies Species { get; set; } // Replace with string mb
+        public string Species { get; set; } = string.Empty;
         public IEnumerable<PetComment> Comments { get; } = [];
+        public PetActivityType ActivityType { get; set; }
 
         #region DatesManagementLogic
         // ToDo: Work in progress
@@ -46,8 +47,6 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
                 _owner = value;
             } 
         }
-
-        public IEnumerable<BaseContract> PartOfContract { get; } = []; // mb not needed, have no idea.
 
         #endregion
 
