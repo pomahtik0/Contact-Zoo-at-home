@@ -1,7 +1,3 @@
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using JavaScriptEngineSwitcher.V8;
-using Microsoft.Extensions.DependencyInjection;
-using WebOptimizer.Sass;
 
 namespace MinificationAndBundling_.ts_.scss_Test
 {
@@ -11,19 +7,18 @@ namespace MinificationAndBundling_.ts_.scss_Test
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
-            builder.Services.AddJsEngineSwitcher(options =>
-            {
-                options.AllowCurrentProperty = false;
-                options.DefaultEngineName = V8JsEngine.EngineName;
-            }).AddV8(); // adding javascript engine ?!
-
-
+            builder.Services.AddWebOptimizer(
+                pipeline =>
+                {
+                    pipeline.AddJavaScriptBundle("/js/MainPageScripts.min.bundle.js", "js/**/*.js");
+                });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            app.UseWebOptimizer(); // якось дивно.
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -32,7 +27,6 @@ namespace MinificationAndBundling_.ts_.scss_Test
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
