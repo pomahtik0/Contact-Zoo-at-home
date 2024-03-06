@@ -11,6 +11,7 @@ namespace MinificationAndBundling_.ts_.scss_Test
                 pipeline =>
                 {
                     pipeline.AddJavaScriptBundle("/js/MainPageScripts.min.bundle.js", "js/**/*.js");
+                    pipeline.AddCssBundle("/css/all.css", "my css/**/*.css").UseContentRoot();
                 });
 
             // Add services to the container.
