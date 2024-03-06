@@ -13,30 +13,33 @@ namespace testingEFCore
             #region Write
             CustomerUser customerUser = new CustomerUser()
             {
+                Id = 1,
                 FullName = "test Customer",
                 UserName = "TestCustomer",
                 ContactEmail = "SUPERCUSTOMER@HI.UA"
             };
             IndividualPetOwner individualPetOwner = new IndividualPetOwner()
             {
+                Id = 2,
                 FullName = "I Own Pets",
                 UserName = "PetOwner228",
                 ContactPhone = "12312-3123-2"
             };
-
-
-
-            StandartContract standartContract = new StandartContract()
+            Pet Dog = new Pet()
             {
-                Contractor = individualPetOwner,
-                Customer = customerUser,
+                Color = "Green",
+                Name = "Jack",
+                Species = "Dog",
+                SubSpecies = "Haski",
+                ActivityType = Contact_zoo_at_home.Core.Enums.PetActivityType.Any
             };
+
+            individualPetOwner.AddPet(Dog);
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                context.Attach(customerUser);
-                context.Attach(individualPetOwner);
-                context.Attach(standartContract);
+                context.Add(customerUser);
+                context.Add(individualPetOwner);
                 context.SaveChanges();
             }
             #endregion
