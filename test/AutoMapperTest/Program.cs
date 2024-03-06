@@ -1,3 +1,5 @@
+using AutoMapperTest.Injections;
+
 namespace AutoMapperTest
 {
     public class Program
@@ -8,6 +10,8 @@ namespace AutoMapperTest
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             var app = builder.Build();
 

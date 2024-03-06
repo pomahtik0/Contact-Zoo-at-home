@@ -1,26 +1,36 @@
+using AutoMapper;
 using AutoMapperTest.Models;
+using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AutoMapperTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IMapper mapper)
         {
-            _logger = logger;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            Pet? pet;
+            using(var dbContext = new ApplicationDbContext())
+            {
+                pet = dbContext.Pets.Include(src => src.Owner).FirstOrDefault();
+            }
+            if (pet == null) { throw new Exception(); }
 
-        public IActionResult Privacy()
-        {
-            return View();
+            //var simpleDto = _mapper.Map<SimplePetDTO>(pet);
+            //return Ok(simpleDto);
+
+            var complexDto = _mapper.Map<ComplexPetDTO>(pet);
+            return Ok(complexDto);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
