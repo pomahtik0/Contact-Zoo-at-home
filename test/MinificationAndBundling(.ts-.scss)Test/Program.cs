@@ -1,3 +1,8 @@
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using JavaScriptEngineSwitcher.V8;
+using Microsoft.Extensions.DependencyInjection;
+using WebOptimizer.Sass;
+
 namespace MinificationAndBundling_.ts_.scss_Test
 {
     public class Program
@@ -5,6 +10,15 @@ namespace MinificationAndBundling_.ts_.scss_Test
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+            builder.Services.AddJsEngineSwitcher(options =>
+            {
+                options.AllowCurrentProperty = false;
+                options.DefaultEngineName = V8JsEngine.EngineName;
+            }).AddV8(); // adding javascript engine ?!
+
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
