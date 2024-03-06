@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<link rel="stylesheet" href="/css/all.css">
 
 <div id="ts-example">
     <br />
@@ -9,5 +10,6 @@
     </button>
 </div>
 
-<script src="~/js/MainPageScripts.min.bundle.js"></script>
-<style src="/css/all.css"></style>
+@section Scripts{
+    <script src="~/js/MainPageScripts.min.bundle.js"></script>
+}

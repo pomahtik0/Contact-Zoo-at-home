@@ -1,7 +1,5 @@
 ﻿
 #ts-example {
     padding: 5px;
-    border-width: 1px;
-    border-color: #ff0000;
-    border-style: dashed;
+    border: 2px dashed #ff0000;
 }
