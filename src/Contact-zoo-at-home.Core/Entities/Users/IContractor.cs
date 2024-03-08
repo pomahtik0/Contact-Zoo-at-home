@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// </summary>
     public interface IContractor
     {
-        IEnumerable<BaseContract> ActiveContracts { get; }
+        IList<BaseContract> ActiveContracts { get; }
 
         /// <summary>
         /// Is used by user to add new contract for the company.

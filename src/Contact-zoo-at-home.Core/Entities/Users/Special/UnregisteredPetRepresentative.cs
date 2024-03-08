@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.Special
     {
         public string FullName { get; set; } = string.Empty;
         public string? ContactPhone { get; set; } = string.Empty;
-
-        public BaseCompany Company { get; set; }
-        public IEnumerable<BaseContract> ContractsToRepresent { get; } = [];
+        public Company Company { get; set; }
+        public BaseContract ContractToRepresent { get; }
     }
 }

@@ -22,34 +22,20 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         public string Color { get; set; } = string.Empty;
         public string Species { get; set; } = string.Empty;
         public string SubSpecies {  get; set; } = string.Empty;
-        public IEnumerable<ExtraPetOption> PetOptions { get; set; } = [];
-        public IEnumerable<PetComment> Comments { get; } = [];
+        public IList<ExtraPetOption> PetOptions { get; set; } = [];
+        public IList<PetComment> Comments { get; } = [];
         public PetActivityType ActivityType { get; set; }
         public PetStatus CurrentPetStatus { get; set; }
 
         #region DatesManagementLogic
         // ToDo: Work in progress
         public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
-        public IEnumerable<PetBlockedDate> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
+        public IList<PetBlockedDate> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
 
         #endregion
 
         #region Relations
-
-        public BaseUser _owner;
-        public BaseUser Owner 
-        { 
-            get => _owner;
-            set 
-            {
-                if (value is not IPetOwner)
-                {
-                    throw new ArgumentException("User should have IPetOwner interface", nameof(value));
-                }
-                
-                _owner = value;
-            } 
-        }
+        public BasePetOwner Owner { get; set; }
 
         #endregion
 
