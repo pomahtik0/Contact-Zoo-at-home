@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.Special
 {
-    public class UnregisteredPetRepresentative : IPetRepresentative
+    public class UnregisteredPetRepresentative
     {
         public string FullName { get; set; } = string.Empty;
         public string? ContactPhone { get; set; } = string.Empty;
