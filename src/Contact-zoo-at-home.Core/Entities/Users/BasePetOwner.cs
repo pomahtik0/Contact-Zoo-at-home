@@ -16,7 +16,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     {
         public IList<BaseContract> ActiveContracts { get; } = [];
 
-        public IEnumerable<Pet> OwnedPets { get; } = [];
+        public IList<Pet> OwnedPets { get; } = [];
 
         public void AcceptContract(BaseContract contract)
         {
