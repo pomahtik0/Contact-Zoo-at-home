@@ -9,17 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.ConcreteMapping
+namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
     internal class IndividualPetOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualPetOwner>
     {
         public void Configure(EntityTypeBuilder<IndividualPetOwner> builder)
         {
-            builder.HasBaseType<BaseUser>();
+            builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.individualPetOwnerTableName);
 
-            builder
-                .Ignore(e => e.ActiveContracts)
-                .Ignore(e => e.ContractsToRepresent);
+            builder.Property(x => x.ShortDescription)
+                .HasMaxLength(ConstantsForEFCore.Sizes.shortDescriptionLength);
+            
+            builder.Ignore(e => e.ContractsToRepresent);
         }
     }
 }

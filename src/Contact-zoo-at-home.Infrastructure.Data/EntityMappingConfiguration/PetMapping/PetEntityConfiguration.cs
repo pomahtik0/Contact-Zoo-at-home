@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
+namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.PetMapping
 {
     internal class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
     {

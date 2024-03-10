@@ -10,7 +10,19 @@ namespace Contact_zoo_at_home.Infrastructure.Data
     {
         public static class TableNames
         {
+            public const string baseUserTableName = "Users";
+            
+            public const string basePetOwnerTableName = "PetOwners";
+            
+            public const string companyTableName = "Companies";
+            
+            public const string individualPetOwnerTableName = "IndividualPetOwners";
+            
+            public const string customerUserTableName = "Customers";
+            
+            public const string companyPetRepresentativeTableName = "CompanyWorkers";
 
+            public const string unregisteredPetRepresentativeTableName = "CustomRepresentatives";
         }
 
         public static class Sizes

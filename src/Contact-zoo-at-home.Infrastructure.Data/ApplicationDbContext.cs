@@ -8,10 +8,11 @@ using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration;
-using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
 using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.Special;
+using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -22,14 +23,25 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
     public class ApplicationDbContext : DbContext
     {
+        // Users
         public DbSet<BaseUser> Users { get; set; }
+        public DbSet<BasePetOwner> PetOwners { get; set; }
         public DbSet<CustomerUser> Customers { get; set; }
         public DbSet<IndividualPetOwner> IndividualPetOwners { get; set; }
         public DbSet<CompanyPetRepresentative> CompanyPetRepresentatives { get; set; }
-        public DbSet<BaseCompany> Companies { get; set; }
-        public DbSet<ZooShop> ZooShops { get; set; }
-        public DbSet<AnimalShelter> AnimalShelters {  get; set; }
+        public DbSet<Company> Companies { get; set; }
+
+        // Pets
         public DbSet<Pet> Pets { get; set; }
+
+        // Comments
+        public DbSet<BaseComment> Comments { get; set; }
+        public DbSet<PetComment> PetComments { get; set; }
+        public DbSet<UserComment> UserComments { get; set; }
+
+        // Notifications
+        public DbSet<InnerNotification> InnerNotifications { get; set; }
+        public DbSet<InnerRatingNotification> InnerRatingNotifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

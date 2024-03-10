@@ -2,7 +2,6 @@
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Core.Entities.Users.UsersAsCompany;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -11,14 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration
+namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
-    internal class UserEntityConfiguration : IEntityTypeConfiguration<BaseUser>
+    internal class BaseUserEntityConfiguration : IEntityTypeConfiguration<BaseUser>
     {
         public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            builder.UseTptMappingStrategy().ToTable("Users");
-            
+            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.baseUserTableName);
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id) // id will be set by identityUser (i hope)
