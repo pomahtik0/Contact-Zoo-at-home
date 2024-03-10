@@ -3,6 +3,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace testingEFCore
 {
@@ -34,7 +35,8 @@ namespace testingEFCore
                 ActivityType = Contact_zoo_at_home.Core.Enums.PetActivityType.Any
             };
 
-            individualPetOwner.AddPet(Dog);
+            individualPetOwner.OwnedPets.Add(Dog);
+            Dog.Owner = individualPetOwner;
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
@@ -44,6 +46,13 @@ namespace testingEFCore
             }
             #endregion
             #region Read
+            Pet pet;
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                pet = context.Pets.Include(x => x.Owner).First();
+            }
+
+            Console.WriteLine($"{pet.Name} {pet.Owner.FullName}\n{pet.Owner.UserName}");
             #endregion
             #region Update
             #endregion
