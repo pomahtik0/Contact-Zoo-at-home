@@ -51,14 +51,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
             builder.Property(x => x.RatedBy)
                 .IsRequired();
 
-            builder.HasMany(x => x.Comments)
-                .WithOne(comment => comment.CommentTarget)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasMany(x => x.MyComments)
-                .WithOne(x => x.Author)
-                .OnDelete(DeleteBehavior.NoAction);
-
             builder.OwnsOne(x => x.NotificationOptions)
                 .WithOwner();
         }

@@ -21,7 +21,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public string? ContactEmail { get; set; }
         public IEnumerable<UserComment> Comments { get; } = [];
         public IEnumerable<BaseComment> MyComments { get; } = [];
-        public NotificationOptions NotificationOptions { get; set; } = new NotificationOptions();
+        public NotificationOptions NotificationOptions { get; } = new NotificationOptions();
 
         #region Rating
 

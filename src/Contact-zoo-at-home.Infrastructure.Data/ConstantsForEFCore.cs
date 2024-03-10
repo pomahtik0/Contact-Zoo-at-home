@@ -27,6 +27,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data
             public const string petTableName = "Pets";
 
             public const string extraPetOptionTableName = "ExtraPetOptions";
+
+            public const string baseCommentsTableName = "Comments";
         }
 
         public static class Sizes
@@ -44,6 +46,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data
             public const int shortDescriptionLength = 400;
 
             public const int descriptionLength = 4096;
+
+            public const int commentMaxLength = 1024;
         }
     }
 }

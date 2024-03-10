@@ -13,8 +13,6 @@ namespace Contact_zoo_at_home.Core.Entities.Notifications
     /// </summary>
     public class InnerRatingNotification : InnerNotification
     {
-        public float RateMark { get; set; }
-        public string? CommentText { get; set; }
         public Pet? RateTargetPet { get; set; }
         public BaseUser? RateTargetUser { get; set; }
     }
