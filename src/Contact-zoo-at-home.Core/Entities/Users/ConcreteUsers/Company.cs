@@ -14,18 +14,20 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
     public class Company : BasePetOwner
     {
         public string CompanyDescription { get; set; } = string.Empty;
-
-        private IList<CompanyPetRepresentative> _companyPetRepresentatives = [];
-        public IEnumerable<CompanyPetRepresentative> CompanyPetRepresentatives { get => new ReadOnlyCollection<CompanyPetRepresentative>(_companyPetRepresentatives); }
+        public IList<CompanyPetRepresentative> CompanyPetRepresentatives { get; } = [];
         public void AddNewPetRepresentative(CompanyPetRepresentative companyPetRepresentative)
         {
-            _companyPetRepresentatives.Add(companyPetRepresentative);
+            if(CompanyPetRepresentatives.Contains(companyPetRepresentative))
+            {
+                throw new ArgumentException("this one is already in the worker list", nameof(companyPetRepresentative));
+            }
+            CompanyPetRepresentatives.Add(companyPetRepresentative);
             companyPetRepresentative.CompanyRepresented = this;
         }
 
         public void RemoveFiredPetRepresentative(CompanyPetRepresentative companyPetRepresentative)
         {
-            _companyPetRepresentatives.Remove(companyPetRepresentative);
+            CompanyPetRepresentatives.Remove(companyPetRepresentative);
             companyPetRepresentative.CompanyRepresented = null;
         }
     }

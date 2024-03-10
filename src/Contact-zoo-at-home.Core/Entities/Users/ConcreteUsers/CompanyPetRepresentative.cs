@@ -10,6 +10,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
     public class CompanyPetRepresentative : BaseUser
     {
         public IList<BaseContract> ContractsToRepresent { get; } = [];
-        public Company? CompanyRepresented { get; set; }
+        public Company CompanyRepresented { get; set; }
     }
 }

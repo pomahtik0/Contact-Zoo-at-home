@@ -11,9 +11,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
     public class CustomerUser : BaseUser, ICustomer
     {
-        private IList<BaseContract> _activeContracts = [];
 
-        public IEnumerable<BaseContract> ActiveContracts { get => new ReadOnlyCollection<BaseContract>(_activeContracts); }
+        public IList<BaseContract> ActiveContracts { get; } = [];
 
         public void AcceptContract(BaseContract contract)
         {

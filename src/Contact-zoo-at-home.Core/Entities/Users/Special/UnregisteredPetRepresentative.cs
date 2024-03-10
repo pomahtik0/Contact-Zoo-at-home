@@ -10,6 +10,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users.Special
 {
     public class UnregisteredPetRepresentative
     {
+        public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string? ContactPhone { get; set; } = string.Empty;
         public Company Company { get; set; }

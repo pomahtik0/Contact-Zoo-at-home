@@ -17,7 +17,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         string FullName { get; }
         string? ContactPhone { get; }
         string? ContactEmail {  get; }
-        IEnumerable<BaseContract> ActiveContracts { get; }
+        IList<BaseContract> ActiveContracts { get; }
 
         /// <summary>
         /// Create contract details.
