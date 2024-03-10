@@ -41,17 +41,15 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 
         #region Images
 
-        private IList<byte[]> _petImages = [];
-
         /// <summary>
         /// Returns profile image or null if there are no images of a pet
         /// </summary>
-        public byte[]? ProfileImage { get => _petImages.FirstOrDefault(); }
+        public PetImage? ProfileImage { get => PetImages.FirstOrDefault(); }
 
         /// <summary>
         /// Returns collection as readOnly, consider using Add, Remove and Set methods if you want to change collection.
         /// </summary>
-        public ReadOnlyCollection<byte[]> AllImages { get => new ReadOnlyCollection<byte[]>(_petImages); }
+        public IList<PetImage> PetImages { get; } = [];
 
         /// <summary>
         /// Sets new profile image, by making a swap in the collection.

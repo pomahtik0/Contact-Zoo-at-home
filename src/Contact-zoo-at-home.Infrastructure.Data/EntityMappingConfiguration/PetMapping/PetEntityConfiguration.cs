@@ -64,6 +64,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 
                 blockedDatesBuilder.Property(x => x.Reason)
                 .IsRequired();
+
+                blockedDatesBuilder.WithOwner();
             });
 
             builder.OwnsMany(x => x.PetOptions, petOptionBuilder =>
@@ -84,12 +86,23 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
                 petOptionBuilder.WithOwner();
             });
 
+            builder.OwnsMany(x => x.PetImages, petImageBuilder =>
+            {
+                petImageBuilder.ToTable("PetImages").HasKey(x => x.Id);
+                petImageBuilder.Property(x => x.ImageName)
+                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .IsRequired(false);
+
+                petImageBuilder.Property(x => x.Image)
+                .HasMaxLength(ConstantsForEFCore.Sizes.profileImageMax)
+                .IsRequired();
+            });
+
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Ignore(x => x.ProfileImage);
-            builder.Ignore(x => x.AllImages);
         }
     }
 }
