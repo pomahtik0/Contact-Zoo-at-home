@@ -15,10 +15,25 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
     {
         public void Configure(EntityTypeBuilder<BaseContract> builder)
         {
+            builder.UseTptMappingStrategy();
+            builder.HasKey(x => x.Id);
+            
+            builder.Property(x => x.ContractDate).IsRequired();
+
+            builder.Property(x => x.ActivityType).IsRequired();
+
+            builder.Property(x => x.StatusOfTheContract).IsRequired();
+
+            builder.Property(x => x.ContractAdress).HasMaxLength(ConstantsForEFCore.Sizes.commentMaxLength).IsRequired();
+
+            builder.HasMany(x => x.PetsInContract)
+                .WithMany()
+                .UsingEntity("PetsInContractJoin",
+                    l => l.HasOne(typeof(Pet)).WithMany().OnDelete(DeleteBehavior.ClientCascade),
+                    r => r.HasOne(typeof(BaseContract)).WithMany().OnDelete(DeleteBehavior.Cascade));
+
             builder
-                .Ignore(x => x.IndividualPetOwnersAsPetRepresentative)
-                .Ignore(x => x.PetRepresentatives)
-                .Ignore(x => x.UnregisteredPetRepresentatives);
+                .Ignore(x => x.IndividualPetOwnersAsPetRepresentative);
         }
     }
 }
