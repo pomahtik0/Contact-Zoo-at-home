@@ -9,6 +9,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 {
     public class PetBlockedDate
     {
+        public int Id { get; set; }
         public DateTime BlockedDate { get; set; }
         public BlockedDateReason Reason { get; set; }
     }

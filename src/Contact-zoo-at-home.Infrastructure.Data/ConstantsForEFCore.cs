@@ -23,6 +23,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data
             public const string companyPetRepresentativeTableName = "CompanyWorkers";
 
             public const string unregisteredPetRepresentativeTableName = "CustomRepresentatives";
+
+            public const string petTableName = "Pets";
+
+            public const string extraPetOptionTableName = "ExtraPetOptions";
         }
 
         public static class Sizes

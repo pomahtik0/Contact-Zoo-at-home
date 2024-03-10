@@ -55,12 +55,34 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.Property(x => x.RestorationTimeInDays)
                 .IsRequired();
 
-            builder.OwnsMany(x => x.BlockedDates)
-                .WithOwner();
+            builder.OwnsMany(x => x.BlockedDates, blockedDatesBuilder =>
+            {
+                blockedDatesBuilder.ToTable("PetBlockedDates").HasKey(x => x.Id);
 
-            builder.HasMany(x => x.PetOptions)
-                .WithOne()
-                .OnDelete(DeleteBehavior.NoAction); ;
+                blockedDatesBuilder.Property(x => x.BlockedDate)
+                .IsRequired();
+
+                blockedDatesBuilder.Property(x => x.Reason)
+                .IsRequired();
+            });
+
+            builder.OwnsMany(x => x.PetOptions, petOptionBuilder =>
+            {
+                petOptionBuilder.ToTable("PetOptions").HasKey(x => x.Id);
+
+                petOptionBuilder.Property(e => e.OptionValue)
+                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .IsRequired();
+
+                petOptionBuilder.Property(e => e.OptionName)
+                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .IsRequired();
+
+                petOptionBuilder.Property(e => e.OptionLanguage)
+                .IsRequired();
+
+                petOptionBuilder.WithOwner();
+            });
 
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
