@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Contact_zoo_at_home.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Contact_zoo_at_home.Infrastructure.Identity
+namespace WebUI.Areas.Identity.IdentityDbContext
 {
     public class ApplicationUserIdentityDbContext : IdentityDbContext<ApplicationIdentityUser, IdentityRole<int>, int>
     {
         public ApplicationUserIdentityDbContext(DbContextOptions<ApplicationUserIdentityDbContext> options)
             : base(options)
         {
-
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
