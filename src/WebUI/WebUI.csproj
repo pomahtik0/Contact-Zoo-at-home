@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contact-zoo-at-home.Application\Contact-zoo-at-home.Application.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Core\Contact-zoo-at-home.Core.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Infrastructure.Data\Contact-zoo-at-home.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Contact-zoo-at-home.Infrastructure.Identity\Contact-zoo-at-home.Infrastructure.Identity.csproj" />
   </ItemGroup>
 
