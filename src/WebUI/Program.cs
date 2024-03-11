@@ -10,6 +10,14 @@ namespace WebUI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // minifiing and bundling .js files
+            builder.Services.AddWebOptimizer(
+                pipeline =>
+                {
+                    pipeline.AddJavaScriptBundle("/js/MainPageScripts.min.bundle.js", "js/**/*.js");
+                });
+
+            // add Identity User support
             var connectionString = builder.Configuration.GetConnectionString("ApplicationUserIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationUserIdentityDbContextConnection' not found.");
             builder.Services.AddDbContext<ApplicationUserIdentityDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -32,6 +40,8 @@ namespace WebUI
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                // Updating minified bundles on run
+                app.UseWebOptimizer();
             }
 
             app.UseHttpsRedirection();
