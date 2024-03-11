@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Contact_zoo_at_home.Application;
 
 namespace WebUI.Areas.Identity.Pages.Account
 {
@@ -96,6 +97,8 @@ namespace WebUI.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public Roles Role { get; set; }
         }
 
 
@@ -107,6 +110,11 @@ namespace WebUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (Input.Role == Roles.Admin || Input.Role == Roles.Company || Input.Role == Roles.NoRole) // this Roles register in a different place
+            {
+                ModelState.AddModelError(string.Empty, "Select role!");
+                return Page();
+            }
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             _logger.LogDebug($"{Input.Username} {Input.Password}");
@@ -120,8 +128,18 @@ namespace WebUI.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    var otherDbCreateResult = await UserManagement.TryCreateNewUserAsync(user);
 
-                    return LocalRedirect(returnUrl);
+                    if (otherDbCreateResult)
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        // reverting changes
+                        await _userManager.DeleteAsync(user);
+                        ModelState.AddModelError(string.Empty, "Something went wrong while creating second user");
+                    }
                 }
                 foreach (var error in result.Errors)
                 {
