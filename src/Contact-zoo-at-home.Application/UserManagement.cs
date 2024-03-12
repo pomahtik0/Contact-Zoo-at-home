@@ -34,6 +34,11 @@ namespace Contact_zoo_at_home.Application
         {
             try
             {
+                if (user is null || user.UserName == null)
+                {
+                    throw new ArgumentNullException(nameof(user));
+                }
+
                 BaseUser? baseUser = CreateUserByRole(user.Role);
                 if (baseUser == null) 
                 {
