@@ -1,4 +1,5 @@
 ﻿@page
+@using Contact_zoo_at_home.Infrastructure.Identity
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -26,6 +27,12 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <label asp-for="Input.Role" class="align-top">Your Role</label> @*To Do: Fix design*@
+                <input type="radio"aria-required="true" asp-for="Input.Role" value="@Roles.Customer" /> Customer
+                <input type="radio" asp-for="Input.Role" value="@Roles.IndividualPetOwner" /> Pet Owner
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

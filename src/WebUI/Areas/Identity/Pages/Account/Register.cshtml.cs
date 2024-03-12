@@ -97,7 +97,8 @@ namespace WebUI.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
+            
+            [AllowedValues([Roles.Customer, Roles.IndividualPetOwner],ErrorMessage = "Select Role!")]
             public Roles Role { get; set; }
         }
 
@@ -110,17 +111,14 @@ namespace WebUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (Input.Role == Roles.Admin || Input.Role == Roles.Company || Input.Role == Roles.NoRole) // this Roles register in a different place
-            {
-                ModelState.AddModelError(string.Empty, "Select role!");
-                return Page();
-            }
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            _logger.LogDebug($"{Input.Username} {Input.Password}");
+            _logger.LogDebug($"{Input.Username} {Input.Password} {Input.Role}");
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                user.Role = Input.Role;
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -128,6 +126,8 @@ namespace WebUI.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+
                     var otherDbCreateResult = await UserManagement.TryCreateNewUserAsync(user);
 
                     if (otherDbCreateResult)

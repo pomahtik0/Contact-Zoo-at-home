@@ -30,7 +30,7 @@ namespace Contact_zoo_at_home.Application
             }
         }
 
-        public static Task<bool> TryCreateNewUserAsync(ApplicationIdentityUser user)
+        public static async Task<bool> TryCreateNewUserAsync(ApplicationIdentityUser user)
         {
             try
             {
@@ -43,15 +43,15 @@ namespace Contact_zoo_at_home.Application
                 baseUser.Id = user.Id;
                 using (var applicationContext = new ApplicationDbContext())
                 {
-                    applicationContext.Add(baseUser);
-                    applicationContext.SaveChangesAsync();
+                    await applicationContext.AddAsync(baseUser);
+                    await applicationContext.SaveChangesAsync();
                 }
             }
             catch
             {
-                return Task.FromResult(false);
+                return false;
             }
-            return Task.FromResult(true);
+            return true;
         }
     }
 }
