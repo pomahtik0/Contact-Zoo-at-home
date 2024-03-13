@@ -31,7 +31,7 @@
                 <partial name="SubForms/_PartialIndividualPetOwnerProfileSettings" model="Model"/>
             }
             <input asp-for="ProfileImage" type="hidden" />
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            <button asp-controller="Users" asp-action="TryToChangeProfileSettings" id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
 </div>

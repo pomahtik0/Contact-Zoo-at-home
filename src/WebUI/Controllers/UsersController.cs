@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using Contact_zoo_at_home.Application;
+using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using WebUI.Models.User;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebUI.Controllers
 {
@@ -42,6 +46,38 @@ namespace WebUI.Controllers
             }
         }
 
+        private async Task<UserProfileDTO> LoadUserDTOByIdAsync(int id)
+        {
+            BaseUser user = await UserManagement.GetUserProfileInfoByIdAsync(id);
+
+            switch (user) // hierarchy mapping?!
+            {
+                case CustomerUser:
+                    return _mapper.Map<UserProfileDTO>(user);
+                case IndividualPetOwner:
+                    return _mapper.Map<IndividualPetOwnerUserProfileDTO>(user);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private BaseUser DTOToBaseUser(UserProfileDTO profile)
+        {
+            BaseUser user;
+            switch (profile)
+            {
+                case IndividualPetOwnerUserProfileDTO:
+                    user = _mapper.Map<IndividualPetOwner>(profile);
+                    break;
+                case UserProfileDTO:
+                    user = _mapper.Map<CustomerUser>(profile);
+                    break;
+                default:
+                    throw new NotImplementedException(nameof(profile));
+            }
+            return user;
+        }
+
         public ActionResult Login()
         {
             return View();
@@ -59,9 +95,16 @@ namespace WebUI.Controllers
         }
 
         [Route("Users/Settings/ProfileSettings")]
-        public IActionResult ProfileSettings()
+        public async Task<IActionResult> ProfileSettings()
         {
-            return View("Settings/ProfileSettings");
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return BadRequest($"Unable to load user with ID '{userId}'.");
+            }
+
+            UserProfileDTO profile = await LoadUserDTOByIdAsync(Convert.ToInt32(userId));
+            return View("Settings/ProfileSettings", profile);
         }
 
         [Route("Users/Settings/ChangePassword")]
@@ -144,6 +187,32 @@ namespace WebUI.Controllers
 
             // If we got this far, something failed, redisplay form
             return View("Register", registerModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TryToChangeProfileSettings(UserProfileDTO profile)
+        {
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return BadRequest($"Unable to load user with ID '{userId}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                profile = await LoadUserDTOByIdAsync(Convert.ToInt32(userId));
+                ModelState.AddModelError(string.Empty, "Data not valid");
+                return View("Settings/ProfileSettings", profile);
+            }
+            BaseUser baseUser = DTOToBaseUser(profile);
+            baseUser.Id = Convert.ToInt32(userId);
+            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
+
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
+            await task;
+
+            //StatusMessage = "Your profile has been updated";
+            return View("Settings/ProfileSettings", profile);
         }
     }
 }
