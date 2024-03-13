@@ -227,5 +227,36 @@ namespace WebUI.Controllers
             return await SaveNewProfileSettings(profile);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TryToChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ChangePassword();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return ChangePassword();
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+            _logger.LogInformation("User changed their password successfully.");
+            changePasswordModel.StatusMessage = "Your password has been changed.";
+
+            return View("Settings/ChangePassword", changePasswordModel);
+        }
+
     }
 }

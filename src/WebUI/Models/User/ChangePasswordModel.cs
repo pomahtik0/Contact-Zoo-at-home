@@ -4,7 +4,7 @@ namespace WebUI.Models.User
 {
     public class ChangePasswordModel
     {
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
