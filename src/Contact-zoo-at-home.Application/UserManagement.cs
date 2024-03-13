@@ -31,6 +31,44 @@ namespace Contact_zoo_at_home.Application
             }
         }
 
+        /// <summary>
+        /// apply changes for base profile changes 
+        /// </summary>
+        /// <param name="baseEntity">entity from database</param>
+        /// <param name="changedEntity">entity from UI</param>
+        private static void ApplyChanges(BaseUser baseEntity, BaseUser changedEntity)
+        {
+            if(baseEntity.ContactPhone != changedEntity.ContactPhone)
+            {
+                baseEntity.ContactPhone = changedEntity.ContactPhone;
+            }
+
+            if(baseEntity.FullName != changedEntity.FullName)
+            {
+                baseEntity.FullName = changedEntity.FullName;
+            }
+
+            if(baseEntity.ContactEmail != changedEntity.ContactEmail)
+            {
+                baseEntity.ContactEmail = changedEntity.ContactEmail;
+            }
+
+            if(baseEntity.ProfileImage != changedEntity.ProfileImage)
+            {
+                baseEntity.ProfileImage = changedEntity.ProfileImage;
+            }
+
+            if(baseEntity is IndividualPetOwner && changedEntity is IndividualPetOwner)
+            {
+                var baseIndividualPetOwner = (IndividualPetOwner)baseEntity;
+                var changedIndividualPetOwner = (IndividualPetOwner)changedEntity;
+                if(baseIndividualPetOwner.ShortDescription != changedIndividualPetOwner.ShortDescription)
+                {
+                    baseIndividualPetOwner.ShortDescription = changedIndividualPetOwner.ShortDescription;
+                }
+            }
+        }
+
         public static async Task<bool> TryCreateNewUserAsync(ApplicationIdentityUser user)
         {
             try
@@ -74,7 +112,10 @@ namespace Contact_zoo_at_home.Application
         {
             using(ApplicationDbContext applicationContext = new ApplicationDbContext())
             {
-                applicationContext.Update(user);
+                var baseEntity = await applicationContext.Users.Where(x => x.Id == user.Id).FirstAsync();
+
+                ApplyChanges(baseEntity, user);
+
                 await applicationContext.SaveChangesAsync();
             }
         }
