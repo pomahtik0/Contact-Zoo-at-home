@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,26 @@ namespace WebUI.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Login()
+        private ApplicationIdentityUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<ApplicationIdentityUser>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationIdentityUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationIdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
         {
             return View();
         }
@@ -65,6 +85,47 @@ namespace WebUI.Controllers
             }
 
             return View("Login", loginModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TryToRegister(RegisterModel registerModel)
+        {
+            _logger.LogDebug($"{registerModel.Username} {registerModel.Password} {registerModel.Role}");
+            if (ModelState.IsValid)
+            {
+                var user = CreateUser();
+
+                user.Role = registerModel.Role;
+
+                await _userStore.SetUserNameAsync(user, registerModel.Username, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+
+
+                    var otherDbCreateResult = await UserManagement.TryCreateNewUserAsync(user);
+
+                    if (otherDbCreateResult)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        // reverting changes
+                        await _userManager.DeleteAsync(user);
+                        ModelState.AddModelError(string.Empty, "Something went wrong while creating second user");
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View("Register", registerModel);
         }
     }
 }
