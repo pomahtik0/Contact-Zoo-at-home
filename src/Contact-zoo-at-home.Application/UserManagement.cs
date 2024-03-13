@@ -2,6 +2,7 @@
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Contact_zoo_at_home.Infrastructure.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,16 @@ namespace Contact_zoo_at_home.Application
                 return false;
             }
             return true;
+        }
+
+        public static async Task<BaseUser> GetUserProfileInfoByIdAsync(int id)
+        {
+            BaseUser user;
+            using(ApplicationDbContext applicationContext = new ApplicationDbContext())
+            {
+               user = await applicationContext.Users.Where(x => x.Id == id).FirstAsync(); // throws if not found
+            }
+            return user;
         }
     }
 }

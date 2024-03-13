@@ -6,10 +6,15 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutoMapper;
+using Contact_zoo_at_home.Application;
+using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WebUI.Models.User;
 
 namespace WebUI.Areas.Identity.Pages.Account.Manage
 {
@@ -17,20 +22,17 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly SignInManager<ApplicationIdentityUser> _signInManager;
+        private readonly IMapper _mapper;
 
         public IndexModel(
             UserManager<ApplicationIdentityUser> userManager,
-            SignInManager<ApplicationIdentityUser> signInManager)
+            SignInManager<ApplicationIdentityUser> signInManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string Username { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -44,74 +46,54 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public UserProfileDTO Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
+        private async Task LoadAsync(int id)
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-        }
+            BaseUser user = await UserManagement.GetUserProfileInfoByIdAsync(id);
 
-        private async Task LoadAsync(ApplicationIdentityUser user)
-        {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
-            Input = new InputModel
+            switch(user) // hierarchy mapping?!
             {
-                PhoneNumber = phoneNumber
-            };
+                case CustomerUser:
+                    Input = _mapper.Map<UserProfileDTO>(user);
+                    break;
+                case IndividualPetOwner:
+                    Input = _mapper.Map<IndividualPetOwnerUserProfileDTO>(user);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            await LoadAsync(user);
+            await LoadAsync(Convert.ToInt32(userId));
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await LoadAsync(Convert.ToInt32(userId));
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            // ToDo: Save model state
 
-            await _signInManager.RefreshSignInAsync(user);
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
