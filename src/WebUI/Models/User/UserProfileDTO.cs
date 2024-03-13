@@ -4,7 +4,6 @@ namespace WebUI.Models.User
 {
     public class UserProfileDTO
     {
-        public string UserName { get; set; }
         [Phone]
         [Display(Name = "Phone number")]
         [MaxLength(20, ErrorMessage = "To long phone number!")]

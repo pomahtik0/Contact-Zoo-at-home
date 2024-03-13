@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebUI.Models.User;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebUI.Areas.Identity.Pages.Account.Manage
 {
@@ -105,7 +106,7 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
             if (!ModelState.IsValid)
             {
                 await LoadAsync(Convert.ToInt32(userId));
-                StatusMessage = "Something went wrong with your data.";
+                ModelState.AddModelError(string.Empty, "Data not valid");
                 return Page();
             }
             BaseUser baseUser = DTOToBaseUser();
