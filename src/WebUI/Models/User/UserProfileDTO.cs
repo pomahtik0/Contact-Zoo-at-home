@@ -4,7 +4,7 @@ namespace WebUI.Models.User
 {
     public class UserProfileDTO
     {
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
 
         [Phone]
         [Display(Name = "Phone number")]

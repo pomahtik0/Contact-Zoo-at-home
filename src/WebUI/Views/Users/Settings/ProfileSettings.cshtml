@@ -5,7 +5,7 @@
 }
 
 <h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
+<partial name="Settings/_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
         <form id="profile-form" method="post">
@@ -26,12 +26,15 @@
                 <label asp-for="FullName" class="form-label"></label>
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
+            <input asp-for="ProfileImage" type="hidden" />
             @if (Model is WebUI.Models.User.IndividualPetOwnerUserProfileDTO)
             {
-                <partial name="SubForms/_PartialIndividualPetOwnerProfileSettings" model="Model"/>
+                <partial name="Settings/SubForms/_PartialIndividualPetOwnerProfileSettings" model="Model"/>
             }
-            <input asp-for="ProfileImage" type="hidden" />
-            <button asp-controller="Users" asp-action="TryToChangeProfileSettings" id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            else
+            {
+                <button asp-controller="Users" asp-action="TryToChangeProfileSettings" id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            }
         </form>
     </div>
 </div>

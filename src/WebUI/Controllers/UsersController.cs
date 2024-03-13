@@ -214,5 +214,30 @@ namespace WebUI.Controllers
             profile.StatusMessage = "Your profile has been updated";
             return View("Settings/ProfileSettings", profile);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> TryToChangeProfileSettings_IndividualPetOwner(IndividualPetOwnerUserProfileDTO profile)
+        {
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return BadRequest($"Unable to load user with ID '{userId}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Data not valid");
+                return View("Settings/ProfileSettings", profile);
+            }
+            BaseUser baseUser = DTOToBaseUser(profile);
+            baseUser.Id = Convert.ToInt32(userId);
+            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
+
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
+            await task;
+
+            profile.StatusMessage = "Your profile has been updated";
+            return View("Settings/ProfileSettings", profile);
+        }
     }
 }
