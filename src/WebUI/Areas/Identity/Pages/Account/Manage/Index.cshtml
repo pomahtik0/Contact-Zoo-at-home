@@ -27,6 +27,10 @@
                 <label asp-for="Input.FullName" class="form-label"></label>
                 <span asp-validation-for="Input.FullName" class="text-danger"></span>
             </div>
+            @if(Model.Input is WebUI.Models.User.IndividualPetOwnerUserProfileDTO)
+            {
+                <partial name="SubForms/_PartialIndividualPetOwnerProfileSettings" for="Input" />
+            }
             <input asp-for="Input.ProfileImage" type="hidden" />
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
