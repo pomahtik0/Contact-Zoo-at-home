@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using WebUI.Areas.Identity.IdentityDbContext;
+using WebUI.Others.AutoMapper;
 
 namespace WebUI
 {
@@ -10,6 +11,9 @@ namespace WebUI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // autoMapper for DTOs
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             // minifiing and bundling .js files
             builder.Services.AddWebOptimizer(
