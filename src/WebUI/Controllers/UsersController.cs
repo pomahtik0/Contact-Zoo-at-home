@@ -52,6 +52,24 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [Route("Users/Settings/Profile")]
+        public IActionResult Profile()
+        {
+            return View("Settings/Profile");
+        }
+
+        [Route("Users/Settings/ProfileSettings")]
+        public IActionResult ProfileSettings()
+        {
+            return View("Settings/ProfileSettings");
+        }
+
+        [Route("Users/Settings/ChangePassword")]
+        public IActionResult ChangePassword()
+        {
+            return View("Settings/ChangePassword");
+        }
+
         [HttpPost]
         public async Task<IActionResult> TryToLogin(LoginModel loginModel)
         {
