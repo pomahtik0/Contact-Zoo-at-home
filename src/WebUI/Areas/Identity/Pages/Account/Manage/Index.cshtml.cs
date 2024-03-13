@@ -107,8 +107,9 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
             //    await LoadAsync(Convert.ToInt32(userId));
             //    return Page();
             //}
-
-            var task = UserManagement.SaveUserProfileChangesAsync(DTOToBaseUser());
+            BaseUser baseUser = DTOToBaseUser();
+            baseUser.Id = Convert.ToInt32(userId);
+            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
 
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
             await task;

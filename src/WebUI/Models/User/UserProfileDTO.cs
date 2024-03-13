@@ -4,7 +4,6 @@ namespace WebUI.Models.User
 {
     public class UserProfileDTO
     {
-        public int Id { get; set; }
         public string UserName { get; set; }
         [Phone]
         [Display(Name = "Phone number")]
