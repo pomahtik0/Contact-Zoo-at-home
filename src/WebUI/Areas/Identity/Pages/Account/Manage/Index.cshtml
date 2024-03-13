@@ -11,15 +11,24 @@
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.UserName" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Input.UserName" class="form-label"></label>
-            </div>
+            <input asp-for="Input.UserName" type="hidden" />
             <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" placeholder="Please enter your EmailAddress(leave empty if none)" />
+                <label asp-for="Input.Email" class="form-label"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FullName" class="form-control" placeholder="Please enter your Name." />
+                <label asp-for="Input.FullName" class="form-label"></label>
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+            </div>
+            <input asp-for="Input.ProfileImage" type="hidden" />
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>

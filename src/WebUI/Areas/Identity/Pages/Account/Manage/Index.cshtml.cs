@@ -102,11 +102,12 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    await LoadAsync(Convert.ToInt32(userId));
-            //    return Page();
-            //}
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(Convert.ToInt32(userId));
+                StatusMessage = "Something went wrong with your data.";
+                return Page();
+            }
             BaseUser baseUser = DTOToBaseUser();
             baseUser.Id = Convert.ToInt32(userId);
             var task = UserManagement.SaveUserProfileChangesAsync(baseUser);

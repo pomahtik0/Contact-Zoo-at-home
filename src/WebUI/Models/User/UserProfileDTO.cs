@@ -8,13 +8,15 @@ namespace WebUI.Models.User
         [Phone]
         [Display(Name = "Phone number")]
         [MaxLength(20, ErrorMessage = "To long phone number!")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
+        [Required(AllowEmptyStrings = true)]
         [MaxLength(ConstantsForEFCore.Sizes.shortTitlesLength, ErrorMessage = "Name to long!")]
         public string FullName { get; set; }
 
-        public string Email { get; set; }
+        [EmailAddress]
+        public string? Email { get; set; } = string.Empty;
 
-        public byte[] ProfileImage { get; set; }
+        public byte[]? ProfileImage { get; set; }
     }
 }
