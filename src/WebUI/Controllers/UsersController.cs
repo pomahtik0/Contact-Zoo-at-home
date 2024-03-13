@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly SignInManager<ApplicationIdentityUser> _signInManager;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IUserStore<ApplicationIdentityUser> _userStore;
         private readonly IMapper _mapper;
 
-        public UserController(ILogger<UserController> logger, 
+        public UsersController(ILogger<UsersController> logger, 
             SignInManager<ApplicationIdentityUser> signInManager, 
             UserManager<ApplicationIdentityUser> userManager, 
             IUserStore<ApplicationIdentityUser> userStore, 
