@@ -69,5 +69,14 @@ namespace Contact_zoo_at_home.Application
             }
             return user;
         }
+
+        public static async Task SaveUserProfileChangesAsync(BaseUser user)
+        {
+            using(ApplicationDbContext applicationContext = new ApplicationDbContext())
+            {
+                applicationContext.Update(user);
+                await applicationContext.SaveChangesAsync();
+            }
+        }
     }
 }

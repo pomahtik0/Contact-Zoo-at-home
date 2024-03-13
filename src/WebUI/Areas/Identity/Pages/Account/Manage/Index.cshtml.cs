@@ -65,6 +65,23 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
             }
         }
 
+        private BaseUser DTOToBaseUser()
+        {
+            BaseUser user;
+            switch(Input)
+            {
+                case IndividualPetOwnerUserProfileDTO:
+                    user = _mapper.Map<IndividualPetOwner>(Input);
+                    break;
+                case UserProfileDTO:
+                    user = _mapper.Map<CustomerUser>(Input);
+                    break;
+                default:
+                    throw new NotImplementedException(nameof(Input));
+            }
+            return user;
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             string? userId = _userManager.GetUserId(User);
@@ -85,16 +102,19 @@ namespace WebUI.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(Convert.ToInt32(userId));
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    await LoadAsync(Convert.ToInt32(userId));
+            //    return Page();
+            //}
 
-            // ToDo: Save model state
+            var task = UserManagement.SaveUserProfileChangesAsync(DTOToBaseUser());
 
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
+            await task;
+            
             StatusMessage = "Your profile has been updated";
+
             return RedirectToPage();
         }
     }

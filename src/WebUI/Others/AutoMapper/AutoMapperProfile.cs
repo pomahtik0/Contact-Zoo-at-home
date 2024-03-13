@@ -9,8 +9,20 @@ namespace WebUI.Others.AutoMapper
     {
         public AutoMapperProfile() 
         {
-            CreateMap<CustomerUser, UserProfileDTO>();
-            CreateMap<IndividualPetOwner, IndividualPetOwnerUserProfileDTO>();
+            //CreateMap<BaseUser, UserProfileDTO>()
+            //    .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
+            //    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
+            //    .ReverseMap();
+
+            CreateMap<CustomerUser, UserProfileDTO>()
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
+                .ReverseMap();
+
+            CreateMap<IndividualPetOwner, IndividualPetOwnerUserProfileDTO>()
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
+                .ReverseMap();
         }
     }
 }
