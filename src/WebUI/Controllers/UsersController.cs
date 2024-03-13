@@ -19,6 +19,8 @@ namespace WebUI.Controllers
         private readonly IUserStore<ApplicationIdentityUser> _userStore;
         private readonly IMapper _mapper;
 
+        private const string c_profileSettingsAddress = "Settings/ProfileSettings";
+
         public UsersController(ILogger<UsersController> logger, 
             SignInManager<ApplicationIdentityUser> signInManager, 
             UserManager<ApplicationIdentityUser> userManager, 
@@ -78,6 +80,30 @@ namespace WebUI.Controllers
             return user;
         }
 
+        private async Task<IActionResult> SaveNewProfileSettings(UserProfileDTO profile)
+        {
+            string? userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return BadRequest($"Unable to load user with ID '{userId}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Data not valid");
+                return View(c_profileSettingsAddress, profile);
+            }
+            BaseUser baseUser = DTOToBaseUser(profile);
+            baseUser.Id = Convert.ToInt32(userId);
+            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
+
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
+            await task;
+
+            profile.StatusMessage = "Your profile has been updated";
+            return View(c_profileSettingsAddress, profile);
+        }
+
         public ActionResult Login()
         {
             return View();
@@ -104,7 +130,7 @@ namespace WebUI.Controllers
             }
 
             UserProfileDTO profile = await LoadUserDTOByIdAsync(Convert.ToInt32(userId));
-            return View("Settings/ProfileSettings", profile);
+            return View(c_profileSettingsAddress, profile);
         }
 
         [Route("Users/Settings/ChangePassword")]
@@ -192,52 +218,14 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> TryToChangeProfileSettings(UserProfileDTO profile)
         {
-            string? userId = _userManager.GetUserId(User);
-            if (userId == null)
-            {
-                return BadRequest($"Unable to load user with ID '{userId}'.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                profile = await LoadUserDTOByIdAsync(Convert.ToInt32(userId));
-                ModelState.AddModelError(string.Empty, "Data not valid");
-                return View("Settings/ProfileSettings", profile);
-            }
-            BaseUser baseUser = DTOToBaseUser(profile);
-            baseUser.Id = Convert.ToInt32(userId);
-            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
-
-            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
-            await task;
-
-            profile.StatusMessage = "Your profile has been updated";
-            return View("Settings/ProfileSettings", profile);
+            return await SaveNewProfileSettings(profile);
         }
 
         [HttpPost]
         public async Task<IActionResult> TryToChangeProfileSettings_IndividualPetOwner(IndividualPetOwnerUserProfileDTO profile)
         {
-            string? userId = _userManager.GetUserId(User);
-            if (userId == null)
-            {
-                return BadRequest($"Unable to load user with ID '{userId}'.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError(string.Empty, "Data not valid");
-                return View("Settings/ProfileSettings", profile);
-            }
-            BaseUser baseUser = DTOToBaseUser(profile);
-            baseUser.Id = Convert.ToInt32(userId);
-            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
-
-            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
-            await task;
-
-            profile.StatusMessage = "Your profile has been updated";
-            return View("Settings/ProfileSettings", profile);
+            return await SaveNewProfileSettings(profile);
         }
+
     }
 }
