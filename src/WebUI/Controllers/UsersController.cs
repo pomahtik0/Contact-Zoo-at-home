@@ -3,6 +3,7 @@ using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
@@ -114,12 +115,14 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [Authorize]
         [Route("Users/Settings/Profile")]
         public IActionResult Profile()
         {
             return View("Settings/Profile");
         }
 
+        [Authorize]
         [Route("Users/Settings/ProfileSettings")]
         public async Task<IActionResult> ProfileSettings()
         {
@@ -133,6 +136,7 @@ namespace WebUI.Controllers
             return View(c_profileSettingsAddress, profile);
         }
 
+        [Authorize]
         [Route("Users/Settings/ChangePassword")]
         public IActionResult ChangePassword()
         {
