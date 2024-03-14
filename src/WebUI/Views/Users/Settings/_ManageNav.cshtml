@@ -5,14 +5,20 @@
 @using Contact_zoo_at_home.Infrastructure.Identity;
 
 @{
-    Roles Role = (Roles)Convert.ToInt32(User.FindFirst("Role"));
-    string? currentId = ViewData["CurrentId"]?.ToString();
+    Roles Role = (Roles)Convert.ToInt32(User.FindFirst("Role")?.Value ?? throw new System.Exception("Role not specified exception"));
+    string currentId = ViewData["CurrentId"]?.ToString() ?? "";
+}
+@functions{
+    string SetActive(string activeId, string currentId)
+    {
+        return activeId == currentId ? "active" : "";
+    }
 }
 
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link" id="profile" asp-controller="Users" asp-action="Profile">Profile</a></li>
-    <li class="nav-item"><a class="nav-link" id="profileSettings" asp-controller="Users" asp-action="ProfileSettings">Profile Settings</a></li>
-    <li class="nav-item"><a class="nav-link" id="changePassword" asp-controller="Users" asp-action="ChangePassword">Password</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profile")" id="profile" asp-controller="Users" asp-action="Profile">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profileSettings")" id="profileSettings" asp-controller="Users" asp-action="ProfileSettings">Profile Settings</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "changePassword")" id="changePassword" asp-controller="Users" asp-action="ChangePassword">Password</a></li>
    @*  @if (hasExternalLogins)
     {
         <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
