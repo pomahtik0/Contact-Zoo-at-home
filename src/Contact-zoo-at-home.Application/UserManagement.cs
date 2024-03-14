@@ -103,7 +103,7 @@ namespace Contact_zoo_at_home.Application
             BaseUser user;
             using(ApplicationDbContext applicationContext = new ApplicationDbContext())
             {
-               user = await applicationContext.Users.Where(x => x.Id == id).FirstAsync(); // throws if not found
+               user = await applicationContext.Users.Where(x => x.Id == id).AsNoTracking().FirstAsync(); // throws if not found
             }
             return user;
         }
