@@ -190,6 +190,7 @@ namespace WebUI.Controllers
 
                 await _userStore.SetUserNameAsync(user, registerModel.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("Role", $"{((int)user.Role)}"));
 
                 if (result.Succeeded)
                 {
