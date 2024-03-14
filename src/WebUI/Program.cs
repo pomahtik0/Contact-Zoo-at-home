@@ -37,6 +37,12 @@ namespace WebUI
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Add policys
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PetOwner", policy => policy.RequireClaim("Role", ["2", "3"])); // individual pet owners and companies
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

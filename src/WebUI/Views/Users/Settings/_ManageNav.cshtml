@@ -8,8 +8,9 @@
     Roles Role = (Roles)Convert.ToInt32(User.FindFirst("Role")?.Value ?? throw new System.Exception("Role not specified exception"));
     string currentId = ViewData["CurrentId"]?.ToString() ?? "";
 }
+
 @functions{
-    string SetActive(string activeId, string currentId)
+    string SetActive(string activeId, string currentId) // set style for active item
     {
         return activeId == currentId ? "active" : "";
     }
@@ -19,7 +20,13 @@
     <li class="nav-item"><a class="nav-link @SetActive(currentId, "profile")" id="profile" asp-controller="Users" asp-action="Profile">Profile</a></li>
     <li class="nav-item"><a class="nav-link @SetActive(currentId, "profileSettings")" id="profileSettings" asp-controller="Users" asp-action="ProfileSettings">Profile Settings</a></li>
     <li class="nav-item"><a class="nav-link @SetActive(currentId, "changePassword")" id="changePassword" asp-controller="Users" asp-action="ChangePassword">Password</a></li>
-   @*  @if (hasExternalLogins)
+
+    @if(Role == Roles.IndividualPetOwner || Role == Roles.Company)
+    {
+        <li class="nav-item"><a class="nav-link @SetActive(currentId, "myPets")" id="myPets" asp-controller="PetOwner" asp-action="Pets">Pets</a></li>
+    }
+
+    @*  @if (hasExternalLogins)
     {
         <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
     }
