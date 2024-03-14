@@ -12,6 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebUI.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly ILogger<UsersController> _logger;
@@ -105,24 +106,24 @@ namespace WebUI.Controllers
             return View(c_profileSettingsAddress, profile);
         }
 
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
-        [Authorize]
         [Route("Users/Settings/Profile")]
         public IActionResult Profile()
         {
             return View("Settings/Profile");
         }
 
-        [Authorize]
         [Route("Users/Settings/ProfileSettings")]
         public async Task<IActionResult> ProfileSettings()
         {
@@ -136,13 +137,13 @@ namespace WebUI.Controllers
             return View(c_profileSettingsAddress, profile);
         }
 
-        [Authorize]
         [Route("Users/Settings/ChangePassword")]
         public IActionResult ChangePassword()
         {
             return View("Settings/ChangePassword");
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> TryToLogin(LoginModel loginModel)
         {
@@ -178,6 +179,7 @@ namespace WebUI.Controllers
             return View("Login", loginModel);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> TryToRegister(RegisterModel registerModel)
         {
