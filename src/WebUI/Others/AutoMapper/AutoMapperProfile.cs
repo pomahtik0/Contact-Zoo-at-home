@@ -2,6 +2,7 @@
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using WebUI.Models.Pet;
 using WebUI.Models.User;
 using WebUI.Models.User.Settings;
 
@@ -29,6 +30,9 @@ namespace WebUI.Others.AutoMapper
             AllowNullCollections = true;
             CreateMap<Pet, ShowPetDTO>()
                 .ForMember(dest =>dest.Species, opt=>opt.MapFrom(src=>$"{src.Species} {src.SubSpecies}"));
+
+            CreateMap<Pet, CreateOrRedactPetModel>()
+                 .ReverseMap();
         }
     }
 }
