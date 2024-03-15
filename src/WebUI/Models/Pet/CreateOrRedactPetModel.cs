@@ -6,6 +6,8 @@ namespace WebUI.Models.Pet
 {
     public record CreateOrRedactPetModel
     {
+        public int Id { get; set; }
+
         [Required(AllowEmptyStrings = true)]
         public string Name { get; set; }
         

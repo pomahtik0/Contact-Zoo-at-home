@@ -6,6 +6,7 @@ using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebUI.Models.Pet;
 using WebUI.Models.User.Settings;
 
 namespace WebUI.Controllers
@@ -42,6 +43,18 @@ namespace WebUI.Controllers
         {
             throw new NotImplementedException();
             return View();
+        }
+
+        public async Task<IActionResult> CreateNewPetPost(CreateOrRedactPetModel model)
+        {
+            int userId = Convert.ToInt32(_userManager.GetUserId(User));
+            if (ModelState.IsValid)
+            {
+                var newPet = _mapper.Map<Pet>(model);
+                await PetManagement.CreateNewPetAsync(newPet, userId);
+                return RedirectToAction("Pets");
+            }
+            return View(c_settingsFolder + "Pet/CreateNewPet", model);
         }
     }
 }
