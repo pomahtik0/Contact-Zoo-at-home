@@ -15,7 +15,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
-            builder.HasBaseType<BaseUser>().ToTable(ConstantsForEFCore.TableNames.customerUserTableName);
+            builder.HasBaseType<BaseUser>().ToTable(ConstantsForEFCore.TableNames.CustomerUserTableName);
 
             builder.HasMany(x => x.ActiveContracts)
                 .WithOne(x => x.Customer)

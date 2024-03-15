@@ -10,44 +10,44 @@ namespace Contact_zoo_at_home.Infrastructure.Data
     {
         public static class TableNames
         {
-            public const string baseUserTableName = "Users";
+            public const string BaseUserTableName = "Users";
             
-            public const string basePetOwnerTableName = "PetOwners";
+            public const string BasePetOwnerTableName = "PetOwners";
             
-            public const string companyTableName = "Companies";
+            public const string CompanyTableName = "Companies";
             
-            public const string individualPetOwnerTableName = "IndividualPetOwners";
+            public const string IndividualPetOwnerTableName = "IndividualPetOwners";
             
-            public const string customerUserTableName = "Customers";
+            public const string CustomerUserTableName = "Customers";
             
-            public const string companyPetRepresentativeTableName = "CompanyWorkers";
+            public const string CompanyPetRepresentativeTableName = "CompanyWorkers";
 
-            public const string unregisteredPetRepresentativeTableName = "CustomRepresentatives";
+            public const string UnregisteredPetRepresentativeTableName = "CustomRepresentatives";
 
-            public const string petTableName = "Pets";
+            public const string PetTableName = "Pets";
 
-            public const string extraPetOptionTableName = "ExtraPetOptions";
+            public const string ExtraPetOptionTableName = "ExtraPetOptions";
 
-            public const string baseCommentsTableName = "Comments";
+            public const string BaseCommentsTableName = "Comments";
         }
 
         public static class Sizes
         {
-            public const int userNameLength = 32;
+            public const int UserNameLength = 32;
 
-            public const int profileImageMax = 1024 * 1024; // up to one mb photo
+            public const int ProfileImageMax = 1024 * 1024; // up to one mb photo
 
-            public const int emailLenght = 256;
+            public const int EmailLenght = 256;
 
-            public const int phoneNumberLength = 20;
+            public const int PhoneNumberLength = 20;
 
-            public const int shortTitlesLength = 50;
+            public const int ShortTitlesLength = 50;
 
-            public const int shortDescriptionLength = 400;
+            public const int ShortDescriptionLength = 400;
 
-            public const int descriptionLength = 4096;
+            public const int DescriptionLength = 4096;
 
-            public const int commentMaxLength = 1024;
+            public const int CommentMaxLength = 1024;
         }
     }
 }

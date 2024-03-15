@@ -14,7 +14,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
     {
         public void Configure(EntityTypeBuilder<BaseComment> builder)
         {
-            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.baseCommentsTableName);
+            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.BaseCommentsTableName);
 
             builder.HasKey(x => x.Id);
 
@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
                 .IsRequired();
 
             builder.Property(x => x.Text)
-                .HasMaxLength(ConstantsForEFCore.Sizes.commentMaxLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.CommentMaxLength)
                 .IsRequired();
 
             builder.HasOne(x => x.Author)

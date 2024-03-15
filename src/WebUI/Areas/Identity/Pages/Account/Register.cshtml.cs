@@ -74,7 +74,7 @@ namespace WebUI.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [MinLength(4)]
-            [MaxLength(ConstantsForEFCore.Sizes.userNameLength)]
+            [MaxLength(ConstantsForEFCore.Sizes.UserNameLength)]
             [Display(Name = "Username")]
             //[Remote(action: "VerifyUserName", controller: "Users")]
             public string Username { get; set; }

@@ -15,10 +15,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<Company> builder)
         {
-            builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.companyTableName);
+            builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.CompanyTableName);
 
             builder.Property(x => x.CompanyDescription)
-                .HasMaxLength(ConstantsForEFCore.Sizes.descriptionLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.DescriptionLength);
 
             builder.HasMany(x => x.CompanyPetRepresentatives)
                 .WithOne(x => x.CompanyRepresented)

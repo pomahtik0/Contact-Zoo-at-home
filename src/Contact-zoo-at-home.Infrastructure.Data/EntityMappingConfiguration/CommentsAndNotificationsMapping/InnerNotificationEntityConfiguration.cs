@@ -20,11 +20,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
             builder.Property(x => x.Status).IsRequired();
 
             builder.Property(x => x.Title)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 
             builder.Property(x => x.Text)
-                .HasMaxLength(ConstantsForEFCore.Sizes.commentMaxLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.CommentMaxLength)
                 .IsRequired();
 
             builder.HasOne(x => x.NotificationTarget)

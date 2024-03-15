@@ -12,7 +12,7 @@ namespace WebUI.Models.User
         public string? PhoneNumber { get; set; }
 
         [Required(AllowEmptyStrings = true)]
-        [MaxLength(ConstantsForEFCore.Sizes.shortTitlesLength, ErrorMessage = "Name to long!")]
+        [MaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength, ErrorMessage = "Name to long!")]
         public string FullName { get; set; }
 
         [EmailAddress]

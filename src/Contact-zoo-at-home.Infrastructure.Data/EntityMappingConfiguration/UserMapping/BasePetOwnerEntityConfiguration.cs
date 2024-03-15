@@ -13,7 +13,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<BasePetOwner> builder)
         {
-            builder.HasBaseType(typeof(BaseUser)).ToTable(ConstantsForEFCore.TableNames.basePetOwnerTableName);
+            builder.HasBaseType(typeof(BaseUser)).ToTable(ConstantsForEFCore.TableNames.BasePetOwnerTableName);
 
             builder.HasMany(x => x.ActiveContracts)
                 .WithOne(x => x.Contractor)

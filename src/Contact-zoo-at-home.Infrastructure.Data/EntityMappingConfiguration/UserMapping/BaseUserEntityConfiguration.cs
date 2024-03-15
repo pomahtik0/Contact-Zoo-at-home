@@ -16,7 +16,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.baseUserTableName);
+            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.BaseUserTableName);
 
             builder.HasKey(x => x.Id);
 
@@ -26,23 +26,23 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 
             builder.Property(x => x.FullName)
                 .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
             builder.Property(x => x.UserName)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.userNameLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.UserNameLength);
 
             builder.Property(x => x.ProfileImage)
                 .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.profileImageMax);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ProfileImageMax);
 
             builder.Property(x => x.ContactPhone)
                 .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.phoneNumberLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.PhoneNumberLength);
 
             builder.Property(x => x.ContactEmail)
                 .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.emailLenght);
+                .HasMaxLength(ConstantsForEFCore.Sizes.EmailLenght);
 
             builder.Property(x => x.Rating)
                 .HasColumnType("decimal(3,2)")

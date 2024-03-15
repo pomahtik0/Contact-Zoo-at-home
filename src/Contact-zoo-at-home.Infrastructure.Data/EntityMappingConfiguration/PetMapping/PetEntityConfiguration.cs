@@ -17,15 +17,15 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
             builder.Property(x => x.ShortDescription)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortDescriptionLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortDescriptionLength);
 
             builder.Property(x => x.Description)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.descriptionLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.DescriptionLength);
 
             builder.Property(x => x.Price)
                 .IsRequired();
@@ -35,15 +35,15 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 
             builder.Property(x => x.Color)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
             builder.Property(x => x.Species)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
             builder.Property(x => x.SubSpecies)
                 .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength);
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
             builder.Property(x => x.Rating)
                 .IsRequired()
@@ -73,11 +73,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
                 petOptionBuilder.ToTable("PetOptions").HasKey(x => x.Id);
 
                 petOptionBuilder.Property(e => e.OptionValue)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 
                 petOptionBuilder.Property(e => e.OptionName)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 
                 petOptionBuilder.Property(e => e.OptionLanguage)
@@ -90,11 +90,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             {
                 petImageBuilder.ToTable("PetImages").HasKey(x => x.Id);
                 petImageBuilder.Property(x => x.ImageName)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired(false);
 
                 petImageBuilder.Property(x => x.Image)
-                .HasMaxLength(ConstantsForEFCore.Sizes.profileImageMax)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ProfileImageMax)
                 .IsRequired();
             });
 

@@ -15,7 +15,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<CompanyPetRepresentative> builder)
         {
-            builder.HasBaseType<BaseUser>().ToTable(ConstantsForEFCore.TableNames.companyPetRepresentativeTableName);
+            builder.HasBaseType<BaseUser>().ToTable(ConstantsForEFCore.TableNames.CompanyPetRepresentativeTableName);
 
             builder.HasMany(x => x.ContractsToRepresent)
                 .WithMany(x => x.PetRepresentatives)

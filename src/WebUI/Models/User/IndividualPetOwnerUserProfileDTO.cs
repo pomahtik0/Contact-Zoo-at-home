@@ -4,7 +4,7 @@ namespace WebUI.Models.User
 {
     public class IndividualPetOwnerUserProfileDTO : UserProfileDTO
     {
-        [MaxLength(ConstantsForEFCore.Sizes.shortDescriptionLength, ErrorMessage = "Description to big!")]
+        [MaxLength(ConstantsForEFCore.Sizes.ShortDescriptionLength, ErrorMessage = "Description to big!")]
         public string ShortDescription { get; set; }
     }
 }

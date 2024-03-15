@@ -24,7 +24,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
 
             builder.Property(x => x.StatusOfTheContract).IsRequired();
 
-            builder.Property(x => x.ContractAdress).HasMaxLength(ConstantsForEFCore.Sizes.commentMaxLength).IsRequired();
+            builder.Property(x => x.ContractAdress).HasMaxLength(ConstantsForEFCore.Sizes.CommentMaxLength).IsRequired();
 
             builder.HasMany(x => x.PetsInContract)
                 .WithMany()

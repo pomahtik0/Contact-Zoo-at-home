@@ -14,16 +14,16 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
     {
         public void Configure(EntityTypeBuilder<UnregisteredPetRepresentative> builder)
         {
-            builder.ToTable(ConstantsForEFCore.TableNames.unregisteredPetRepresentativeTableName);
+            builder.ToTable(ConstantsForEFCore.TableNames.UnregisteredPetRepresentativeTableName);
 
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.FullName)
-                .HasMaxLength(ConstantsForEFCore.Sizes.shortTitlesLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 
             builder.Property(x => x.ContactPhone)
-                .HasMaxLength(ConstantsForEFCore.Sizes.phoneNumberLength)
+                .HasMaxLength(ConstantsForEFCore.Sizes.PhoneNumberLength)
                 .IsRequired();
 
             builder.HasOne(x => x.ContractToRepresent)
