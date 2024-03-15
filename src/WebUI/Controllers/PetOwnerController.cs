@@ -32,6 +32,12 @@ namespace WebUI.Controllers
             return View(c_settingsFolder + "UserPets", mappedPets);
         }
 
+        [Route("Users/Settings/MyPets/CreateNewPet")]
+        public async Task<IActionResult> CreateNewPet()
+        {
+            return View(c_settingsFolder + "Pet/CreateNewPet");
+        }
+
         public async Task<IActionResult> Contracts()
         {
             throw new NotImplementedException();
