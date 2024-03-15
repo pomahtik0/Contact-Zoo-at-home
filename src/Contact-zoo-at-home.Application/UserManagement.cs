@@ -121,9 +121,12 @@ namespace Contact_zoo_at_home.Application
             using(ApplicationDbContext appContext = new ApplicationDbContext())
             {
                 var ownedPets = await appContext.Pets.Where(pet => pet.Owner.Id == id).AsNoTracking().ToListAsync();
+                //var ownedPets = await appContext.PetOwners.Where(user => user.Id == id).Select(user => user.OwnedPets).AsNoTracking().ToListAsync();
                 return ownedPets;
             }
             throw new Exception("Database: no connection");
         }
+
+
     }
 }
