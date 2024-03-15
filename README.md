@@ -107,3 +107,6 @@ Represents action only within app.
   - Register new companies;
   - Freeze contracts if needed;
   - Freeze payment if needed (actualy == freezing contracts).
+
+## Database
+![Relations in Database](extra/Diagrams/DatabaseRelations.png)
