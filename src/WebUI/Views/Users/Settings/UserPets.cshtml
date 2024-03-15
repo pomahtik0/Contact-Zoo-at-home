@@ -3,3 +3,10 @@
     ViewData["CurrentId"] = "myPets";
     Layout = "/Views/Users/Settings/_Layout.cshtml";
 }
+@model IList<WebUI.Models.User.Settings.ShowPetDTO>
+
+@foreach(var pet in Model)
+{
+    @pet.Name @pet.Species @pet.Status @pet.Price @pet.Rating
+    <br />
+}

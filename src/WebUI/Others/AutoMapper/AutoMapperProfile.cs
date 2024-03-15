@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using WebUI.Models.User;
+using WebUI.Models.User.Settings;
 
 namespace WebUI.Others.AutoMapper
 {
@@ -23,6 +25,10 @@ namespace WebUI.Others.AutoMapper
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
                 .ReverseMap();
+
+            AllowNullCollections = true;
+            CreateMap<Pet, ShowPetDTO>()
+                .ForMember(dest =>dest.Species, opt=>opt.MapFrom(src=>$"{src.Species} {src.SubSpecies}"));
         }
     }
 }

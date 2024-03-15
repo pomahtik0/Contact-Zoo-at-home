@@ -1,13 +1,9 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application
 {
@@ -118,6 +114,16 @@ namespace Contact_zoo_at_home.Application
 
                 await applicationContext.SaveChangesAsync();
             }
+        }
+
+        public static async Task<IList<Pet>> GetAllUserPetsAsync(int id)
+        {
+            using(ApplicationDbContext appContext = new ApplicationDbContext())
+            {
+                var ownedPets = await appContext.Pets.Where(pet => pet.Owner.Id == id).AsNoTracking().ToListAsync();
+                return ownedPets;
+            }
+            throw new Exception("Database: no connection");
         }
     }
 }
