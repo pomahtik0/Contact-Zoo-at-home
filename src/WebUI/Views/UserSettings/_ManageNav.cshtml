@@ -17,9 +17,9 @@
 }
 
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profile")" id="profile" asp-controller="Users" asp-action="Profile">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profileSettings")" id="profileSettings" asp-controller="Users" asp-action="ProfileSettings">Profile Settings</a></li>
-    <li class="nav-item"><a class="nav-link @SetActive(currentId, "changePassword")" id="changePassword" asp-controller="Users" asp-action="ChangePassword">Password</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profile")" id="profile" asp-controller="UserSettings" asp-action="Profile">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "profileSettings")" id="profileSettings" asp-controller="UserSettings" asp-action="ProfileSettings">Profile Settings</a></li>
+    <li class="nav-item"><a class="nav-link @SetActive(currentId, "changePassword")" id="changePassword" asp-controller="UserSettings" asp-action="ChangePassword">Password</a></li>
 
     @if(Role == Roles.IndividualPetOwner || Role == Roles.Company)
     {

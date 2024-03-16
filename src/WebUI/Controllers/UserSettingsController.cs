@@ -13,17 +13,15 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace WebUI.Controllers
 {
     [Authorize]
-    public class UsersController : Controller
+    public class UserSettingsController : Controller
     {
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<UserSettingsController> _logger;
         private readonly SignInManager<ApplicationIdentityUser> _signInManager;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IUserStore<ApplicationIdentityUser> _userStore;
         private readonly IMapper _mapper;
 
-        private const string c_profileSettingsAddress = "Settings/ProfileSettings";
-
-        public UsersController(ILogger<UsersController> logger, 
+        public UserSettingsController(ILogger<UserSettingsController> logger, 
             SignInManager<ApplicationIdentityUser> signInManager, 
             UserManager<ApplicationIdentityUser> userManager, 
             IUserStore<ApplicationIdentityUser> userStore, 
@@ -34,20 +32,6 @@ namespace WebUI.Controllers
             _userManager = userManager;
             _userStore = userStore;
             _mapper = mapper;
-        }
-
-        private ApplicationIdentityUser CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<ApplicationIdentityUser>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationIdentityUser)}'. " +
-                    $"Ensure that '{nameof(ApplicationIdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-            }
         }
 
         private async Task<UserProfileDTO> LoadUserDTOByIdAsync(int id)
@@ -93,7 +77,7 @@ namespace WebUI.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError(string.Empty, "Data not valid");
-                return View(c_profileSettingsAddress, profile);
+                return View("ProfileSettings", profile);
             }
             BaseUser baseUser = DTOToBaseUser(profile);
             baseUser.Id = Convert.ToInt32(userId);
@@ -103,16 +87,16 @@ namespace WebUI.Controllers
             await task;
 
             profile.StatusMessage = "Your profile has been updated";
-            return View(c_profileSettingsAddress, profile);
+            return View("ProfileSettings", profile);
         }
 
-        [Route("Users/Settings/Profile")]
+        [Route("User/Settings/Profile")]
         public IActionResult Profile()
         {
-            return View("Settings/Profile");
+            return View("Profile");
         }
 
-        [Route("Users/Settings/ProfileSettings")]
+        [Route("User/Settings/ProfileSettings")]
         public async Task<IActionResult> ProfileSettings()
         {
             string? userId = _userManager.GetUserId(User);
@@ -122,13 +106,13 @@ namespace WebUI.Controllers
             }
 
             UserProfileDTO profile = await LoadUserDTOByIdAsync(Convert.ToInt32(userId));
-            return View(c_profileSettingsAddress, profile);
+            return View("ProfileSettings", profile);
         }
 
-        [Route("Users/Settings/ChangePassword")]
+        [Route("User/Settings/ChangePassword")]
         public IActionResult ChangePassword()
         {
-            return View("Settings/ChangePassword");
+            return View("ChangePassword");
         }
 
         [HttpPost]
@@ -171,7 +155,7 @@ namespace WebUI.Controllers
             _logger.LogInformation("User changed their password successfully.");
             changePasswordModel.StatusMessage = "Your password has been changed.";
 
-            return View("Settings/ChangePassword", changePasswordModel);
+            return View("ChangePassword", changePasswordModel);
         }
 
     }

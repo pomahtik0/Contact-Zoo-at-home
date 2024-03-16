@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "_Layout";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Manage your account</h1>
@@ -9,7 +9,7 @@
     <hr />
     <div class="row">
         <div class="col-md-3">
-            <partial name="/Views/Users/Settings/_ManageNav.cshtml" />
+            <partial name="/Views/UserSettings/_ManageNav.cshtml" />
         </div>
         <div class="col-md-9">
             @RenderBody()
