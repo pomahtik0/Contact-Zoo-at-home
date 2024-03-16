@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoMapperTest", "test\Auto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinificationAndBundling(.ts-.scss)Test", "test\MinificationAndBundling(.ts-.scss)Test\MinificationAndBundling(.ts-.scss)Test.csproj", "{38373C2B-F075-4B07-9E06-7F15B56471D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact-zoo-at-home.Application", "src\Contact-zoo-at-home.Application\Contact-zoo-at-home.Application.csproj", "{CB6257B1-E2F7-4714-8B89-9341EF3B7C04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.Application", "src\Contact-zoo-at-home.Application\Contact-zoo-at-home.Application.csproj", "{CB6257B1-E2F7-4714-8B89-9341EF3B7C04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -24,7 +24,26 @@ namespace Contact_zoo_at_home.Application
                 dbContext.Attach(pet);
                 await dbContext.SaveChangesAsync();
             }
-
+        }
+        public static async Task<Pet> GetPetByIdAsync(int id)
+        {
+            using(ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var pet = await context.Pets.Where(pet => pet.Id == id).AsNoTracking().FirstAsync();
+                return pet;
+            }
+        }
+        public static async Task UpdatePetAsync(Pet pet)
+        {
+            if (pet == null)
+            {
+                throw new ArgumentNullException();
+            }
+            using (ApplicationDbContext dbContext = new ApplicationDbContext()) 
+            {
+                throw new NotImplementedException();
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

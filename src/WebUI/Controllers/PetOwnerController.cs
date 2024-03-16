@@ -39,12 +39,21 @@ namespace WebUI.Controllers
             return View(c_settingsFolder + "Pet/CreateNewPet");
         }
 
+        [Route("Users/Settings/MyPets/EditPet")]
+        public async Task<IActionResult> EditPet(int id)
+        {
+            var pet = await PetManagement.GetPetByIdAsync(id);
+            var petUpdateModel = _mapper.Map<CreateOrRedactPetModel>(pet);
+            return View(c_settingsFolder + "Pet/EditPet", petUpdateModel);
+        }
+
         public async Task<IActionResult> Contracts()
         {
             throw new NotImplementedException();
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateNewPetPost(CreateOrRedactPetModel model)
         {
             int userId = Convert.ToInt32(_userManager.GetUserId(User));
@@ -52,6 +61,19 @@ namespace WebUI.Controllers
             {
                 var newPet = _mapper.Map<Pet>(model);
                 await PetManagement.CreateNewPetAsync(newPet, userId);
+                return RedirectToAction("Pets");
+            }
+            return View(c_settingsFolder + "Pet/CreateNewPet", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePet(CreateOrRedactPetModel model)
+        {
+            int userId = Convert.ToInt32(_userManager.GetUserId(User));
+            if (ModelState.IsValid)
+            {
+                var updatedPet = _mapper.Map<Pet>(model);
+                await PetManagement.UpdatePetAsync(updatedPet);
                 return RedirectToAction("Pets");
             }
             return View(c_settingsFolder + "Pet/CreateNewPet", model);
