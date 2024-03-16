@@ -7,6 +7,13 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+
+    <li class="nav-item">
+            <a id="petBasket" class="nav-link text-dark position-relative">
+                <span id="petBasketBadge" class="badge bg-secondary position-absolute top-0 start-0 rounded-circle"></span>
+            К
+        </a>
+    </li>
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-controller="UserSettings" asp-action="Profile" title="Manage">Hello @UserManager.GetUserName(User)!</a>
     </li>
