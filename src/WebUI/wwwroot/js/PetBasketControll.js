@@ -10,6 +10,9 @@ function addToCart(id) {
 function showNumberOfElementsInBasket() {
     // Get the element by ID
     var changeMeElement = document.getElementById("petBasketBadge");
+    if (changeMeElement == null) {
+        return;
+    }
     var existingCart = JSON.parse(sessionStorage.getItem("MyCart")) || [];
     if (existingCart.length == 0) {
         changeMeElement.textContent = "";
@@ -18,6 +21,9 @@ function showNumberOfElementsInBasket() {
     else {
         changeMeElement.textContent = existingCart.length.toString();
     }
+}
+function clearBasket() {
+    sessionStorage.removeItem("MyCart");
 }
 document.addEventListener("DOMContentLoaded", showNumberOfElementsInBasket);
 //# sourceMappingURL=PetBasketControll.js.map
