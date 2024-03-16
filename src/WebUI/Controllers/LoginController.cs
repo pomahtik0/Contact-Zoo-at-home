@@ -131,5 +131,13 @@ namespace WebUI.Controllers
             // If we got this far, something failed, redisplay form
             return View("Register", registerModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
