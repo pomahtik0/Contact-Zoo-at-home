@@ -44,14 +44,12 @@ namespace WebUI.Controllers
         }
 
         [Route("Login")]
-        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
         [Route("Register")]
-        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
