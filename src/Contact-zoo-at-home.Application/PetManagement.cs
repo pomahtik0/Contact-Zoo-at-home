@@ -57,5 +57,14 @@ namespace Contact_zoo_at_home.Application
                 return (pets, pages);
             }
         }
+
+        public static async Task<IList<Pet>?> GetPetsAsync(IEnumerable<int> Ids)
+        {
+            using (ApplicationDbContext dbContext = new ApplicationDbContext())
+            {
+                var pets = await dbContext.Pets.Where(pet => Ids.Contains(pet.Id)).AsNoTracking().ToListAsync();
+                return pets;
+            }
+        }
     }
 }

@@ -22,4 +22,30 @@ function showNumberOfElementsInBasket() {
 function clearBasket() {
     sessionStorage.removeItem("MyCart");
 }
+
+async function openBasket() {
+    if (document.getElementById("partialBasket") === null) { return; }
+    console.log("running async");
+    try {
+        const response = await fetch("Basket/MyPetBasket", {
+            method: "Post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: (JSON.stringify(JSON.parse(sessionStorage.getItem("MyCart")) || [])),
+        }); // Replace with your API endpoint
+        if (response.ok) {
+            const partialHtml = await response.text();
+            document.getElementById("partialBasket").innerHTML = partialHtml;
+            return response;
+        } else {
+            console.error('Error fetching data:', response.statusText);
+        }
+    }
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", openBasket);
 document.addEventListener("DOMContentLoaded", showNumberOfElementsInBasket)
