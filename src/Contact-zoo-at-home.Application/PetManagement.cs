@@ -25,6 +25,7 @@ namespace Contact_zoo_at_home.Application
                 await dbContext.SaveChangesAsync();
             }
         }
+
         public static async Task<Pet> GetPetByIdAsync(int id)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
@@ -34,6 +35,10 @@ namespace Contact_zoo_at_home.Application
             }
         }
 
+        /// <summary>
+        /// Method updates only pet's base properties.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">if pet is null.</exception>
         public static async Task UpdatePetAsync(Pet pet)
         {
             if (pet == null)
@@ -42,10 +47,14 @@ namespace Contact_zoo_at_home.Application
             }
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
+                // setting entity to update.
                 dbContext.Update(pet);
+                
                 //dbContext.Entry(pet).Property(x => x.Comments).IsModified = false;
                 //dbContext.Entry(pet).Property(x => x.BlockedDates).IsModified = false;
                 //dbContext.Entry(pet).Property(x => x.Owner).IsModified = false;
+
+                // changing tracking.
                 dbContext.Entry(pet).Property(x => x.Rating).IsModified = false;
                 dbContext.Entry(pet).Property(x => x.RatedBy).IsModified = false;
                 dbContext.Entry(pet).Property(x => x.RestorationTimeInDays).IsModified = false;
