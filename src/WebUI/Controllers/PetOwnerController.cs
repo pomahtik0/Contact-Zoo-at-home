@@ -86,10 +86,10 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewPetOption(CreateOrRedactPetModel model)
+        public async Task<IActionResult> AddNewPetOption(IList<ExtraPetOptionsDTO> PetOptions)
         {
-            model.PetOptions.Add(new ExtraPetOptionsDTO());
-            return PartialView(c_settingsFolder + "Pet/_ExtraPetOptions.cshtml", model.PetOptions);
+            PetOptions.Add(new ExtraPetOptionsDTO());
+            return PartialView(c_settingsFolder + "Pet/_ExtraPetOptions.cshtml", PetOptions);
         }
 
         [HttpPost]
