@@ -65,7 +65,7 @@ namespace WebUI.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, loginModel.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation($"User logged in {_userManager.GetUserId(User)}");
                     return RedirectToAction("Index", "Home");
                 }
                 if (result.RequiresTwoFactor)
@@ -82,6 +82,7 @@ namespace WebUI.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    _logger.LogInformation("Invalid login attempt.");
                     loginModel.Password = "";
                     return View("Login", loginModel);
                 }
@@ -93,7 +94,6 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> TryToRegister(RegisterModel registerModel)
         {
-            _logger.LogDebug($"{registerModel.Username} {registerModel.Password} {registerModel.Role}");
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -106,17 +106,19 @@ namespace WebUI.Controllers
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User created a new Identity account.");
 
 
                     var otherDbCreateResult = await UserManagement.TryCreateNewUserAsync(user);
 
                     if (otherDbCreateResult)
                     {
+                        _logger.LogInformation("User was successfully created in the inner DB.");
                         return RedirectToAction("Index", "Home");
                     }
                     else
                     {
+                        _logger.LogError("Failed to create user in the inner DB, deleting identity user.");
                         // reverting changes
                         await _userManager.DeleteAsync(user);
                         ModelState.AddModelError(string.Empty, "Something went wrong while creating second user");
@@ -132,7 +134,6 @@ namespace WebUI.Controllers
             return View("Register", registerModel);
         }
 
-        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

@@ -85,6 +85,7 @@ namespace WebUI.Controllers
 
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
             await task;
+            _logger.LogInformation("User information was updated.");
 
             profile.StatusMessage = "Your profile has been updated";
             return View("ProfileSettings", profile);
