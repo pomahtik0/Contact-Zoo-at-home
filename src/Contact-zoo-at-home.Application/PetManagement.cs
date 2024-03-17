@@ -42,7 +42,13 @@ namespace Contact_zoo_at_home.Application
             }
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
-                throw new NotImplementedException();
+                dbContext.Update(pet);
+                //dbContext.Entry(pet).Property(x => x.Comments).IsModified = false;
+                //dbContext.Entry(pet).Property(x => x.BlockedDates).IsModified = false;
+                //dbContext.Entry(pet).Property(x => x.Owner).IsModified = false;
+                dbContext.Entry(pet).Property(x => x.Rating).IsModified = false;
+                dbContext.Entry(pet).Property(x => x.RatedBy).IsModified = false;
+                dbContext.Entry(pet).Property(x => x.RestorationTimeInDays).IsModified = false;
                 await dbContext.SaveChangesAsync();
             }
         }

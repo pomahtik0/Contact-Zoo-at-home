@@ -6,7 +6,7 @@
 
 @model WebUI.Models.Pet.CreateOrRedactPetModel
 <form method="post">
-    <h2>Create new pet:</h2>
+    <h2>@ViewData["Title"]:</h2>
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-floating mb-0">
         <input asp-for="Name" class="form-control" />
@@ -55,9 +55,9 @@
         <label asp-for="SubSpecies" class="form-label">SubSpecies</label>
         <span asp-validation-for="SubSpecies" class="text-danger"></span>
     </div>
-
+    <input type="hidden" asp-for="Id"/>
     <div>
-        <button asp-controller="PetOwner" asp-action="UpdatePet" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
+        <button asp-controller="PetOwner" asp-action="UpdatePet" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
     </div>
     @*ToDo: custom user options + Activity Type + CurrentPetStatus*@
 </form>
