@@ -1,0 +1,25 @@
+﻿@model IList<WebUI.Models.Pet.ExtraPetOptionsDTO>
+@{
+    int i = 0;
+}
+@foreach(var option in Model)
+{
+    <div id="petOption @i" class="border border-1 border-secondary row row-cols-md-4 m-md-3 p-md-2">
+        <div class="form-floating">
+            <input asp-for="@option.OptionName" name="PetOptions[@i].OptionName" id="PetOptions[@i].OptionName" class="form-control" />
+            <label for="PetOptions[@i].OptionName" class="form-label">Option Name</label>
+        </div>
+
+        <div class="form-floating">
+            <input asp-for="@option.OptionValue" id="PetOptions[@i].OptionValue" name="PetOptions[@i].OptionValue" class="form-control" />
+            <label for="PetOptions[@i].OptionValue" class="form-label">Option Value</label>
+        </div>
+        <div class="form-floating align-self-center">
+            <input asp-for="@option.OptionLanguage" name="PetOptions[@i].OptionLanguage" type="hidden" />
+            <input asp-for="@option.Id" name="PetOptions[@i].Id" type="hidden" />
+            <button type="button" class="btn btn-danger" onclick="removeItem_PetOption(@i)">Del</button>
+        </div>
+    </div>
+    i++;
+}
+

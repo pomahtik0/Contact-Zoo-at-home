@@ -1,0 +1,15 @@
+﻿@model IList<WebUI.Models.User.Settings.ShowPetDTO>?
+
+@if (Model == null || Model.Count == 0)
+{
+    <div>
+        Basket Is Empty!
+    </div>
+}
+else
+{
+    @foreach(var pet in Model)
+    {
+        <partial name="/Views/Home/_PetCard.cshtml" model="pet"/>
+    }
+}

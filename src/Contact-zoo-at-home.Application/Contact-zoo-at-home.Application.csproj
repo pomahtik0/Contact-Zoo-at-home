@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Contact_zoo_at_home.Application</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contact-zoo-at-home.Core\Contact-zoo-at-home.Core.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Infrastructure.Data\Contact-zoo-at-home.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Infrastructure.Identity\Contact-zoo-at-home.Infrastructure.Identity.csproj" />
+  </ItemGroup>
+
+</Project>

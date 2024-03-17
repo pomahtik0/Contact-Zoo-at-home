@@ -1,0 +1,116 @@
+﻿using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Users;
+using Contact_zoo_at_home.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Contact_zoo_at_home.Core.Entities.Pets
+{
+    public class Pet
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string ShortDescription { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public double Price { get; set; }
+        public double Weight { get; set; }
+        public string Color { get; set; } = string.Empty;
+        public string Species { get; set; } = string.Empty;
+        public string SubSpecies {  get; set; } = string.Empty;
+        public IList<ExtraPetOption> PetOptions { get; set; } = [];
+        public IList<PetComment> Comments { get; } = [];
+        public PetActivityType ActivityType { get; set; }
+        public PetStatus CurrentPetStatus { get; set; }
+
+        #region DatesManagementLogic
+        // ToDo: Work in progress
+        public int RestorationTimeInDays { get; set; } = 2; // All pets need time for rest after they meet humans.
+        public IList<PetBlockedDate> BlockedDates { get; set; } = []; // Dates when you cant order a pet.
+
+        #endregion
+
+        #region Relations
+        public BasePetOwner Owner { get; set; }
+
+        #endregion
+
+        #region Images
+
+        /// <summary>
+        /// Returns profile image or null if there are no images of a pet
+        /// </summary>
+        public PetImage? ProfileImage { get => PetImages.FirstOrDefault(); }
+
+        /// <summary>
+        /// Returns collection as readOnly, consider using Add, Remove and Set methods if you want to change collection.
+        /// </summary>
+        public IList<PetImage> PetImages { get; } = [];
+
+        /// <summary>
+        /// Sets new profile image, by making a swap in the collection.
+        /// </summary>
+        /// <param name="index">index of the new profile image.</param>
+        /// <exception cref="IndexOutOfRangeException">Index out of range</exception>
+        public void SetProfileImage(int index)
+        {
+            throw new NotImplementedException();
+            // setting profile image logic
+        }
+        
+        /// <summary>
+        /// Adds new image to the collection of images.
+        /// </summary>
+        /// <param name="image">image to add in byte format.</param>
+        public void AddPetImage(byte[] image)
+        {
+            throw new NotImplementedException();
+            // Adding image logic
+        }
+
+        /// <summary>
+        /// Removes image from the collection by it's index.
+        /// </summary>
+        /// <param name="index">Index within collection.</param>
+        /// <exception cref="IndexOutOfRangeException">Index out of range</exception>
+        public void RemovePetImage(int index) 
+        {
+            throw new NotImplementedException();
+            //removing Pet Image
+        }
+        #endregion
+
+        #region Rating
+
+        public float Rating { get; private set; }
+
+        public int RatedBy { get; private set; }
+
+        /// <summary>
+        /// Adding new mark to the rating.
+        /// </summary>
+        /// <param name="addingRateMark">Mark to add to the current rating.</param>
+        /// <returns>returns new rating.</returns>
+        public float AddToRating(float addingRateMark) // ToDo: Check calculations
+        {
+            if (RatedBy == 0)
+            {
+                this.Rating = addingRateMark;
+            }
+            else
+            {
+                this.Rating = (this.Rating + addingRateMark / RatedBy) * ((float)RatedBy / RatedBy + 1);
+            }
+
+            RatedBy++;
+            return this.Rating;
+        }
+
+        #endregion
+
+    }
+}

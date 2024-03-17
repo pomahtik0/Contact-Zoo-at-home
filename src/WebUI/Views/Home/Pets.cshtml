@@ -1,0 +1,9 @@
+﻿@model WebUI.Models.Pet.PetSelectionPage
+@{
+    ViewData["Title"] = $"Pets page {Model.Page}";
+}
+
+@foreach(var pet in Model.PetsOnPage)
+{
+    <partial name="_PetCard" model="pet" />
+}

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Contact-zoo-at-home.Core\Contact-zoo-at-home.Core.csproj" />
+    <ProjectReference Include="..\..\src\Contact-zoo-at-home.Infrastructure.Data\Contact-zoo-at-home.Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+</Project>

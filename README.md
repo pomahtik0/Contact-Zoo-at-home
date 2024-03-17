@@ -60,6 +60,53 @@ In case one of the pets can't be a part of the contract anymore(before delivery)
 
 ### Other
 
+## Use cases
 
-## ToDo List
-- [ ] ToDo ToDo List
+Represents action only within app.
+
+1. Unauthorized User:
+  - Watch pets;
+  - Watch comments;
+  - Watch companies etc;
+  - Form PetCart, if possible, but no ordering.
+  
+2. Authorized User:
+  - All above;
+  - Leave comments.
+
+3. CustomerUser:
+  - Can do everything Authorized User can;
+  - But also make orders;
+  - Look through his current orders;
+  - Decline current order (with some refund logic);
+  - ReAccept order if some changes were made;
+  - And rate pets after order is finished.
+
+4. PetOwner:
+  - Can do everething Authorized User can;
+  - Add new of his pets;
+  - Look through new contracts;
+  - Look through active contracts;
+  - Look through closed contracts;
+  - Accept new contracts making them active;
+  - Modify new or active contracts;
+  - Remove pets if they were bought or smt;
+  - Set his pets as imposible to order.
+  - Sign unregistered user as his pet representative in contract.
+
+5. CompanyAsUser:
+  - Can do everething Authorized User can;
+  - Can do everething PetOwner can;
+  - Add new employees to the app.
+
+6. PetRepresentative:
+  - Can do everething Authorized User can;
+  - Can look through contracts that he is involved in.
+
+7. SiteAdmin:
+  - Register new companies;
+  - Freeze contracts if needed;
+  - Freeze payment if needed (actualy == freezing contracts).
+
+## Database
+![Relations in Database](extra/Diagrams/DatabaseRelations.png)
