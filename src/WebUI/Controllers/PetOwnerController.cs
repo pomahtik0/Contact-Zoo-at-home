@@ -17,7 +17,7 @@ namespace WebUI.Controllers
         private readonly ILogger<PetOwnerController> _logger;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IMapper _mapper;
-        private const string c_settingsFolder = "../Users/Settings/";
+        private const string c_settingsFolder = "Views/UserSettings/";
 
         public PetOwnerController(ILogger<PetOwnerController> logger, UserManager<ApplicationIdentityUser> userManager, IMapper mapper)
         {
@@ -32,13 +32,13 @@ namespace WebUI.Controllers
             int userId = Convert.ToInt32(_userManager.GetUserId(User));
             var pets = await UserManagement.GetAllUserPetsAsync(userId);
             var mappedPets = _mapper.Map<IList<Pet>, IList<ShowPetDTO>>(pets);
-            return View(c_settingsFolder + "UserPets", mappedPets);
+            return View(c_settingsFolder + "UserPets.cshtml", mappedPets);
         }
 
         [Route("Users/Settings/MyPets/CreateNewPet")]
         public async Task<IActionResult> CreateNewPet()
         {
-            return View(c_settingsFolder + "Pet/CreateNewPet");
+            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml");
         }
 
         [Route("Users/Settings/MyPets/EditPet")]
@@ -46,7 +46,7 @@ namespace WebUI.Controllers
         {
             var pet = await PetManagement.GetPetByIdAsync(id);
             var petUpdateModel = _mapper.Map<CreateOrRedactPetModel>(pet);
-            return View(c_settingsFolder + "Pet/EditPet", petUpdateModel);
+            return View(c_settingsFolder + "Pet/EditPet.cshtml", petUpdateModel);
         }
 
         public async Task<IActionResult> Contracts()
@@ -67,7 +67,7 @@ namespace WebUI.Controllers
                 await PetManagement.CreateNewPetAsync(newPet, userId);
                 return RedirectToAction("Pets");
             }
-            return View(c_settingsFolder + "Pet/CreateNewPet", model);
+            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", model);
         }
 
         [HttpPost]
@@ -82,7 +82,7 @@ namespace WebUI.Controllers
                 await PetManagement.UpdatePetAsync(updatedPet);
                 return RedirectToAction("Pets");
             }
-            return View(c_settingsFolder + "Pet/CreateNewPet", model);
+            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", model);
         }
     }
 }
