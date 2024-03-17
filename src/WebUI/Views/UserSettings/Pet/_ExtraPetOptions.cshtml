@@ -4,18 +4,21 @@
 }
 @foreach(var option in Model)
 {
-    <div id="petOption @i" class="border border-1 border-secondary">
-        <input asp-for="@option.OptionName" name="PetOptions[@i].OptionName" class="form-control" />
-        <label asp-for="@option.OptionName" class="form-label">Option Name</label>
-        <span asp-validation-for="@option.OptionName" class="text-danger"></span>
+    <div id="petOption @i" class="border border-1 border-secondary row row-cols-md-4 m-md-3 p-md-2">
+        <div class="form-floating">
+            <input asp-for="@option.OptionName" name="PetOptions[@i].OptionName" id="PetOptions[@i].OptionName" class="form-control" />
+            <label for="PetOptions[@i].OptionName" class="form-label">Option Name</label>
+        </div>
 
-        <input asp-for="@option.OptionValue" name="PetOptions[@i].OptionValue" class="form-control" />
-        <label asp-for="@option.OptionValue" class="form-label">Option Value</label>
-        <span asp-validation-for="@option.OptionValue" class="text-danger"></span>
-
-        <input asp-for="@option.OptionLanguage" name="PetOptions[@i].OptionLanguage" type="hidden" />
-        <input asp-for="@option.Id" name="PetOptions[@i].Id" type="hidden" />
-        <button type="button" class="btn btn-danger removeItem" onclick="removeItem_PetOption(@i)">Del</button>
+        <div class="form-floating">
+            <input asp-for="@option.OptionValue" id="PetOptions[@i].OptionValue" name="PetOptions[@i].OptionValue" class="form-control" />
+            <label for="PetOptions[@i].OptionValue" class="form-label">Option Value</label>
+        </div>
+        <div class="form-floating align-self-center">
+            <input asp-for="@option.OptionLanguage" name="PetOptions[@i].OptionLanguage" type="hidden" />
+            <input asp-for="@option.Id" name="PetOptions[@i].Id" type="hidden" />
+            <button type="button" class="btn btn-danger" onclick="removeItem_PetOption(@i)">Del</button>
+        </div>
     </div>
     i++;
 }
