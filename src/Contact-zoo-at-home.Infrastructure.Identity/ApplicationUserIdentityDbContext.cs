@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebUI.Areas.Identity.IdentityDbContext
+namespace Contact_zoo_at_home.Infrastructure.Identity
 {
     public class ApplicationUserIdentityDbContext : IdentityDbContext<ApplicationIdentityUser, IdentityRole<int>, int>
     {
         public ApplicationUserIdentityDbContext(DbContextOptions<ApplicationUserIdentityDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

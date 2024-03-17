@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.Infrastructure.Identity;
-using WebUI.Areas.Identity.IdentityDbContext;
 using WebUI.Others.AutoMapper;
 
 namespace WebUI
