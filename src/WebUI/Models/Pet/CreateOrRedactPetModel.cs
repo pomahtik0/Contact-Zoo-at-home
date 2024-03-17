@@ -1,6 +1,4 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebUI.Models.Pet
 {
@@ -28,8 +26,6 @@ namespace WebUI.Models.Pet
         [Required(AllowEmptyStrings = true)]
         public string SubSpecies { get; set; }
 
-        //public IList<ExtraPetOption> PetOptions { get; set; }
-        public PetActivityType ActivityType { get; set; }
-        public PetStatus CurrentPetStatus { get; set; }
+        public IList<ExtraPetOptionsDTO> PetOptions { get; set; }
     }
 }
