@@ -30,7 +30,7 @@ namespace Contact_zoo_at_home.Application
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                var pet = await context.Pets.Where(pet => pet.Id == id).AsNoTracking().FirstAsync();
+                var pet = await context.Pets.Where(pet => pet.Id == id).Include(pet => pet.PetOptions).AsNoTracking().FirstAsync();
                 return pet;
             }
         }

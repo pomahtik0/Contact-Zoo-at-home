@@ -5,7 +5,7 @@
 }
 
 @model WebUI.Models.Pet.CreateOrRedactPetModel
-<form method="post">
+<form id="form" method="post">
     <h2>@ViewData["Title"]:</h2>
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-floating mb-0">
@@ -55,13 +55,22 @@
         <label asp-for="SubSpecies" class="form-label">SubSpecies</label>
         <span asp-validation-for="SubSpecies" class="text-danger"></span>
     </div>
+
+    <div class="form-floating mb-0">
+        Other Pet Options:
+        <div id="patrialPetOptions">
+            <partial name="_ExtraPetOptions.cshtml" model="Model.PetOptions" />
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addNewItem_PetOption()"> Add new option</button>
+    </div>
+
     <input type="hidden" asp-for="Id"/>
     <div>
         <button asp-controller="PetOwner" asp-action="UpdatePet" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
     </div>
-    @*ToDo: custom user options + Activity Type + CurrentPetStatus*@
 </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/CreateRedactDeletePetOptions.js"></script>
 }
