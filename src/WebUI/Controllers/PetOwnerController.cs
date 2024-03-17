@@ -38,7 +38,7 @@ namespace WebUI.Controllers
         [Route("Users/Settings/MyPets/CreateNewPet")]
         public async Task<IActionResult> CreateNewPet()
         {
-            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml");
+            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", new CreateOrRedactPetModel());
         }
 
         [Route("Users/Settings/MyPets/EditPet")]
@@ -83,6 +83,20 @@ namespace WebUI.Controllers
                 return RedirectToAction("Pets");
             }
             return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewPetOption(CreateOrRedactPetModel model)
+        {
+            model.PetOptions.Add(new ExtraPetOptionsDTO());
+            return PartialView(c_settingsFolder + "Pet/_ExtraPetOptions.cshtml", model.PetOptions);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemovePetOption(IList<ExtraPetOptionsDTO> PetOptions, int itemToDelete)
+        {
+            PetOptions.RemoveAt(itemToDelete);
+            return PartialView(c_settingsFolder + "Pet/_ExtraPetOptions.cshtml", PetOptions);
         }
     }
 }

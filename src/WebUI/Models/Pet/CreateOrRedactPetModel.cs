@@ -26,6 +26,7 @@ namespace WebUI.Models.Pet
         [Required(AllowEmptyStrings = true)]
         public string SubSpecies { get; set; }
 
-        public IList<ExtraPetOptionsDTO> PetOptions { get; set; }
+        [MaxLength(10)]
+        public IList<ExtraPetOptionsDTO> PetOptions { get; set; } = [];
     }
 }
