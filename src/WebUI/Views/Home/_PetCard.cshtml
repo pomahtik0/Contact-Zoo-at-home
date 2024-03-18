@@ -3,18 +3,22 @@
 *@
 @model WebUI.Models.Pet.SimplePetCardDTO
 
-<div class="border border-primary mb-3" onclick="openPetCard(@Model.Id)">
-    Name: @Model.Name
-    <br />
-    Species and subspecies: @Model.Species
-    <br />
-    Price: @Model.Price$
-    <br />
-    Owner Name: @Model.OwnerName
-    <br />
-    Activity: @Model.ActivityType.ToString()
-    <br />
-    Rating: @Model.Rating
-    <br />
-    <button id="@Model.Id" onclick="addToCart(@Model.Id)">Add to basket</button>
+<div class="card">
+    <img class="card-img-top" alt="Imagine I am image">
+    <div class="card-body">
+        Name: @Model.Name
+        <br />
+        Species and subspecies: @Model.Species
+        <br />
+        Price: @Model.Price$
+        <br />
+        Owner Name: @Model.OwnerName
+        <br />
+        Activity: @Model.ActivityType.ToString()
+        <br />
+        Rating: @Model.Rating
+        <br />
+    </div>
+    <button type="button" onclick="openPetCard(@Model.Id)" data-bs-toggle="modal" data-bs-target="#modalContainer">More Info</button>
+    <button onclick="addToCart(@Model.Id)">Add to basket</button>
 </div>

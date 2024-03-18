@@ -3,10 +3,18 @@
     ViewData["Title"] = $"Pets page {Model.Page}";
 }
 
-@foreach(var pet in Model.PetsOnPage)
-{
-    <partial name="_PetCard" model="pet" />
-}
+<div class="d-flex flex-wrap">
+    @foreach(var pet in Model.PetsOnPage)
+    {
+        <partial name="_PetCard" model="pet" />
+    }
+</div>
+
+<div class="modal fade" id="modalContainer">
+    <div class="modal-dialog modal-dialog-centered" id="modelDialog">
+
+    </div>
+</div>
 
 @section Scripts{
     <script src="~/js/PetCardScript.js"></script>

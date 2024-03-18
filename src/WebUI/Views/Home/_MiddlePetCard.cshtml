@@ -2,3 +2,41 @@
     Pet card that is displayed when you click on the _PetCard in "shop".
 *@
 @model WebUI.Models.Pet.ComplexPetCardDTO
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@Model.Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        Species and subspecies: @Model.Species
+        <br />
+        Price: @Model.Price$
+        <br />
+        Owner Name: @Model.OwnerName
+        <br />
+        Activity: @Model.ActivityType.ToString()
+        <br />
+        Rating: @Model.Rating
+        <br />
+        Characteristics:
+        <br />
+        Weight: @Model.Weight kg
+        <br />
+        Color: @Model.Color
+        <br/>
+        @foreach(var option in Model.PetOptions)
+        {
+            <div>
+                @option.OptionName: @option.OptionValue
+            </div>
+            <br/>
+        }
+        Short About Me:
+        <br />
+        @Model.ShortDescription
+    </div>
+    <div class="modal-footer">
+        @* <button asp-action="PetProfile" asp-controller="Home" asp-route="@Model.Id"></button> *@
+    </div>
+</div>

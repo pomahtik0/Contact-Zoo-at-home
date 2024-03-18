@@ -12,7 +12,7 @@
 
         if (response.ok) {
             const partialHtml = await response.text();
-            console.log(partialHtml);
+            document.getElementById("modelDialog").innerHTML = partialHtml;
         } else {
             console.error("Error fetching data:", response.status, response.statusText);
         }
