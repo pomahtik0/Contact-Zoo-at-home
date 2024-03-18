@@ -39,7 +39,7 @@ namespace WebUI
             // Add policys
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("PetOwner", policy => policy.RequireClaim("Role", ["2", "3"])); // individual pet owners and companies
+                options.AddPolicy("PetOwner", policy => policy.RequireClaim("Role", [((int)Roles.IndividualPetOwner).ToString(), ((int)Roles.Company).ToString()])); // individual pet owners and companies
             });
 
             var app = builder.Build();
