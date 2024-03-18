@@ -13,7 +13,7 @@
         <br />
         Price: @Model.Price$
         <br />
-        Owner Name: <a href ="@Url.Action("UserProfile", "Home", new { id = Model.OwnerId })">@Model.OwnerName</a>
+        Owner Name: <a target="_blank" href="@Url.Action("UserProfile", "Home", new { id = Model.OwnerId })">@Model.OwnerName</a>
         <br />
         Activity: @Model.ActivityType.ToString()
         <br />
@@ -37,6 +37,6 @@
         @Model.ShortDescription
     </div>
     <div class="modal-footer">
-        <a class="btn btn-primary" href="@Url.Action("PetProfile", "Home", new { id = Model.Id })">Show Profile</a>
+        <a class="btn btn-primary" target="_blank" href="@Url.Action("PetProfile", "Home", new { id = Model.Id })">Show Profile</a>
     </div>
 </div>

@@ -41,6 +41,12 @@ namespace WebUI.Others.AutoMapper
                 .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id))
                 .ForMember(dest => dest.PetOptions, opt => opt.MapFrom(src => src.PetOptions));
 
+            CreateMap<Pet, PetCardForCartDTO>()
+                .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id))
+                .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Owner.FullName));
+
             CreateMap<ExtraPetOption, ExtraPetOptionsDTO>()
                 .ReverseMap();
 

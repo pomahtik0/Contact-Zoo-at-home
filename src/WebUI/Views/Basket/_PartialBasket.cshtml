@@ -1,4 +1,4 @@
-﻿@model IList<WebUI.Models.User.Settings.ShowPetDTO>?
+﻿@model IList<WebUI.Models.Pet.PetCardForCartDTO>?
 
 @if (Model == null || Model.Count == 0)
 {
@@ -8,8 +8,20 @@
 }
 else
 {
-    @foreach(var pet in Model)
-    {
-        <partial name="/Views/Home/_PetCard.cshtml" model="pet"/>
-    }
+    <table>
+        <thead>
+            <tr>
+                <th>Pet:</th>
+                <th>Owner:</th>
+                <th>Price:</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody id="partialBasket">
+            @foreach(var pet in Model)
+            {
+                <partial name="_PetCardForCart.cshtml" model="pet"/>
+            }
+        </tbody>
+    </table>
 }

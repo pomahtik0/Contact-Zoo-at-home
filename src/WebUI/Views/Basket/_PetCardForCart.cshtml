@@ -1,0 +1,19 @@
+﻿@*
+    Pet card that is displayed in the cart.
+    actualy is just a table row.
+*@
+@model WebUI.Models.Pet.PetCardForCartDTO
+<tr id="basketRow @Model.PetId">
+    <td>
+        <a target="_blank" href="@Url.Action("PetProfile", "Home", new { id = Model.PetId })">@Model.PetName</a>
+    </td>
+    <td>
+        <a target ="_blank" href="@Url.Action("UserProfile", "Home", new { id = Model.OwnerId })">@Model.OwnerName</a>
+    </td>
+    <td>
+        @Model.Price$
+    </td>
+    <td>
+        <button class="btn btn-danger" onclick="removeFromBasket(@Model.PetId)">Remove</button>
+    </td>
+</tr>

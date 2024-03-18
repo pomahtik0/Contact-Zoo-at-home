@@ -5,6 +5,21 @@
     sessionStorage.setItem("MyCart", JSON.stringify(existingCart));
     showNumberOfElementsInBasket();
 }
+function removeFromBasket(id: string) {
+    const existingCart: string[] = JSON.parse(sessionStorage.getItem("MyCart")) || [];
+
+    const index = existingCart.indexOf(id, 0);
+    if (index > -1) {
+        existingCart.splice(index, 1);
+        sessionStorage.setItem("MyCart", JSON.stringify(existingCart)); // remove item from cart
+        showNumberOfElementsInBasket();
+
+        const htmlRow = document.getElementById("basketRow " + id);
+        if (htmlRow != null) { // delete row if we are in cart
+            htmlRow.remove();
+        }
+    }
+}
 function showNumberOfElementsInBasket() {
     // Get the element by ID
     const changeMeElement = document.getElementById("petBasketBadge");
