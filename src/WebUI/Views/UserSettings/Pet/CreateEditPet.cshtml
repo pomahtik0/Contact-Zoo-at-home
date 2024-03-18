@@ -1,12 +1,19 @@
-﻿@{
-    ViewData["Title"] = "New Pet";
+﻿@model WebUI.Models.Pet.CreateOrRedactPetModel
+@{
+    if (Model.IsCreate)
+    {
+        ViewData["Title"] = "New Pet";
+    }
+    else 
+    {
+        ViewData["Title"] = "Edit Pet";
+    }
     ViewData["CurrentId"] = "myPets";
     Layout = "/Views/UserSettings/_Layout.cshtml";
 }
 
-@model WebUI.Models.Pet.CreateOrRedactPetModel
 <form id="form" method="post">
-    <h2>Create new pet:</h2>
+    <h2>@ViewData["Title"]:</h2>
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-floating mb-0">
         <input asp-for="Name" class="form-control"/>
@@ -65,7 +72,15 @@
     </div>
     
     <div>
-        <button asp-controller="PetOwner" asp-action="CreateNewPetPost" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
+        <input asp-for="Id" type="hidden" />
+        @if (Model.IsCreate)
+        {
+            <button asp-controller="PetOwner" asp-action="CreateNewPetPost" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
+        }
+        else
+        {
+            <button asp-controller="PetOwner" asp-action="UpdatePet" type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
+        }
     </div>
 </form>
 

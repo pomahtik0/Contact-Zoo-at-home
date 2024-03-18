@@ -4,6 +4,7 @@ namespace WebUI.Models.Pet
 {
     public record CreateOrRedactPetModel
     {
+        public bool IsCreate {  get; set; }
         public int Id { get; set; }
 
         [Required(AllowEmptyStrings = true)]

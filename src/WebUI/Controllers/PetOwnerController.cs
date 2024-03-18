@@ -38,7 +38,7 @@ namespace WebUI.Controllers
         [Route("Users/Settings/MyPets/CreateNewPet")]
         public async Task<IActionResult> CreateNewPet()
         {
-            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", new CreateOrRedactPetModel());
+            return View(c_settingsFolder + "Pet/CreateEditPet.cshtml", new CreateOrRedactPetModel() { IsCreate = true});
         }
 
         [Route("Users/Settings/MyPets/EditPet")]
@@ -46,7 +46,7 @@ namespace WebUI.Controllers
         {
             var pet = await PetManagement.GetPetByIdAsync(id);
             var petUpdateModel = _mapper.Map<CreateOrRedactPetModel>(pet);
-            return View(c_settingsFolder + "Pet/EditPet.cshtml", petUpdateModel);
+            return View(c_settingsFolder + "Pet/CreateEditPet.cshtml", petUpdateModel);
         }
 
         public async Task<IActionResult> Contracts()
@@ -67,7 +67,7 @@ namespace WebUI.Controllers
                 await PetManagement.CreateNewPetAsync(newPet, userId);
                 return RedirectToAction("Pets");
             }
-            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", model);
+            return View(c_settingsFolder + "Pet/CreateEditPet.cshtml", model);
         }
 
         [HttpPost]
@@ -82,7 +82,7 @@ namespace WebUI.Controllers
                 await PetManagement.UpdatePetAsync(updatedPet);
                 return RedirectToAction("Pets");
             }
-            return View(c_settingsFolder + "Pet/CreateNewPet.cshtml", model);
+            return View(c_settingsFolder + "Pet/CreateEditPet.cshtml", model);
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -49,15 +50,12 @@ namespace Contact_zoo_at_home.Application
             {
                 // setting entity to update.
                 dbContext.Update(pet);
-                
-                //dbContext.Entry(pet).Property(x => x.Comments).IsModified = false;
-                //dbContext.Entry(pet).Property(x => x.BlockedDates).IsModified = false;
-                //dbContext.Entry(pet).Property(x => x.Owner).IsModified = false;
 
                 // changing tracking.
                 dbContext.Entry(pet).Property(x => x.Rating).IsModified = false;
                 dbContext.Entry(pet).Property(x => x.RatedBy).IsModified = false;
                 dbContext.Entry(pet).Property(x => x.RestorationTimeInDays).IsModified = false;
+
                 await dbContext.SaveChangesAsync();
             }
         }
