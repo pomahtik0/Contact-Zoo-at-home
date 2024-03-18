@@ -45,6 +45,12 @@ namespace WebUI.Controllers
             return PartialView("_MiddlePetCard", model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> PetProfile(int id)
+        {
+            return Ok("in development");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

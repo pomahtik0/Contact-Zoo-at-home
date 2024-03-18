@@ -37,6 +37,6 @@
         @Model.ShortDescription
     </div>
     <div class="modal-footer">
-        @* <button asp-action="PetProfile" asp-controller="Home" asp-route="@Model.Id"></button> *@
+        <a class="btn btn-primary" href="@Url.Action("PetProfile", "Home", new { id = Model.Id })">Show Profile</a>
     </div>
 </div>
