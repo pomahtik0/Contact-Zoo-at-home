@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Enums;
 using Contact_zoo_at_home.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,7 @@ namespace WebUI.Controllers
                 _logger.LogInformation("Updating pet in DB.");
 
                 var updatedPet = _mapper.Map<Pet>(model);
+                updatedPet.Owner = new IndividualPetOwner() { Id = userId }; // setting ownerID to check ownership
                 await PetManagement.UpdatePetAsync(updatedPet);
                 return RedirectToAction("Pets");
             }

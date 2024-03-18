@@ -92,15 +92,14 @@ namespace Contact_zoo_at_home.Application
                     throw new ArgumentException($"Seems no pet, with id={pet.Id}, was found in database, that fits current owner with id={pet.Owner.Id}.");
                 }
 
-                throw new NotImplementedException("Coming soon...");
-
-                // setting entity to update.
-                dbContext.Update(pet);
-
-                // changing tracking.
-                dbContext.Entry(pet).Property(x => x.Rating).IsModified = false;
-                dbContext.Entry(pet).Property(x => x.RatedBy).IsModified = false;
-                dbContext.Entry(pet).Property(x => x.RestorationTimeInDays).IsModified = false;
+                originalPet.Name = pet.Name;
+                originalPet.PetOptions = pet.PetOptions;
+                originalPet.Species = pet.Species;
+                originalPet.SubSpecies = pet.SubSpecies;
+                originalPet.Color = pet.Color;
+                originalPet.Description = pet.Description;
+                originalPet.ShortDescription = pet.ShortDescription;
+                originalPet.Weight = pet.Weight;
 
                 await dbContext.SaveChangesAsync();
             }
