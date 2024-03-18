@@ -13,7 +13,7 @@
         <br />
         Price: @Model.Price$
         <br />
-        Owner Name: @Model.OwnerName
+        Owner Name: <a href ="@Url.Action("UserProfile", "Home", new { id = Model.OwnerId })">@Model.OwnerName</a>
         <br />
         Activity: @Model.ActivityType.ToString()
         <br />

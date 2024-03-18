@@ -51,6 +51,12 @@ namespace WebUI.Controllers
             return Ok("in development");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserProfile(int id)
+        {
+            return Ok("in development");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

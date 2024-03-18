@@ -38,6 +38,7 @@ namespace WebUI.Others.AutoMapper
 
             CreateMap<Pet, ComplexPetCardDTO>()
                 .IncludeBase<Pet, SimplePetCardDTO>()
+                .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id))
                 .ForMember(dest => dest.PetOptions, opt => opt.MapFrom(src => src.PetOptions));
 
             CreateMap<ExtraPetOption, ExtraPetOptionsDTO>()
