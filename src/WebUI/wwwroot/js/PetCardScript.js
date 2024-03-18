@@ -34,50 +34,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function addToCart(id) {
-    event.stopPropagation(); // stoping other events from happening
-    var existingCart = JSON.parse(sessionStorage.getItem("MyCart")) || [];
-    if (existingCart.some(function (elem) { return elem === id; })) {
-        return;
-    } // avoiding duplicates
-    existingCart.push(id);
-    sessionStorage.setItem("MyCart", JSON.stringify(existingCart));
-    showNumberOfElementsInBasket();
-}
-function showNumberOfElementsInBasket() {
-    // Get the element by ID
-    var changeMeElement = document.getElementById("petBasketBadge");
-    if (changeMeElement == null) {
-        return;
-    }
-    var existingCart = JSON.parse(sessionStorage.getItem("MyCart")) || [];
-    if (existingCart.length == 0) {
-        changeMeElement.textContent = "";
-    }
-    // Set the new content
-    else {
-        changeMeElement.textContent = existingCart.length.toString();
-    }
-}
-function clearBasket() {
-    sessionStorage.removeItem("MyCart");
-}
-function openBasket() {
+function openPetCard(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var data, response, partialHtml, error_1;
+        var url, data, response, partialHtml, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (document.getElementById("partialBasket") === null) {
-                        return [2 /*return*/];
-                    }
-                    data = JSON.stringify(JSON.parse(sessionStorage.getItem("MyCart")) || []);
-                    console.log(data);
+                    url = "Home/GetPetsMiddleCard";
+                    data = JSON.stringify(id);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);
-                    return [4 /*yield*/, fetch("Basket/MyPetBasket", {
-                            method: "Post",
+                    return [4 /*yield*/, fetch(url, {
+                            method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
                             },
@@ -89,21 +58,19 @@ function openBasket() {
                     return [4 /*yield*/, response.text()];
                 case 3:
                     partialHtml = _a.sent();
-                    document.getElementById("partialBasket").innerHTML = partialHtml;
-                    return [2 /*return*/, response];
+                    console.log(partialHtml);
+                    return [3 /*break*/, 5];
                 case 4:
-                    console.error('Error fetching data:', response.statusText);
+                    console.error("Error fetching data:", response.status, response.statusText);
                     _a.label = 5;
                 case 5: return [3 /*break*/, 7];
                 case 6:
                     error_1 = _a.sent();
-                    console.error('An error occurred:', error_1);
+                    console.error("An error occurred:", error_1);
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];
             }
         });
     });
 }
-document.addEventListener("DOMContentLoaded", openBasket);
-document.addEventListener("DOMContentLoaded", showNumberOfElementsInBasket);
-//# sourceMappingURL=PetBasketControll.js.map
+//# sourceMappingURL=PetCardScript.js.map
