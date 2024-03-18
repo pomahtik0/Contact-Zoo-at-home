@@ -1,13 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application
 {
@@ -22,10 +15,11 @@ namespace Contact_zoo_at_home.Application
             {
                 throw new ArgumentNullException("Pet is null", nameof(pet));
             }
-            if(ownerId <= 0)
+            if (ownerId <= 0)
             {
                 throw new ArgumentException($"Invalid Id={ownerId}", nameof(ownerId));
             }
+
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
                 var petOwner = await dbContext.PetOwners.Where(user => user.Id == ownerId).FirstOrDefaultAsync();
@@ -43,21 +37,22 @@ namespace Contact_zoo_at_home.Application
         /// Gets a pet with it's id from database. Includes PetOptions.
         /// </summary>
         /// <param name="id">Id of pet you want to get.</param>
+        /// <param name="ownerId">Id of current User</param>
         /// <returns>Pet with id</returns>
         /// <exception cref="ArgumentException">throws if id is invalid, or no Pet with specified id was found.</exception>
-        public static async Task<Pet> GetPetByIdAsync(int id)
+        public static async Task<Pet> GetPetByIdAsync(int id, int ownerId)
         {
-            if(id <= 0) // Wont be in DB anyway.
+            if (id <= 0 || ownerId <= 0) // Wont be in DB anyway.
             {
-                throw new ArgumentException("Invalid Id", nameof(id));
+                throw new ArgumentException($"Invalid Id={id} or ownerId={ownerId}.");
             }
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                var pet = await context.Pets.Where(pet => pet.Id == id).Include(pet => pet.PetOptions).AsNoTracking().FirstOrDefaultAsync();
+                var pet = await context.Pets.Where(pet => pet.Id == id && pet.Owner.Id == ownerId).Include(pet => pet.PetOptions).AsNoTracking().FirstOrDefaultAsync();
                 if(pet is null)
                 {
-                    throw new ArgumentException($"Id={id} not found", nameof(id));
+                    throw new ArgumentException($"Pet Id={id} with ownersId={ownerId}, not found.");
                 }
                 return pet;
             }
@@ -144,7 +139,7 @@ namespace Contact_zoo_at_home.Application
             }
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
-                var pets = await dbContext.Pets.Where(pet => Ids.Contains(pet.Id)).AsNoTracking().ToListAsync();
+                var pets = await dbContext.Pets.Where(pet => Ids.Contains(pet.Id)).Include(pet => pet.Owner).AsNoTracking().ToListAsync(); // actualy not effective, needed only owner id and name
                 return pets;
             }
         }

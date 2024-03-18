@@ -45,7 +45,8 @@ namespace WebUI.Controllers
         [Route("Users/Settings/MyPets/EditPet")]
         public async Task<IActionResult> EditPet(int id)
         {
-            var pet = await PetManagement.GetPetByIdAsync(id);
+            int userId = Convert.ToInt32(_userManager.GetUserId(User));
+            var pet = await PetManagement.GetPetByIdAsync(id, userId);
             var petUpdateModel = _mapper.Map<CreateOrRedactPetModel>(pet);
             return View(c_settingsFolder + "Pet/CreateEditPet.cshtml", petUpdateModel);
         }
