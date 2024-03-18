@@ -26,7 +26,7 @@ namespace WebUI.Controllers
 
         public async Task<IActionResult> Pets(int page = 1)
         {
-            var petsAndPages = await PetManagement.GetPetsAsync(page);
+            var petsAndPages = await UserDisplayedPets.GetPetsAsync(page);
             var model = new PetSelectionPage()
             {
                 Page = page,

@@ -26,7 +26,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> MyPetBasket([FromBody]IEnumerable<int> Ids) // handling json to form basket
         {
-            var pets = await PetManagement.GetPetsAsync(Ids);
+            var pets = await UserDisplayedPets.GetPetsAsync(Ids);
             var model = _mapper.Map<IList<ShowPetDTO>>(pets);
             return PartialView("Views/Basket/_PartialBasket.cshtml", model);
         }
