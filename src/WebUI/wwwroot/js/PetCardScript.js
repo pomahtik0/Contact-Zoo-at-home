@@ -58,7 +58,7 @@ function openPetCard(id) {
                     return [4 /*yield*/, response.text()];
                 case 3:
                     partialHtml = _a.sent();
-                    console.log(partialHtml);
+                    document.getElementById("modelDialog").innerHTML = partialHtml;
                     return [3 /*break*/, 5];
                 case 4:
                     console.error("Error fetching data:", response.status, response.statusText);

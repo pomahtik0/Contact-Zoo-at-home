@@ -35,7 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 function addToCart(id) {
-    event.stopPropagation(); // stoping other events from happening
     var existingCart = JSON.parse(sessionStorage.getItem("MyCart")) || [];
     if (existingCart.some(function (elem) { return elem === id; })) {
         return;
@@ -72,7 +71,6 @@ function openBasket() {
                         return [2 /*return*/];
                     }
                     data = JSON.stringify(JSON.parse(sessionStorage.getItem("MyCart")) || []);
-                    console.log(data);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);
