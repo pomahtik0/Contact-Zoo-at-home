@@ -24,6 +24,7 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [Route("Pets")]
         public async Task<IActionResult> Pets(int page = 1)
         {
             var petsAndPages = await UserDisplayedPets.GetPetsAsync(page);
