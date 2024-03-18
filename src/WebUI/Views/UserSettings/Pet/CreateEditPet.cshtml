@@ -53,7 +53,7 @@
 
     <div class="form-floating mb-0">
         <input asp-for="Species" class="form-control" />
-        <label asp-for="Species" class="form-label">Color</label>
+        <label asp-for="Species" class="form-label">Species</label>
         <span asp-validation-for="Species" class="text-danger"></span>
     </div>
 
@@ -73,6 +73,7 @@
     
     <div>
         <input asp-for="Id" type="hidden" />
+        <input asp-for="IsCreate" type="hidden" />
         @if (Model.IsCreate)
         {
             <button asp-controller="PetOwner" asp-action="CreateNewPetPost" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
