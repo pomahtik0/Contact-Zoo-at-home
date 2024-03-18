@@ -3,7 +3,7 @@
 *@
 @model WebUI.Models.Pet.SimplePetCardDTO
 
-<div class="card">
+<div class="card m-md-2 col-md-3">
     <img class="card-img-top" alt="Imagine I am image">
     <div class="card-body">
         Name: @Model.Name
@@ -19,6 +19,6 @@
         Rating: @Model.Rating
         <br />
     </div>
-    <button type="button" onclick="openPetCard(@Model.Id)" data-bs-toggle="modal" data-bs-target="#modalContainer">More Info</button>
-    <button onclick="addToCart(@Model.Id)">Add to basket</button>
+    <button class="btn btn-info" type="button" onclick="openPetCard(@Model.Id)" data-bs-toggle="modal" data-bs-target="#modalContainer">More Info</button>
+    <button class="btn btn-secondary" onclick="addToCart(@Model.Id)">Add to basket</button>
 </div>
