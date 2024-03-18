@@ -1,16 +1,20 @@
 ﻿@*
     Pet card that is displayed on the main "Shop" page.
 *@
-@model WebUI.Models.User.Settings.ShowPetDTO
+@model WebUI.Models.Pet.SimplePetCardDTO
 
 <div class="border border-primary mb-3">
     Name: @Model.Name
     <br />
-    Species and sub species: @Model.Species
+    Species and subspecies: @Model.Species
+    <br />
+    Price: @Model.Price$
+    <br />
+    Owner Name: @Model.OwnerName
+    <br />
+    Activity: @Model.ActivityType.ToString()
     <br />
     Rating: @Model.Rating
-    <br/>
-    Price: @Model.Price$
-    <br/>
+    <br />
     <button id="@Model.Id" onclick="addToCart(@Model.Id)">Add to basket</button>
 </div>

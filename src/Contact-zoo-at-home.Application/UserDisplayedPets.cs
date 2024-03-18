@@ -30,7 +30,7 @@ namespace Contact_zoo_at_home.Application
                 {
                     page = pages; // returning last existing page
                 }
-                var pets = await context.Pets.Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active).Skip(page * numberOfPetsOnPage).Take(numberOfPetsOnPage).ToListAsync();
+                var pets = await context.Pets.Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active).Skip(page * numberOfPetsOnPage).Take(numberOfPetsOnPage).Include(pet=>pet.Owner).ToListAsync();
                 return (pets, pages);
             }
         }

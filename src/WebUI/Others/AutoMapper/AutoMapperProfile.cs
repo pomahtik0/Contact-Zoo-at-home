@@ -32,11 +32,15 @@ namespace WebUI.Others.AutoMapper
             CreateMap<Pet, ShowPetDTO>()
                 .ForMember(dest =>dest.Species, opt=>opt.MapFrom(src=>$"{src.Species} {src.SubSpecies}"));
 
+            CreateMap<Pet, SimplePetCardDTO>()
+                .ForMember(dest => dest.Species, opt => opt.MapFrom(src => $"{src.Species} {src.SubSpecies}"))
+                .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => $"{(src.Owner is Company ? "Company" : "Individual Owner")} \"{src.Owner.FullName}\""));
+
             CreateMap<ExtraPetOption, ExtraPetOptionsDTO>()
                 .ReverseMap();
 
             CreateMap<Pet, CreateOrRedactPetModel>()
-                .ForMember(dest => dest.PetOptions, opt => opt.MapFrom<IList<ExtraPetOption>>(src => src.PetOptions))
+                .ForMember(dest => dest.PetOptions, opt => opt.MapFrom(src => src.PetOptions))
                 .ReverseMap();
         }
     }

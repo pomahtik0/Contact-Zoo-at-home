@@ -32,7 +32,7 @@ namespace WebUI.Controllers
             {
                 Page = page,
                 TotalPages = petsAndPages.pages,
-                PetsOnPage = _mapper.Map<IList<ShowPetDTO>>(petsAndPages.pets)
+                PetsOnPage = _mapper.Map<IList<SimplePetCardDTO>>(petsAndPages.pets)
             };
             return View(model);
         }
