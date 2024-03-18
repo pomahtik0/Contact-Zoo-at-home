@@ -43,6 +43,19 @@ function addToCart(id) {
     sessionStorage.setItem("MyCart", JSON.stringify(existingCart));
     showNumberOfElementsInBasket();
 }
+function removeFromBasket(id) {
+    var existingCart = JSON.parse(sessionStorage.getItem("MyCart")) || [];
+    var index = existingCart.indexOf(id, 0);
+    if (index > -1) {
+        existingCart.splice(index, 1);
+        sessionStorage.setItem("MyCart", JSON.stringify(existingCart)); // remove item from cart
+        showNumberOfElementsInBasket();
+        var htmlRow = document.getElementById("basketRow " + id);
+        if (htmlRow != null) { // delete row if we are in cart
+            htmlRow.remove();
+        }
+    }
+}
 function showNumberOfElementsInBasket() {
     // Get the element by ID
     var changeMeElement = document.getElementById("petBasketBadge");
