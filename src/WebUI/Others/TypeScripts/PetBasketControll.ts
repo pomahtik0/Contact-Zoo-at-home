@@ -1,4 +1,5 @@
 ﻿function addToCart(id: string) {
+    event.stopPropagation(); // stoping other events from happening
     const existingCart: string[] = JSON.parse(sessionStorage.getItem("MyCart")) || [];
     if (existingCart.some(elem => elem === id)) { return; } // avoiding duplicates
     existingCart.push(id);
@@ -25,14 +26,15 @@ function clearBasket() {
 
 async function openBasket() {
     if (document.getElementById("partialBasket") === null) { return; }
-    console.log("running async");
+    const data = JSON.stringify(JSON.parse(sessionStorage.getItem("MyCart")) || []);
+    console.log(data);
     try {
         const response = await fetch("Basket/MyPetBasket", {
             method: "Post",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: (JSON.stringify(JSON.parse(sessionStorage.getItem("MyCart")) || [])),
+            body: data,
         }); // Replace with your API endpoint
         if (response.ok) {
             const partialHtml = await response.text();

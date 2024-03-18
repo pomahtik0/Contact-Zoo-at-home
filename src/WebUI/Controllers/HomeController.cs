@@ -37,6 +37,14 @@ namespace WebUI.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetPetsMiddleCard([FromBody]int id)
+        {
+            var pet = await UserDisplayedPets.GetSimplePetInfoAsync(id);
+            var model = _mapper.Map<ComplexPetCardDTO>(pet);
+            return PartialView("_MiddlePetCard", model);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

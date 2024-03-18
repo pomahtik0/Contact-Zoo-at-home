@@ -3,7 +3,7 @@
 *@
 @model WebUI.Models.Pet.SimplePetCardDTO
 
-<div class="border border-primary mb-3">
+<div class="border border-primary mb-3" onclick="openPetCard(@Model.Id)">
     Name: @Model.Name
     <br />
     Species and subspecies: @Model.Species
