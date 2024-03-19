@@ -4,7 +4,7 @@ namespace WebUI.Models.User
 {
     public class SettingUserProfileImageDTO
     {
-        public byte[]? Image { get; set; }
+        public byte[]? ProfileImage { get; set; }
 
         [Required(ErrorMessage = "Please select a file.")]
         [MaxFileSize(ValidationConstants.ImageSizeMax, ErrorMessage = "File is to heavy, you can upload up to 6 mb")] // 6MB

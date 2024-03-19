@@ -18,6 +18,9 @@ namespace WebUI.Others.AutoMapper
             //    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
             //    .ReverseMap();
 
+            CreateMap<CustomerUser, SettingUserProfileImageDTO>();
+            CreateMap<IndividualPetOwner, SettingUserProfileImageDTO>();
+
             CreateMap<CustomerUser, UserProfileDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))

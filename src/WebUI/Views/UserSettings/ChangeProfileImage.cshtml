@@ -1,15 +1,15 @@
 ﻿@model WebUI.Models.User.SettingUserProfileImageDTO
 
-<form asp-action="TryToChangeProfileImage" method="post" enctype="multipart/form-data">
+<form asp-controller="UserSettings" asp-action="TryToChangeProfileImage" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div class="profile-picture">
-            @if (Model != null && Model.Image != null)
+            @if (Model != null && Model.ProfileImage != null && Model.ProfileImage.Length != 0)
             {
-                <img width="200" height="200" name="Photo" id="updatedImage" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" alt="Profile Picture" onclick="uploadImage()" />
+                <img width="200" height="200" id="updatedImage" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfileImage)" alt="Profile Picture" onclick="uploadImage()" />
             }
             else
             {
-                <img width="200" height="200" name="Photo" id="updatedImage" src="~/images/default-profile.jpg" alt="Default Profile Picture" onclick="uploadImage()" />
+                <img width="200" height="200" id="updatedImage" src="~/images/default-profile.jpg" alt="Default Profile Picture" onclick="uploadImage()" />
             }
         </div>
         <input type="file" name="Photo" id="fileInput" style="display: none;" onchange="handleImageUpload(this, updatedImage)">

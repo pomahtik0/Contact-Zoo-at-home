@@ -11,7 +11,7 @@ namespace Contact_zoo_at_home.Application
     {
         private static BaseUser? CreateUserByRole(Roles role)
         {
-            switch(role)
+            switch (role)
             {
                 case Roles.NoRole:
                     throw new NotImplementedException();
@@ -34,31 +34,31 @@ namespace Contact_zoo_at_home.Application
         /// <param name="changedEntity">entity from UI</param>
         private static void ApplyChanges(BaseUser baseEntity, BaseUser changedEntity)
         {
-            if(baseEntity.ContactPhone != changedEntity.ContactPhone)
+            if (baseEntity.ContactPhone != changedEntity.ContactPhone)
             {
                 baseEntity.ContactPhone = changedEntity.ContactPhone;
             }
 
-            if(baseEntity.FullName != changedEntity.FullName)
+            if (baseEntity.FullName != changedEntity.FullName)
             {
                 baseEntity.FullName = changedEntity.FullName;
             }
 
-            if(baseEntity.ContactEmail != changedEntity.ContactEmail)
+            if (baseEntity.ContactEmail != changedEntity.ContactEmail)
             {
                 baseEntity.ContactEmail = changedEntity.ContactEmail;
             }
 
-            if(baseEntity.ProfileImage != changedEntity.ProfileImage)
+            if (baseEntity.ProfileImage != changedEntity.ProfileImage)
             {
                 baseEntity.ProfileImage = changedEntity.ProfileImage;
             }
 
-            if(baseEntity is IndividualPetOwner && changedEntity is IndividualPetOwner)
+            if (baseEntity is IndividualPetOwner && changedEntity is IndividualPetOwner)
             {
                 var baseIndividualPetOwner = (IndividualPetOwner)baseEntity;
                 var changedIndividualPetOwner = (IndividualPetOwner)changedEntity;
-                if(baseIndividualPetOwner.ShortDescription != changedIndividualPetOwner.ShortDescription)
+                if (baseIndividualPetOwner.ShortDescription != changedIndividualPetOwner.ShortDescription)
                 {
                     baseIndividualPetOwner.ShortDescription = changedIndividualPetOwner.ShortDescription;
                 }
@@ -75,7 +75,7 @@ namespace Contact_zoo_at_home.Application
                 }
 
                 BaseUser? baseUser = CreateUserByRole(user.Role);
-                if (baseUser == null) 
+                if (baseUser == null)
                 {
                     throw new InvalidOperationException();
                 }
@@ -97,16 +97,16 @@ namespace Contact_zoo_at_home.Application
         public static async Task<BaseUser> GetUserProfileInfoByIdAsync(int id)
         {
             BaseUser user;
-            using(ApplicationDbContext applicationContext = new ApplicationDbContext())
+            using (ApplicationDbContext applicationContext = new ApplicationDbContext())
             {
-               user = await applicationContext.Users.Where(x => x.Id == id).AsNoTracking().FirstAsync(); // throws if not found
+                user = await applicationContext.Users.Where(x => x.Id == id).AsNoTracking().FirstAsync(); // throws if not found
             }
             return user;
         }
 
         public static async Task SaveUserProfileChangesAsync(BaseUser user)
         {
-            using(ApplicationDbContext applicationContext = new ApplicationDbContext())
+            using (ApplicationDbContext applicationContext = new ApplicationDbContext())
             {
                 var baseEntity = await applicationContext.Users.Where(x => x.Id == user.Id).FirstAsync();
 
@@ -118,7 +118,7 @@ namespace Contact_zoo_at_home.Application
 
         public static async Task<IList<Pet>> GetAllUserPetsAsync(int id)
         {
-            using(ApplicationDbContext appContext = new ApplicationDbContext())
+            using (ApplicationDbContext appContext = new ApplicationDbContext())
             {
                 var ownedPets = await appContext.Pets.Where(pet => pet.Owner.Id == id).AsNoTracking().ToListAsync();
                 //var ownedPets = await appContext.PetOwners.Where(user => user.Id == id).Select(user => user.OwnedPets).AsNoTracking().ToListAsync();
@@ -127,6 +127,36 @@ namespace Contact_zoo_at_home.Application
             throw new Exception("Database: no connection");
         }
 
+        public static async Task UpdateUserProfileImage(byte[] newImage, int id)
+        {
+            if (newImage == null)
+            {
+                throw new ArgumentNullException(nameof(newImage));
+            }
+            if (newImage.Length == 0)
+            {
+                throw new ArgumentException("Empty image", nameof(newImage));
+            }
+            if (id <= 0) // Wont be in DB anyway.
+            {
+                throw new ArgumentException($"Invalid Id={id}.");
+            }
 
+            using ApplicationDbContext appContext = new ApplicationDbContext();
+
+            var user = await appContext.Users.Where(_user => _user.Id == id).FirstOrDefaultAsync();
+            
+            if (user == null) // not found
+            {
+                throw new ArgumentException($"User with Id={id} is not found in Db");
+            }
+            
+            if (newImage != user.ProfileImage) // not sure if works
+            {
+                user.ProfileImage = newImage;
+            }
+
+            await appContext.SaveChangesAsync();
+        }
     }
 }

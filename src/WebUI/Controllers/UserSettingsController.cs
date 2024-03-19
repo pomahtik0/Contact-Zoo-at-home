@@ -148,10 +148,12 @@ namespace WebUI.Controllers
         }
 
         [Route("User/Settings/ChangeProfileImage")]
-        public IActionResult ChangeProfileImage()
+        public async Task<IActionResult> ChangeProfileImage()
         {
-            // Upload old image if it exists
-            return View();
+            int id = Convert.ToInt32(_userManager.GetUserId(User));
+            var user = await UserManagement.GetUserProfileInfoByIdAsync(id);
+            var model = _mapper.Map<SettingUserProfileImageDTO>(user);
+            return View(model);
         }
 
         [HttpPost]
@@ -200,6 +202,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> TryToChangeProfileImage(SettingUserProfileImageDTO model)
         {
+            int userId = Convert.ToInt32(_userManager.GetUserId(User));
             if (ModelState.IsValid)
             {
                 var formFile = model.Photo;
@@ -210,28 +213,29 @@ namespace WebUI.Controllers
                     return View("ChangeProfileImage", model);
                 }
 
-                byte[] newImage;
                 using (var memoryStream = new MemoryStream())
                 {
                     await model.Photo.CopyToAsync(memoryStream);
-                    newImage = memoryStream.ToArray();
+                    model.ProfileImage = memoryStream.ToArray();
                 }
 
-                if(!ValidateImageFormat(newImage)) // if format is not valid
+                if(!ValidateImageFormat(model.ProfileImage)) // if format is not valid
                 {
                     ModelState.AddModelError("Photo", "Format does not fit.");
                     return View("ChangeProfileImage", model);
                 }
 
-                if (!ValidateImageDimensions(newImage)) //if width or height is not valid
+                if (!ValidateImageDimensions(model.ProfileImage)) //if width or height is not valid
                 {
                     ModelState.AddModelError("Photo", "width or height is not valid.");
                     return View("ChangeProfileImage", model);
                 }
-                model.Image = newImage;
-                // save to db
+                
+
+                await UserManagement.UpdateUserProfileImage(model.ProfileImage, userId);
+                return View("ChangeProfileImage", model);
             }
-            return View("ChangeProfileImage", model);
+            return RedirectToAction("ChangeProfileImage");
         }
     }
 }
