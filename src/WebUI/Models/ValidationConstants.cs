@@ -27,5 +27,8 @@ namespace WebUI.Models
         // Comments
         public const int CommentLengthMax = ConstantsForEFCore.Sizes.CommentMaxLength;
         public const int CommentLengthMin = 10;
+
+        // Images
+        public const int ImageSizeMax = 6 * 1024 * 1024; // 6 mb
     }
 }

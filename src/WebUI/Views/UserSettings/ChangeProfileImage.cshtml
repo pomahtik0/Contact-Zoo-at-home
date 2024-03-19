@@ -1,10 +1,22 @@
 ﻿@model WebUI.Models.User.SettingUserProfileImageDTO
 
-<form asp-action="UploadPhoto" method="post" enctype="multipart/form-data">
+<form asp-action="TryToChangeProfileImage" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="photo">Profile Photo:</label>
-        <input type="file" id="photo" name="Photo" class="form-control-file">
-        <input asp-for="UserId" type="hidden" />
+        <div class="profile-picture">
+            @if (Model != null && Model.Image != null)
+            {
+                <img width="200" height="200" name="Photo" id="updatedImage" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" alt="Profile Picture" onclick="uploadImage()" />
+            }
+            else
+            {
+                <img width="200" height="200" name="Photo" id="updatedImage" src="~/images/default-profile.jpg" alt="Default Profile Picture" onclick="uploadImage()" />
+            }
+        </div>
+        <input type="file" name="Photo" id="fileInput" style="display: none;" onchange="handleImageUpload(this, updatedImage)">
     </div>
     <button type="submit" class="btn btn-primary">Upload</button>
 </form>
+
+@section Scripts{
+    <script src="~/js/ImageScripts.js"></script>
+}

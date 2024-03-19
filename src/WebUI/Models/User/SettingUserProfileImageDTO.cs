@@ -4,13 +4,11 @@ namespace WebUI.Models.User
 {
     public class SettingUserProfileImageDTO
     {
-        public int UserId { get; set; }
-
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         [Required(ErrorMessage = "Please select a file.")]
-        [MaxFileSize(5 * 1024 * 1024)] // 5MB
-        [AllowedExtensions([".jpeg", ".png"])]
+        [MaxFileSize(ValidationConstants.ImageSizeMax, ErrorMessage = "File is to heavy, you can upload up to 6 mb")] // 6MB
+        [AllowedExtensions([".jpg", ".jpeg", ".png"])]
         public IFormFile Photo { get; set; } // Use IFormFile for image uploads
     }
 }

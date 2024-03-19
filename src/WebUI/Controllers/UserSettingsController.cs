@@ -198,7 +198,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeProfileImage(SettingUserProfileImageDTO model)
+        public async Task<IActionResult> TryToChangeProfileImage(SettingUserProfileImageDTO model)
         {
             if (ModelState.IsValid)
             {
@@ -207,7 +207,7 @@ namespace WebUI.Controllers
                 if (formFile == null || formFile.Length == 0)
                 {
                     ModelState.AddModelError("Photo", "Please upload a profile picture.");
-                    return View(model);
+                    return View("ChangeProfileImage", model);
                 }
 
                 byte[] newImage;
@@ -220,19 +220,18 @@ namespace WebUI.Controllers
                 if(!ValidateImageFormat(newImage)) // if format is not valid
                 {
                     ModelState.AddModelError("Photo", "Format does not fit.");
-                    return View(model);
+                    return View("ChangeProfileImage", model);
                 }
 
                 if (!ValidateImageDimensions(newImage)) //if width or height is not valid
                 {
-                    ModelState.AddModelError("Photo", "Format does not fit.");
-                    return View(model);
+                    ModelState.AddModelError("Photo", "width or height is not valid.");
+                    return View("ChangeProfileImage", model);
                 }
-
-                // Save the file path or byte[] to the database
-                // ...
+                model.Image = newImage;
+                // save to db
             }
-            return View(model);
+            return View("ChangeProfileImage", model);
         }
     }
 }
