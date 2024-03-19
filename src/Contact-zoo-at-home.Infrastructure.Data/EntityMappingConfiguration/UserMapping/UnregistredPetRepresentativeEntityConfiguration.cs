@@ -1,5 +1,4 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Users;
-using Contact_zoo_at_home.Core.Entities.Users.Special;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
-    internal class UnregistredPetRepresentativeEntityConfiguration : IEntityTypeConfiguration<UnregisteredPetRepresentative>
+    internal class UnregistredPetRepresentativeEntityConfiguration : IEntityTypeConfiguration<Representative>
     {
-        public void Configure(EntityTypeBuilder<UnregisteredPetRepresentative> builder)
+        public void Configure(EntityTypeBuilder<Representative> builder)
         {
             builder.ToTable(ConstantsForEFCore.TableNames.UnregisteredPetRepresentativeTableName);
 

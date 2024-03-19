@@ -9,24 +9,12 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Users.IndividualUsers
 {
-    public class CustomerUser : BaseUser, ICustomer
+    /// <summary>
+    /// Customers that create contracts and pay money^^
+    /// </summary>
+    public class CustomerUser : BaseUser
     {
-
-        public IList<BaseContract> ActiveContracts { get; } = [];
-
-        public void AcceptContract(BaseContract contract)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateContract(BaseContract contract, IEnumerable<Pet> petsInContract, object? options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeclineContract(BaseContract contract, string message, object? options)
-        {
-            throw new NotImplementedException();
-        }
+        // list of current contracts
+        public IList<BaseContract> Contracts { get; } = [];
     }
 }

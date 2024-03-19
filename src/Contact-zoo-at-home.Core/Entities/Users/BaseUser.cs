@@ -1,10 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Contact_zoo_at_home.Core.Entities.Users.Images;
 
 namespace Contact_zoo_at_home.Core.Entities.Users
 {
@@ -14,36 +10,29 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     public abstract class BaseUser
     {
         public int Id { get; set; }
-        public string FullName { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
-        public byte[]? ProfileImage { get; set; } = [];
-        public string? ContactPhone { get; set; }
+
+        // Name of current user, may be null for companies
+        public string? Name { get; set; }
+        
+        // Profile image of a current user
+        public ProfileImage? ProfileImage { get; set; }
+
+        // Email to send letters to, may be null for companies
         public string? ContactEmail { get; set; }
+
+        // Phone number of current User, may be null for companies
+        public string? PhoneNumber { get; set; }
+
+        // Comments aimed on this User
         public IEnumerable<UserComment> Comments { get; } = [];
+
+        // Comments made by this User
         public IEnumerable<BaseComment> MyComments { get; } = [];
-        public NotificationOptions NotificationOptions { get; } = new NotificationOptions();
 
-        #region Rating
+        // Notification options, may be null for companies
+        public NotificationOptions? NotificationOptions { get; }
 
-        public float Rating { get; private set; }
-        public int RatedBy { get; private set; }
-
-        public float AddToRating(float addingRateMark) // ToDo: Check calculations
-        {
-            if (RatedBy == 0)
-            {
-                this.Rating = addingRateMark;
-            }
-            else
-            {
-                this.Rating = (this.Rating + addingRateMark / RatedBy) * ((float)RatedBy / RatedBy + 1);
-            }
-
-            RatedBy++;
-            return this.Rating;
-        }
-
-        #endregion
-
+        // Rating of the current User
+        public Rating Rating { get; set; } = new Rating();
     }
 }

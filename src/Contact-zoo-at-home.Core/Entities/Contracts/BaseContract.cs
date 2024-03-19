@@ -1,7 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Core.Entities.Users.Special;
 using Contact_zoo_at_home.Core.Enums;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
 
         public IEnumerable<Pet> PetsInContract { get; init; } = [];
         public IEnumerable<CompanyPetRepresentative> PetRepresentatives { get; init; } = [];
-        public IEnumerable<UnregisteredPetRepresentative> UnregisteredPetRepresentatives { get; init; } = [];
+        public IEnumerable<Representative> UnregisteredPetRepresentatives { get; init; } = [];
         public IEnumerable<IndividualPetOwner> IndividualPetOwnersAsPetRepresentative {  get; init; } = [];
 
         public ContractStatus StatusOfTheContract { get; set; }
