@@ -1,12 +1,10 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Core.Entities.Comments
 {
+    /// <summary>
+    /// Class for commenting pets.
+    /// </summary>
     public class PetComment : BaseComment
     {
         public Pet CommentTarget { get; set; }

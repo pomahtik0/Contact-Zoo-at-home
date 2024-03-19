@@ -5,12 +5,9 @@
     /// </summary>
     public enum ContractStatus
     {
-        Considering,
-        AcceptedByContractor,
-        AcceptedByCustomer,
         Active,
-        Frozen,
         Canceled,
-        Closed,
+        Perfermed,
+        Frozen
     }
 }

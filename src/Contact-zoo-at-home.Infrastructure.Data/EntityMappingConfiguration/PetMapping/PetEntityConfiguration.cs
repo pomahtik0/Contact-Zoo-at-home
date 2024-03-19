@@ -72,11 +72,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             {
                 petOptionBuilder.ToTable("PetOptions").HasKey(x => x.Id);
 
-                petOptionBuilder.Property(e => e.OptionValue)
+                petOptionBuilder.Property(e => e.Value)
                 .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 
-                petOptionBuilder.Property(e => e.OptionName)
+                petOptionBuilder.Property(e => e.Name)
                 .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
                 .IsRequired();
 

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contact_zoo_at_home.Core.Entities.Pets
+﻿namespace Contact_zoo_at_home.Core.Entities.Pets
 {
+    /// <summary>
+    /// Image of a pet, may contain a name of this image.
+    /// </summary>
     public class PetImage
     {
         public int Id { get; set; }
-        public string? ImageName { get; set; }
+        public string? Name { get; set; }
         public byte[] Image { get; set; }
     }
 }

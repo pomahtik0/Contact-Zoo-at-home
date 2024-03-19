@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contact_zoo_at_home.Core.Enums
+﻿namespace Contact_zoo_at_home.Core.Enums
 {
+    /// <summary>
+    /// supported languages
+    /// </summary>
     public enum Language
     {
         English,
-        Ukrainian,
-        Any
+        Ukrainian
     }
 }
