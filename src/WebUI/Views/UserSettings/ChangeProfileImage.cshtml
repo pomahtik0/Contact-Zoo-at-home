@@ -1,0 +1,10 @@
+﻿@model WebUI.Models.User.SettingUserProfileImageDTO
+
+<form asp-action="UploadPhoto" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="photo">Profile Photo:</label>
+        <input type="file" id="photo" name="Photo" class="form-control-file">
+        <input asp-for="UserId" type="hidden" />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
