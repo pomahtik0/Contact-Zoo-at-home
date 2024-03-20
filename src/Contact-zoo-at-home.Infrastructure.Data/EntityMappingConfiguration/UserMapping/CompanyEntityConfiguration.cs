@@ -1,30 +1,25 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff;
+using Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.TranslativeStaffMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
     internal class CompanyEntityConfiguration : IEntityTypeConfiguration<Company>
     {
+        public const string TableName = "Companies";
         public void Configure(EntityTypeBuilder<Company> builder)
         {
-            builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.CompanyTableName);
+            builder.HasBaseType<BasePetOwner>().ToTable(TableName);
 
             builder.HasMany(x => x.Descriptions)
                 .WithOne()
-                .HasForeignKey("CompanyId");
+                .HasForeignKey(CompanyDescriptionEntityConfiguration.PrimaryKey);
 
             builder.HasMany(x => x.Names)
                 .WithOne()
-                .HasForeignKey("CompanyId");
+                .HasForeignKey(CompanyNameEntityConfiguration.PrimaryKey);
         }
     }
 }

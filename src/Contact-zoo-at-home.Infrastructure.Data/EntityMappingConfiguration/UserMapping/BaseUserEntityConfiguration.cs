@@ -1,6 +1,4 @@
-﻿using Contact_zoo_at_home.Core.Entities;
-using Contact_zoo_at_home.Core.Entities.Notifications;
-using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,36 +6,32 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 {
     internal class BaseUserEntityConfiguration : IEntityTypeConfiguration<BaseUser>
     {
+        public const string TableName = "Users";
         public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
-            builder.UseTptMappingStrategy().ToTable(ConstantsForEFCore.TableNames.BaseUserTableName);
+            builder.UseTptMappingStrategy().ToTable(TableName);
+
+            builder.Property(x => x.Id)
+                .ValueGeneratedNever() // do not generate Id automaticaly, it must be providing when new entity is created.
+                .IsRequired();
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .ValueGeneratedNever() // do not generate Id automaticaly
-                .IsRequired();
-
             builder.Property(x => x.Name)
-                .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
-
-            builder.Property(x => x.PhoneNumber)
-                .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.PhoneNumberLength);
+                .HasMaxLength(Sizes.ShortTitlesLength);
 
             builder.Property(x => x.Email)
-                .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.EmailLenght);
+                .HasMaxLength(Sizes.EmailLenght);
+
+            builder.Property(x => x.PhoneNumber)
+                .HasMaxLength(Sizes.PhoneNumberLength);
+
+            builder.Property(x => x.CurrentRating)
+                .HasColumnType(Sizes.RatingType);
             
             builder.HasOne(x => x.ProfileImage)
                 .WithOne()
-                .HasPrincipalKey<BaseUser>(x => x.Id);
-
-            builder.HasOne(x => x.Rating)
-                .WithOne()
-                .HasForeignKey<Rating>("UserId")
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasPrincipalKey<BaseUser>();
 
             builder.HasOne(x => x.NotificationOptions)
                 .WithOne()

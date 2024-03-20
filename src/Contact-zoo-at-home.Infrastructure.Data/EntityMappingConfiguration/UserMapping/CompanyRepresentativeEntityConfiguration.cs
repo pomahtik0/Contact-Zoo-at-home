@@ -6,22 +6,18 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 {
     internal class CompanyRepresentativeEntityConfiguration : IEntityTypeConfiguration<Representative>
     {
+        public const string TableName = "RepresentativesOfCompanies";
         public void Configure(EntityTypeBuilder<Representative> builder)
         {
+            builder.ToTable(TableName);
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
-                .IsRequired();
+                .HasMaxLength(Sizes.ShortTitlesLength);
 
             builder.Property(x => x.ContactPhone)
-                .HasMaxLength(ConstantsForEFCore.Sizes.PhoneNumberLength)
-                .IsRequired();
-
-            builder.HasMany(x => x.ContractsToRepresent)
-                .WithOne(x => x.Representative)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasMaxLength(Sizes.PhoneNumberLength);
         }
     }
 }

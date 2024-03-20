@@ -6,9 +6,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Tra
 {
     internal class PetSpeciesEntityConfiguration : IEntityTypeConfiguration<PetSpecies>
     {
+        public const string PrimaryKey = "MLSpeciesId";
         public void Configure(EntityTypeBuilder<PetSpecies> builder)
         {
-            builder.HasKey("MLSpeciesId", "Language");
+            builder.HasKey(PrimaryKey, "Language");
         }
     }
 }

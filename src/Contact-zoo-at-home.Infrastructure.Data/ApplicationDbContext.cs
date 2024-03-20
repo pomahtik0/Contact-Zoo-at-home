@@ -6,7 +6,6 @@ using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
-using Contact_zoo_at_home.Core.Entities;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {

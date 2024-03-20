@@ -6,11 +6,12 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
 {
     internal class NotificationOptionsEntityConfiguration : IEntityTypeConfiguration<NotificationOptions>
     {
+        public const string PrimaryKey = "UserId";
         public void Configure(EntityTypeBuilder<NotificationOptions> builder)
         {
-            builder.Property<int>("UserId");
+            builder.Property<int>(PrimaryKey);
 
-            builder.HasKey("UserId");
+            builder.HasKey(PrimaryKey);
         }
     }
 }

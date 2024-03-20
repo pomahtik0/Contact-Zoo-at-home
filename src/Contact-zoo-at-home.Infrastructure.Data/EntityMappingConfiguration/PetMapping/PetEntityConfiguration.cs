@@ -1,51 +1,38 @@
-﻿using Contact_zoo_at_home.Core.Entities;
-using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.PetMapping
 {
     internal class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
     {
+        public const string TableName = "Pets";
         public void Configure(EntityTypeBuilder<Pet> builder)
         {
+            builder.ToTable(TableName);
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
+                .HasMaxLength(Sizes.ShortTitlesLength);
 
             builder.Property(x => x.ShortDescription)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortDescriptionLength);
+                .HasMaxLength(Sizes.ShortDescriptionLength);
 
             builder.Property(x => x.Description)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.DescriptionLength);
+                .HasMaxLength(Sizes.DescriptionLength);
 
             builder.Property(x => x.Price)
-                .IsRequired();
+                .HasColumnType("decimal");
 
-            builder.Property(x => x.RestorationTimeInDays)
-                .IsRequired();
+            builder.Property(x => x.RestorationTimeInDays);
+
+            builder.Property(x => x.CurrentRating)
+                .HasColumnType(Sizes.RatingType);
 
             builder.HasMany(x => x.BlockedDates)
                 .WithOne()
-                .HasForeignKey("PetId");
-
-            builder.HasMany(x => x.Comments)
-                .WithOne(x => x.CommentTarget)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(x => x.Rating)
-                .WithOne()
-                .HasForeignKey<Rating>("PetId")
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(BlockedDatesEntityConfiguration.ForeignKey_Pet);
 
             builder.HasOne(x => x.Species)
                 .WithMany()
@@ -54,6 +41,14 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.HasOne(x => x.Breed)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.Owner)
+                .WithMany(x => x.OwnedPets)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder.HasMany(x => x.Images)
+                .WithOne();
+
         }
     }
 }

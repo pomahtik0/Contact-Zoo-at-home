@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Tra
 
             builder.HasMany(x => x.Names)
                 .WithOne()
-                .HasForeignKey("MLBreedId");
+                .HasForeignKey(PetBreedEntityConfiguration.PrimaryKey);
         }
     }
 }

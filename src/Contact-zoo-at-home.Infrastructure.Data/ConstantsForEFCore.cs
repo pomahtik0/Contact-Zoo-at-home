@@ -18,5 +18,7 @@
         public const int DescriptionLength = 4096; // does not work as well
 
         public const int CommentMaxLength = 1024;
+
+        public const string RatingType = "decimal(8, 5)"; // supports marks 1 to 5, or 1 to 100, depends on application
     }
 }
