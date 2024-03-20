@@ -27,7 +27,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public IEnumerable<BaseComment> MyComments { get; } = [];
 
         // Notification options, may be null for companies
-        public NotificationOptions NotificationOptions { get; }
+        public NotificationOptions NotificationOptions { get; set; }
 
         // Profile image of a current user
         public ProfileImage ProfileImage { get; set; }

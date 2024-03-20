@@ -8,7 +8,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
     {
         public void Configure(EntityTypeBuilder<NotificationOptions> builder)
         {
-            builder.HasKey(x => x.TargetId);
+            builder.Property<int>("UserId");
+
+            builder.HasKey("UserId");
         }
     }
 }

@@ -29,11 +29,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
             builder.Property(x => x.Email)
                 .IsRequired(false)
                 .HasMaxLength(ConstantsForEFCore.Sizes.EmailLenght);
-
-
-            builder.HasOne(x => x.NotificationOptions)
-                .WithOne()
-                .HasPrincipalKey<BaseUser>(x => x.Id);
             
             builder.HasOne(x => x.ProfileImage)
                 .WithOne()
@@ -46,7 +41,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 
             builder.HasOne(x => x.NotificationOptions)
                 .WithOne()
-                .HasPrincipalKey<NotificationOptions>(e => e.TargetId);
+                .HasPrincipalKey<BaseUser>();
         }
     }
 }
