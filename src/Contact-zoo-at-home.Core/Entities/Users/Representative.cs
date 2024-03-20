@@ -18,6 +18,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 
         // company that one represents. (Is required)
         public Company Company { get; set; }
-        public IList<BaseContract> ContractsToRepresent { get; } = []
+        public IList<BaseContract> ContractsToRepresent { get; } = [];
     }
 }
