@@ -48,7 +48,9 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
         public IList<PetBlockedDate> BlockedDates { get; set; } = [];
 
         // rating by current pet set by other users
-        public Rating Rating { get; set; } = new Rating();
+        public float CurrentRating { get; set; }
+        public int RatedBy { get; set; }
+
 
         // images of current pet
         public IList<PetImage> Images { get; } = [];

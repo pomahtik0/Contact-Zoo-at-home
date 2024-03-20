@@ -38,9 +38,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<LongTermContract> LongTermContracts { get; set; }
         public DbSet<PolyContract> PolyContracts { get; set; }
 
-        // Supportive
-        public DbSet<Rating> Ratings { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pomahtik\\source\\repos\\Contact-zoo-at-home\\src\\Contact-zoo-at-home.Infrastructure.Data\\Database1.mdf;Integrated Security=True;Connect Timeout=30"); // це для того аби тестити міграції, потім заберу

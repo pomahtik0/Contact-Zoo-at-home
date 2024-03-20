@@ -32,7 +32,9 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         // Profile image of a current user
         public ProfileImage ProfileImage { get; set; }
 
+
         // Rating of the current User
-        public Rating Rating { get; set; } = new Rating();
+        public float CurrentRating { get; set; }
+        public int RatedBy { get; set; }
     }
 }

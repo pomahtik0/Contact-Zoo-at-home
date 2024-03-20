@@ -1,53 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contact_zoo_at_home.Infrastructure.Data
+﻿namespace Contact_zoo_at_home.Infrastructure.Data
 {
-    public static class ConstantsForEFCore
+    /// <summary>
+    /// Static class to save all constant sizes used in database, is public to be able to make checks of validation in other parts of App.
+    /// </summary>
+    public static class Sizes
     {
-        public static class TableNames
-        {
-            public const string BaseUserTableName = "Users";
-            
-            public const string BasePetOwnerTableName = "PetOwners";
-            
-            public const string CompanyTableName = "Companies";
-            
-            public const string IndividualPetOwnerTableName = "IndividualPetOwners";
-            
-            public const string CustomerUserTableName = "Customers";
-            
-            public const string CompanyPetRepresentativeTableName = "CompanyWorkers";
+        public const int ProfileImageMax = 2 * 1024 * 1024; // 2 mb, actually does not work
 
-            public const string UnregisteredPetRepresentativeTableName = "CustomRepresentatives";
+        public const int EmailLenght = 256;
 
-            public const string PetTableName = "Pets";
+        public const int PhoneNumberLength = 20;
 
-            public const string ExtraPetOptionTableName = "ExtraPetOptions";
+        public const int ShortTitlesLength = 50;
 
-            public const string BaseCommentsTableName = "Comments";
-        }
+        public const int ShortDescriptionLength = 400;
 
-        public static class Sizes
-        {
-            public const int UserNameLength = 32;
+        public const int DescriptionLength = 4096; // does not work as well
 
-            public const int ProfileImageMax = 1024 * 1024; // up to one mb photo
-
-            public const int EmailLenght = 256;
-
-            public const int PhoneNumberLength = 20;
-
-            public const int ShortTitlesLength = 50;
-
-            public const int ShortDescriptionLength = 400;
-
-            public const int DescriptionLength = 4096;
-
-            public const int CommentMaxLength = 1024;
-        }
+        public const int CommentMaxLength = 1024;
     }
 }
