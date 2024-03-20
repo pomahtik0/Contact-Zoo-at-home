@@ -8,6 +8,7 @@ namespace Contact_zoo_at_home.Core.Entities
 {
     public class Rating
     {
+        public int Id { get; set; }
         public float CurrentRating { get; private set; }
         public int RatedBy { get; private set; }
 

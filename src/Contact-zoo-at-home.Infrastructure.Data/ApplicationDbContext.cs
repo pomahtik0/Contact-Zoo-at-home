@@ -6,6 +6,7 @@ using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
+using Contact_zoo_at_home.Core.Entities;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -36,6 +37,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<StandartContract> StandartContracts {  get; set; }
         public DbSet<LongTermContract> LongTermContracts { get; set; }
         public DbSet<PolyContract> PolyContracts { get; set; }
+
+        // Supportive
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

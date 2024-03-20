@@ -4,7 +4,7 @@
     /// Contract between Customer and many Contractors.
     /// Pets, Contractor, and Representative fields must be null.
     /// </summary>
-    public class PolyContract
+    public class PolyContract : BaseContract
     {
         public IList<StandartContract> SubContracts { get; } = [];
     }

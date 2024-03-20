@@ -30,11 +30,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.Property(x => x.Price)
                 .IsRequired();
 
-            builder.Property(x => x.Species)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
-
-
             builder.Property(x => x.RestorationTimeInDays)
                 .IsRequired();
 
@@ -50,6 +45,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 
                 blockedDatesBuilder.WithOwner();
             });
+
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
                 .OnDelete(DeleteBehavior.NoAction);

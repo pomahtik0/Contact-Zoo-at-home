@@ -1,4 +1,6 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Core.Entities;
+using Contact_zoo_at_home.Core.Entities.Notifications;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,9 +30,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
                 .IsRequired(false)
                 .HasMaxLength(ConstantsForEFCore.Sizes.EmailLenght);
 
-            builder.HasOne(x => x.Rating)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.NotificationOptions)
                 .WithOne()
@@ -39,6 +38,15 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
             builder.HasOne(x => x.ProfileImage)
                 .WithOne()
                 .HasPrincipalKey<BaseUser>(x => x.Id);
+
+            builder.HasOne(x => x.Rating)
+                .WithOne()
+                .HasForeignKey<Rating>("UserId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.NotificationOptions)
+                .WithOne()
+                .HasPrincipalKey<NotificationOptions>(e => e.TargetId);
         }
     }
 }
