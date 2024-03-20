@@ -7,8 +7,7 @@
     /// </summary>
     public enum Language
     {
-        NoLanguage,
         English,
-        Ukrainian
+        Українська
     }
 }
