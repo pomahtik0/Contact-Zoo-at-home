@@ -18,7 +18,7 @@ namespace Contact_zoo_at_home.Application
                 case Roles.Customer:
                     return new CustomerUser();
                 case Roles.IndividualPetOwner:
-                    return new IndividualPetOwner();
+                    return new IndividualOwner();
                 case Roles.Company:
                     return new Company();
                 case Roles.Admin:
@@ -54,10 +54,10 @@ namespace Contact_zoo_at_home.Application
                 baseEntity.ProfileImage = changedEntity.ProfileImage;
             }
 
-            if (baseEntity is IndividualPetOwner && changedEntity is IndividualPetOwner)
+            if (baseEntity is IndividualOwner && changedEntity is IndividualOwner)
             {
-                var baseIndividualPetOwner = (IndividualPetOwner)baseEntity;
-                var changedIndividualPetOwner = (IndividualPetOwner)changedEntity;
+                var baseIndividualPetOwner = (IndividualOwner)baseEntity;
+                var changedIndividualPetOwner = (IndividualOwner)changedEntity;
                 if (baseIndividualPetOwner.ShortDescription != changedIndividualPetOwner.ShortDescription)
                 {
                     baseIndividualPetOwner.ShortDescription = changedIndividualPetOwner.ShortDescription;

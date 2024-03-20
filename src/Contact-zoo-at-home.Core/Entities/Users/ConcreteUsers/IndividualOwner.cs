@@ -3,7 +3,7 @@
     /// <summary>
     /// Individual that owns pets, and wishes to act as a contractor.
     /// </summary>
-    public class IndividualPetOwner : BasePetOwner
+    public class IndividualOwner : BasePetOwner
     {
         // Short information about current pet owner.
         public string ShortDescription { get; set; } = string.Empty;

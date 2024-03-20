@@ -81,7 +81,7 @@ namespace WebUI.Controllers
                 _logger.LogInformation("Updating pet in DB.");
 
                 var updatedPet = _mapper.Map<Pet>(model);
-                updatedPet.Owner = new IndividualPetOwner() { Id = userId }; // setting ownerID to check ownership
+                updatedPet.Owner = new IndividualOwner() { Id = userId }; // setting ownerID to check ownership
                 await PetManagement.UpdatePetAsync(updatedPet);
                 return RedirectToAction("Pets");
             }

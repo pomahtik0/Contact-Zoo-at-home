@@ -44,7 +44,7 @@ namespace WebUI.Controllers
             {
                 case CustomerUser:
                     return _mapper.Map<UserProfileDTO>(user);
-                case IndividualPetOwner:
+                case IndividualOwner:
                     return _mapper.Map<IndividualPetOwnerUserProfileDTO>(user);
                 default:
                     throw new NotImplementedException();
@@ -57,7 +57,7 @@ namespace WebUI.Controllers
             switch (profile)
             {
                 case IndividualPetOwnerUserProfileDTO:
-                    user = _mapper.Map<IndividualPetOwner>(profile);
+                    user = _mapper.Map<IndividualOwner>(profile);
                     break;
                 case UserProfileDTO:
                     user = _mapper.Map<CustomerUser>(profile);

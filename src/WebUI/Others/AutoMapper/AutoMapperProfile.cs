@@ -19,14 +19,14 @@ namespace WebUI.Others.AutoMapper
             //    .ReverseMap();
 
             CreateMap<CustomerUser, SettingUserProfileImageDTO>();
-            CreateMap<IndividualPetOwner, SettingUserProfileImageDTO>();
+            CreateMap<IndividualOwner, SettingUserProfileImageDTO>();
 
             CreateMap<CustomerUser, UserProfileDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
                 .ReverseMap();
 
-            CreateMap<IndividualPetOwner, IndividualPetOwnerUserProfileDTO>()
+            CreateMap<IndividualOwner, IndividualPetOwnerUserProfileDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
                 .ReverseMap();

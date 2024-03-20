@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
-    internal class IndividualPetOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualPetOwner>
+    internal class IndividualPetOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualOwner>
     {
-        public void Configure(EntityTypeBuilder<IndividualPetOwner> builder)
+        public void Configure(EntityTypeBuilder<IndividualOwner> builder)
         {
             builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.IndividualPetOwnerTableName);
 
