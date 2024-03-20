@@ -15,7 +15,6 @@
             <label for="PetOptions[@i].OptionValue" class="form-label">Option Value</label>
         </div>
         <div class="form-floating align-self-center">
-            <input asp-for="@option.OptionLanguage" name="PetOptions[@i].OptionLanguage" type="hidden" />
             <input asp-for="@option.Id" name="PetOptions[@i].Id" type="hidden" />
             <button type="button" class="btn btn-danger" onclick="removeItem_PetOption(@i)">Del</button>
         </div>

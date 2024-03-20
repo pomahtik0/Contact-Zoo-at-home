@@ -87,14 +87,14 @@ namespace Contact_zoo_at_home.Application
                     throw new ArgumentException($"Seems no pet, with id={pet.Id}, was found in database, that fits current owner with id={pet.Owner.Id}.");
                 }
 
-                originalPet.Name = pet.Name;
-                originalPet.PetOptions = pet.PetOptions;
-                originalPet.Species = pet.Species;
-                originalPet.SubSpecies = pet.SubSpecies;
-                originalPet.Color = pet.Color;
-                originalPet.Description = pet.Description;
-                originalPet.ShortDescription = pet.ShortDescription;
-                originalPet.Weight = pet.Weight;
+                //originalPet.Name = pet.Name;
+                //originalPet.PetOptions = pet.PetOptions;
+                //originalPet.Species = pet.Species;
+                //originalPet.SubSpecies = pet.SubSpecies;
+                //originalPet.Color = pet.Color;
+                //originalPet.Description = pet.Description;
+                //originalPet.ShortDescription = pet.ShortDescription;
+                //originalPet.Weight = pet.Weight;
 
                 await dbContext.SaveChangesAsync();
             }

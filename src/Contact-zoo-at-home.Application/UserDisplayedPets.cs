@@ -67,12 +67,13 @@ namespace Contact_zoo_at_home.Application
             }
             using(ApplicationDbContext dbContext = new ApplicationDbContext())
             {
-                var pet = await dbContext.Pets.Where(pet => pet.Id == id).Include(pet => pet.PetOptions).Include(pet => pet.Owner).Include(pet => pet.PetImages).AsNoTracking().FirstOrDefaultAsync();
-                if (pet == null)
-                {
-                    throw new ArgumentException($"No pet with id={id}, was found.");
-                }
-                return pet;
+                throw new NotImplementedException();
+                //var pet = await dbContext.Pets.Where(pet => pet.Id == id).Include(pet => pet.PetOptions).Include(pet => pet.Owner).Include(pet => pet.PetImages).AsNoTracking().FirstOrDefaultAsync();
+                //if (pet == null)
+                //{
+                //    throw new ArgumentException($"No pet with id={id}, was found.");
+                //}
+                //return pet;
             }
         }
 
@@ -89,20 +90,21 @@ namespace Contact_zoo_at_home.Application
             }
             using (ApplicationDbContext dbContext = new ApplicationDbContext())
             {
-                var pet = await dbContext.Pets.Where(pet => pet.Id == id)
-                    .AsSplitQuery()
-                    .Include(pet => pet.PetOptions)
-                    .Include(pet => pet.Owner)
-                    .Include(pet => pet.PetImages)
-                    .AsSplitQuery()
-                    .Include(pet => pet.Comments)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync();
-                if (pet == null)
-                {
-                    throw new ArgumentException($"No pet with id={id}, was found.");
-                }
-                return pet;
+                throw new NotImplementedException();
+                //var pet = await dbContext.Pets.Where(pet => pet.Id == id)
+                //    .AsSplitQuery()
+                //    .Include(pet => pet.PetOptions)
+                //    .Include(pet => pet.Owner)
+                //    .Include(pet => pet.PetImages)
+                //    .AsSplitQuery()
+                //    .Include(pet => pet.Comments)
+                //    .AsNoTracking()
+                //    .FirstOrDefaultAsync();
+                //if (pet == null)
+                //{
+                //    throw new ArgumentException($"No pet with id={id}, was found.");
+                //}
+                //return pet;
             }
         }
     }

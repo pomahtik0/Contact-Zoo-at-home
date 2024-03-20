@@ -34,15 +34,15 @@ namespace Contact_zoo_at_home.Application
         /// <param name="changedEntity">entity from UI</param>
         private static void ApplyChanges(BaseUser baseEntity, BaseUser changedEntity)
         {
-            if (baseEntity.ContactPhone != changedEntity.ContactPhone)
-            {
-                baseEntity.ContactPhone = changedEntity.ContactPhone;
-            }
+            //if (baseEntity.ContactPhone != changedEntity.ContactPhone)
+            //{
+            //    baseEntity.ContactPhone = changedEntity.ContactPhone;
+            //}
 
-            if (baseEntity.FullName != changedEntity.FullName)
-            {
-                baseEntity.FullName = changedEntity.FullName;
-            }
+            //if (baseEntity.FullName != changedEntity.FullName)
+            //{
+            //    baseEntity.FullName = changedEntity.FullName;
+            //}
 
             if (baseEntity.Email != changedEntity.Email)
             {
@@ -79,7 +79,7 @@ namespace Contact_zoo_at_home.Application
                 {
                     throw new InvalidOperationException();
                 }
-                baseUser.UserName = user.UserName;
+                //baseUser.UserName = user.UserName;
                 baseUser.Id = user.Id;
                 using (var applicationContext = new ApplicationDbContext())
                 {
@@ -151,10 +151,10 @@ namespace Contact_zoo_at_home.Application
                 throw new ArgumentException($"User with Id={id} is not found in Db");
             }
             
-            if (newImage != user.ProfileImage) // not sure if works
-            {
-                user.ProfileImage = newImage;
-            }
+            //if (newImage != user.ProfileImage) // not sure if works
+            //{
+            //    user.ProfileImage = newImage;
+            //}
 
             await appContext.SaveChangesAsync();
         }

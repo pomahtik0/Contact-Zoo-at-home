@@ -16,7 +16,5 @@ namespace WebUI.Models.Pet
             //ErrorMessage = $"Option Name should be beetween {ValidationConstants.ShortTitlesLengthMin} and {ValidationConstants.ShortTitlesLengthMax}")]
             ErrorMessage = "Option Value should be between 1 and 50")]
         public string OptionValue { get; set; }
-
-        public Language OptionLanguage { get; set; } = Language.Any;
     }
 }
