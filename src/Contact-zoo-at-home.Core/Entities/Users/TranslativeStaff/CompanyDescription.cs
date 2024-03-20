@@ -7,9 +7,6 @@ namespace Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff
     /// </summary>
     public class CompanyDescription
     {
-        // Id of a company
-        public int Id { get; set; }
-
         // language of current description
         public Language Language { get; set; }
 

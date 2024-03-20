@@ -5,9 +5,6 @@
     /// </summary>
     public class NotificationOptions 
     {
-        // Target of this options
-        public int TargetId { get; set; }
-
         // notify on telegram?
         public bool Telegram { get; set; }
 

@@ -13,6 +13,5 @@ namespace Contact_zoo_at_home.Core.Entities.Users.Images
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }
-        public int UserId { get; set; }
     }
 }

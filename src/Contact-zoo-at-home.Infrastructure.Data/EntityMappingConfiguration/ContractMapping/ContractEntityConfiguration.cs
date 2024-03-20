@@ -29,7 +29,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
             builder.HasMany(x => x.PetsInContract)
                 .WithMany()
                 .UsingEntity("PetsInContractJoin",
-                    l => l.HasOne(typeof(Pet)).WithMany().OnDelete(DeleteBehavior.ClientCascade),
+                    l => l.HasOne(typeof(Pet)).WithMany().OnDelete(DeleteBehavior.Restrict),
                     r => r.HasOne(typeof(BaseContract)).WithMany().OnDelete(DeleteBehavior.Cascade));
         }
     }

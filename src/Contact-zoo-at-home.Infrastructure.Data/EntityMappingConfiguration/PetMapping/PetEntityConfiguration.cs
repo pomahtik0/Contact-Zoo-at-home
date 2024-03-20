@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -49,6 +50,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Rating)
+                .WithOne()
+                .HasForeignKey<Rating>("PetId")
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

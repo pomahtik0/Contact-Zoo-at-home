@@ -1,6 +1,7 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -16,6 +17,14 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
         public void Configure(EntityTypeBuilder<Company> builder)
         {
             builder.HasBaseType<BasePetOwner>().ToTable(ConstantsForEFCore.TableNames.CompanyTableName);
+
+            builder.HasMany(x => x.Descriptions)
+                .WithOne()
+                .HasForeignKey("CompanyId");
+
+            builder.HasMany(x => x.Names)
+                .WithOne()
+                .HasForeignKey("CompanyId");
         }
     }
 }
