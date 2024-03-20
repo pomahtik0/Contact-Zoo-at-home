@@ -5,11 +5,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff
     /// <summary>
     /// Class that helps to define multy language description for companies.
     /// </summary>
-    public class CompanyDescription
+    public class CompanyDescription : BaseTranslativeStaff
     {
-        // language of current description
-        public Language Language { get; set; }
-
         // Description
         public string Description { get; set; }
     }
