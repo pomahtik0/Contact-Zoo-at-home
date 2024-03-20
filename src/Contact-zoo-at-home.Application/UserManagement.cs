@@ -44,9 +44,9 @@ namespace Contact_zoo_at_home.Application
                 baseEntity.FullName = changedEntity.FullName;
             }
 
-            if (baseEntity.ContactEmail != changedEntity.ContactEmail)
+            if (baseEntity.Email != changedEntity.Email)
             {
-                baseEntity.ContactEmail = changedEntity.ContactEmail;
+                baseEntity.Email = changedEntity.Email;
             }
 
             if (baseEntity.ProfileImage != changedEntity.ProfileImage)

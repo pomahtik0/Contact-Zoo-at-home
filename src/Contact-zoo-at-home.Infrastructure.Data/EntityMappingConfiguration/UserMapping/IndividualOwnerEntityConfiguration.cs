@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
-    internal class IndividualPetOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualOwner>
+    internal class IndividualOwnerEntityConfiguration : IEntityTypeConfiguration<IndividualOwner>
     {
         public void Configure(EntityTypeBuilder<IndividualOwner> builder)
         {
@@ -19,8 +19,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 
             builder.Property(x => x.ShortDescription)
                 .HasMaxLength(ConstantsForEFCore.Sizes.ShortDescriptionLength);
-            
-            builder.Ignore(e => e.ContractsToRepresent);
         }
     }
 }

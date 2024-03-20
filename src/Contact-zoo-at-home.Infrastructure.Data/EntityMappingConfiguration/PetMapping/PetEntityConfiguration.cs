@@ -30,27 +30,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.Property(x => x.Price)
                 .IsRequired();
 
-            builder.Property(x => x.Weight)
-                .IsRequired();
-
-            builder.Property(x => x.Color)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
-
             builder.Property(x => x.Species)
                 .IsRequired()
                 .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
-            builder.Property(x => x.SubSpecies)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
-
-            builder.Property(x => x.Rating)
-                .IsRequired()
-                .HasColumnType("decimal(3,2)");
-
-            builder.Property(x => x.RatedBy)
-                .IsRequired();
 
             builder.Property(x => x.RestorationTimeInDays)
                 .IsRequired();
@@ -67,42 +50,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 
                 blockedDatesBuilder.WithOwner();
             });
-
-            builder.OwnsMany(x => x.PetOptions, petOptionBuilder =>
-            {
-                petOptionBuilder.ToTable("PetOptions").HasKey(x => x.Id);
-
-                petOptionBuilder.Property(e => e.Value)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
-                .IsRequired();
-
-                petOptionBuilder.Property(e => e.Name)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
-                .IsRequired();
-
-                petOptionBuilder.Property(e => e.OptionLanguage)
-                .IsRequired();
-
-                petOptionBuilder.WithOwner();
-            });
-
-            builder.OwnsMany(x => x.PetImages, petImageBuilder =>
-            {
-                petImageBuilder.ToTable("PetImages").HasKey(x => x.Id);
-                petImageBuilder.Property(x => x.ImageName)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength)
-                .IsRequired(false);
-
-                petImageBuilder.Property(x => x.Image)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ProfileImageMax)
-                .IsRequired();
-            });
-
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Ignore(x => x.ProfileImage);
         }
     }
 }

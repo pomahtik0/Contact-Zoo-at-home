@@ -23,12 +23,12 @@ namespace WebUI.Others.AutoMapper
 
             CreateMap<CustomerUser, UserProfileDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ReverseMap();
 
             CreateMap<IndividualOwner, IndividualPetOwnerUserProfileDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactEmail))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ReverseMap();
 
             AllowNullCollections = true;

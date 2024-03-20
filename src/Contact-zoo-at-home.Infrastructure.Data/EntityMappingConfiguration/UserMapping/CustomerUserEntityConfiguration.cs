@@ -17,10 +17,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
         {
             builder.HasBaseType<BaseUser>().ToTable(ConstantsForEFCore.TableNames.CustomerUserTableName);
 
-            builder.HasMany(x => x.ActiveContracts)
+            builder.HasMany(x => x.Contracts)
                 .WithOne(x => x.Customer)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

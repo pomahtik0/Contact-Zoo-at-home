@@ -31,9 +31,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
                 .UsingEntity("PetsInContractJoin",
                     l => l.HasOne(typeof(Pet)).WithMany().OnDelete(DeleteBehavior.ClientCascade),
                     r => r.HasOne(typeof(BaseContract)).WithMany().OnDelete(DeleteBehavior.Cascade));
-
-            builder
-                .Ignore(x => x.IndividualPetOwnersAsPetRepresentative);
         }
     }
 }

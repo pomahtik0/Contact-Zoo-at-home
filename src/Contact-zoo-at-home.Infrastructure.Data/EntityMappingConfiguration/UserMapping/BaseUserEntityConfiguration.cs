@@ -1,14 +1,6 @@
-﻿using Contact_zoo_at_home.Core.Entities.Contracts;
-using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Entities.Users;
-using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+﻿using Contact_zoo_at_home.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
@@ -20,39 +12,33 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id) // id will be set by identityUser (i hope)
-                .ValueGeneratedNever()
+            builder.Property(x => x.Id)
+                .ValueGeneratedNever() // do not generate Id automaticaly
                 .IsRequired();
 
-            builder.Property(x => x.FullName)
+            builder.Property(x => x.Name)
                 .IsRequired(false)
                 .HasMaxLength(ConstantsForEFCore.Sizes.ShortTitlesLength);
 
-            builder.Property(x => x.UserName)
-                .IsRequired()
-                .HasMaxLength(ConstantsForEFCore.Sizes.UserNameLength);
-
-            builder.Property(x => x.ProfileImage)
-                .IsRequired(false)
-                .HasMaxLength(ConstantsForEFCore.Sizes.ProfileImageMax);
-
-            builder.Property(x => x.ContactPhone)
+            builder.Property(x => x.PhoneNumber)
                 .IsRequired(false)
                 .HasMaxLength(ConstantsForEFCore.Sizes.PhoneNumberLength);
 
-            builder.Property(x => x.ContactEmail)
+            builder.Property(x => x.Email)
                 .IsRequired(false)
                 .HasMaxLength(ConstantsForEFCore.Sizes.EmailLenght);
 
-            builder.Property(x => x.Rating)
-                .HasColumnType("decimal(3,2)")
-                .IsRequired();
+            builder.HasOne(x => x.Rating)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(x => x.RatedBy)
-                .IsRequired();
-
-            builder.OwnsOne(x => x.NotificationOptions)
-                .WithOwner();
+            builder.HasOne(x => x.NotificationOptions)
+                .WithOne()
+                .HasPrincipalKey<BaseUser>(x => x.Id);
+            
+            builder.HasOne(x => x.ProfileImage)
+                .WithOne()
+                .HasPrincipalKey<BaseUser>(x => x.Id);
         }
     }
 }

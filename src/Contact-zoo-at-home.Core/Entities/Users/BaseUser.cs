@@ -14,11 +14,8 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         // Name of current user, may be null for companies
         public string? Name { get; set; }
         
-        // Profile image of a current user
-        public ProfileImage? ProfileImage { get; set; }
-
         // Email to send letters to, may be null for companies
-        public string? ContactEmail { get; set; }
+        public string? Email { get; set; }
 
         // Phone number of current User, may be null for companies
         public string? PhoneNumber { get; set; }
@@ -30,7 +27,10 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public IEnumerable<BaseComment> MyComments { get; } = [];
 
         // Notification options, may be null for companies
-        public NotificationOptions? NotificationOptions { get; }
+        public NotificationOptions NotificationOptions { get; }
+
+        // Profile image of a current user
+        public ProfileImage ProfileImage { get; set; }
 
         // Rating of the current User
         public Rating Rating { get; set; } = new Rating();
