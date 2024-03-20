@@ -34,18 +34,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
             builder.Property(x => x.RestorationTimeInDays)
                 .IsRequired();
 
-            builder.OwnsMany(x => x.BlockedDates, blockedDatesBuilder =>
-            {
-                blockedDatesBuilder.ToTable("PetBlockedDates").HasKey(x => x.Id);
-
-                blockedDatesBuilder.Property(x => x.BlockedDate)
-                .IsRequired();
-
-                blockedDatesBuilder.Property(x => x.Reason)
-                .IsRequired();
-
-                blockedDatesBuilder.WithOwner();
-            });
+            builder.HasMany(x => x.BlockedDates)
+                .WithOne()
+                .HasForeignKey("PetId");
 
             builder.HasMany(x => x.Comments)
                 .WithOne(x => x.CommentTarget)
