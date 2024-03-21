@@ -67,7 +67,7 @@ namespace Contact_zoo_at_home.Application.Realizations
             using var dbContext = new ApplicationDbContext(activeDbConnection);
             await dbContext.Database.UseTransactionAsync(transaction);
 
-            if (await dbContext.Users.FindAsync(newUser.Id) != null)
+            if (await dbContext.Users.FindAsync(newUser.Id) is not null)
             {
                 throw new InvalidOperationException($"User with Id={newUser.Id} already exists");
             }
