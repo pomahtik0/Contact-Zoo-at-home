@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Contact_zoo_at_home.Application;
+using Contact_zoo_at_home.Application.Realizations;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Enums;
@@ -31,7 +31,7 @@ namespace WebUI.Controllers
         public async Task<IActionResult> Pets()
         {
             int userId = Convert.ToInt32(_userManager.GetUserId(User));
-            var pets = await UserManagement.GetAllUserPetsAsync(userId);
+            var pets = await UserManager.GetAllUserPetsAsync(userId);
             var mappedPets = _mapper.Map<IList<Pet>, IList<ShowPetDTO>>(pets);
             return View(c_settingsFolder + "UserPets.cshtml", mappedPets);
         }

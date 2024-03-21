@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Contact_zoo_at_home.Application;
+using Contact_zoo_at_home.Application.Realizations;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Identity;
@@ -38,7 +38,7 @@ namespace WebUI.Controllers
 
         private async Task<UserProfileDTO> LoadUserDTOByIdAsync(int id)
         {
-            BaseUser user = await UserManagement.GetUserProfileInfoByIdAsync(id);
+            BaseUser user = await UserManager.GetUserProfileInfoByIdAsync(id);
 
             switch (user) // hierarchy mapping?!
             {
@@ -83,7 +83,7 @@ namespace WebUI.Controllers
             }
             BaseUser baseUser = DTOToBaseUser(profile);
             baseUser.Id = Convert.ToInt32(userId);
-            var task = UserManagement.SaveUserProfileChangesAsync(baseUser);
+            var task = UserManager.SaveUserProfileChangesAsync(baseUser);
 
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
             await task;
@@ -151,7 +151,7 @@ namespace WebUI.Controllers
         public async Task<IActionResult> ChangeProfileImage()
         {
             int id = Convert.ToInt32(_userManager.GetUserId(User));
-            var user = await UserManagement.GetUserProfileInfoByIdAsync(id);
+            var user = await UserManager.GetUserProfileInfoByIdAsync(id);
             var model = _mapper.Map<SettingUserProfileImageDTO>(user);
             return View(model);
         }
@@ -232,7 +232,7 @@ namespace WebUI.Controllers
                 }
                 
 
-                await UserManagement.UpdateUserProfileImage(model.ProfileImage, userId);
+                await UserManager.UpdateUserProfileImage(model.ProfileImage, userId);
                 return View("ChangeProfileImage", model);
             }
             return RedirectToAction("ChangeProfileImage");

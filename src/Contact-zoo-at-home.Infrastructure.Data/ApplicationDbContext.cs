@@ -7,6 +7,7 @@ using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using System.Data.Common;
+using Contact_zoo_at_home.Core.Entities.Users.Images;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -44,6 +45,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<StandartContract> StandartContracts {  get; set; }
         public DbSet<LongTermContract> LongTermContracts { get; set; }
         public DbSet<PolyContract> PolyContracts { get; set; }
+
+        // Supportive
+        public DbSet<ProfileImage> ProfileImages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

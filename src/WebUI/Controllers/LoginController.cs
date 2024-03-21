@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Infrastructure.Identity;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models.User;
+using Contact_zoo_at_home.Application.Realizations;
 
 namespace WebUI.Controllers
 {
@@ -109,7 +109,7 @@ namespace WebUI.Controllers
                     _logger.LogInformation("User created a new Identity account.");
 
 
-                    var otherDbCreateResult = await UserManagement.TryCreateNewUserAsync(user);
+                    var otherDbCreateResult = await UserManager.TryCreateNewUserAsync(user);
 
                     if (otherDbCreateResult)
                     {
