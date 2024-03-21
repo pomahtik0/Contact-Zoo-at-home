@@ -6,11 +6,19 @@ using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
+using System.Data.Common;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        private DbConnection _connection;
+
+        public ApplicationDbContext(DbConnection connection)
+        {
+            _connection = connection;
+        }
+
         // Users
         public DbSet<BaseUser> Users { get; set; }
         public DbSet<BasePetOwner> PetOwners { get; set; }
@@ -39,7 +47,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pomahtik\\source\\repos\\Contact-zoo-at-home\\src\\Contact-zoo-at-home.Infrastructure.Data\\Database1.mdf;Integrated Security=True;Connect Timeout=30"); // це для того аби тестити міграції, потім заберу
+            optionsBuilder.UseSqlServer(_connection);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
