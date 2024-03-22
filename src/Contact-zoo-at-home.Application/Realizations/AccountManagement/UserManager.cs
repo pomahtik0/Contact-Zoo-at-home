@@ -19,16 +19,27 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         private DbConnection _connection;
         private DbTransaction? _transaction;
 
-        public UserManager(DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
+        public UserManager(DbConnection? activeDbConnection = null)
         {
             if (activeDbConnection == null)
             {
-                activeDbTransaction = null;
                 _disposeConnection = true;
             }
+
             _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+        }
+
+        public UserManager(DbTransaction activeDbTransaction)
+        {
+            if (activeDbTransaction?.Connection is null)
+            {
+                throw new ArgumentNullException("Transaction is null, or it's connection has closed");
+            }
+
+            _connection = activeDbTransaction.Connection;
             _transaction = activeDbTransaction;
         }
+
         public void Dispose()
         {
             if (_disposeConnection)

@@ -28,15 +28,30 @@ namespace Contact_zoo_at_home.Application.tests
             testConnection = new SqlConnection(testDbConnectionString);
             testDbContext = new ApplicationDbContext(testConnection);
             testContext = context;
-            testContext.WriteLine($"Initializing {nameof(ClassToTestApplicationUserManeger)}");
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            testDbContext.Dispose();
+            testConnection.Dispose();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
             testTransaction = testDbContext.Database.BeginTransaction();
-            userManeger = new UserManager(testConnection, testTransaction.GetDbTransaction());
+            userManeger = new UserManager(testTransaction.GetDbTransaction());
         }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            testTransaction.Rollback();
+            testTransaction.Dispose();
+            userManeger.Dispose();
+        }
+
 
         [TestMethod]
         public void CreateNewUser_EmptyUserWithValidId_CreatesNewUser()
@@ -72,23 +87,8 @@ namespace Contact_zoo_at_home.Application.tests
             operation.Wait();
             var user = operation.Result;
 
+            // Assert
             Assert.IsNotNull(user);
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            testTransaction.Rollback();
-            testTransaction.Dispose();
-            userManeger.Dispose();
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            testDbContext.Dispose();
-            testConnection.Dispose();
-            testContext.WriteLine($"Cleaning up {nameof(ClassToTestApplicationUserManeger)}");
         }
     }
 }
