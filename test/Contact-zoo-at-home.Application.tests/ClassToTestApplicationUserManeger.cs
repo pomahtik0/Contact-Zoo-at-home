@@ -17,7 +17,7 @@ namespace Contact_zoo_at_home.Application.tests
 
         private static DbConnection testConnection = null!;
         private static ApplicationDbContext testDbContext = null!;
-        private DbTransaction testTransaction = null!;
+        private IDbContextTransaction testTransaction = null!;
         private static TestContext testContext = null!;
 
         [ClassInitialize]
@@ -32,7 +32,7 @@ namespace Contact_zoo_at_home.Application.tests
         [TestInitialize]
         public void TestInitialize()
         {
-            testTransaction = testDbContext.Database.BeginTransaction().GetDbTransaction();
+            testTransaction = testDbContext.Database.BeginTransaction();
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace Contact_zoo_at_home.Application.tests
             BaseUser customer = new CustomerUser() { Id = 1 };
 
             // Act
-            userManager.CreateNewUserAsync(customer, testConnection, testTransaction).Wait();
+            userManager.CreateNewUserAsync(customer, testConnection, testTransaction.GetDbTransaction()).Wait();
 
 
             // Assert
@@ -56,6 +56,22 @@ namespace Contact_zoo_at_home.Application.tests
             Assert.IsNotNull(savedUser);
             Assert.IsNotNull(savedUser.NotificationOptions, "Notiffication options should be created by default!");
             Assert.IsNotNull(savedUser.ProfileImage, "Profile image should be created by default!");
+        }
+
+        [TestMethod]
+        public void GetUserProfileInfoByIdAsync_ExistingId_FindsUser()
+        {
+            // Arrange
+            IUserManeger userManager = new UserManager();
+            BaseUser customer = new CustomerUser() { Id = 1 };
+            userManager.CreateNewUserAsync(customer, testConnection, testTransaction.GetDbTransaction()).Wait();
+
+            // Act
+            var operation = userManager.GetUserProfileInfoByIdAsync(customer.Id, testConnection, testTransaction.GetDbTransaction());
+            operation.Wait();
+            var user = operation.Result;
+
+            Assert.IsNotNull(user);
         }
 
         [TestCleanup]

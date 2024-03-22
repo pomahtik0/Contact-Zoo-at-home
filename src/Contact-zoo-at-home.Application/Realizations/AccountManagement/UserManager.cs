@@ -35,15 +35,21 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await InnerCreateNewUserAsync(newUser, activeDbConnection, activeDbTransaction);
         }
 
-        public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId)
+        public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId, DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
         {
             if (userId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
             }
 
-            using var connection = DBConnections.GetNewDbConnection();
-            using var dbContext = new ApplicationDbContext(connection);
+            activeDbConnection ??= DBConnections.GetNewDbConnection();
+            
+            using var dbContext = new ApplicationDbContext(activeDbConnection);
+
+            if(activeDbTransaction is not null)
+            {
+                dbContext.Database.UseTransaction(activeDbTransaction);
+            }
 
             var user = await dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
 
