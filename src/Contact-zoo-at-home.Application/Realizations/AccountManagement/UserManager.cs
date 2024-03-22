@@ -25,18 +25,14 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(newUser), $"Invalid Id={newUser.Id}");
             }
 
-            if (activeDbConnection is null) // no active connection, use default
+            if (activeDbConnection is null)
             {
-                using var connection = DBConnections.GetNewDbConnection();
-                using var dbContext = new ApplicationDbContext(connection);
-                
-                await InnerCreateNewUserAsync(newUser, connection, null);
-            }    
-
-            else if (activeDbConnection is not null) // active connection
-            {
-                await InnerCreateNewUserAsync(newUser, activeDbConnection, activeDbTransaction);
+                activeDbTransaction = null; // nullify transaction if no connection is passed
             }
+
+            activeDbConnection ??= DBConnections.GetNewDbConnection(); // set connection if it is null
+
+            await InnerCreateNewUserAsync(newUser, activeDbConnection, activeDbTransaction);
         }
 
         public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId)
@@ -71,18 +67,14 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(user), $"Invalid Id={user.Id}");
             }
 
-            if (activeDbConnection is null) // no active connection, use default
+            if (activeDbConnection is null)
             {
-                using var connection = DBConnections.GetNewDbConnection();
-                using var dbContext = new ApplicationDbContext(connection);
-                
-                await InnerSaveUserProfileChangesAsync(user, connection, null);
+                activeDbTransaction = null; // nullify transaction if no connection is passed
             }
 
-            else if (activeDbConnection is not null) // active connection
-            {
-                await InnerSaveUserProfileChangesAsync(user, activeDbConnection, activeDbTransaction);
-            }
+            activeDbConnection ??= DBConnections.GetNewDbConnection(); // set connection if it is null
+
+            await InnerSaveUserProfileChangesAsync(user, activeDbConnection, activeDbTransaction);
         }
 
 
