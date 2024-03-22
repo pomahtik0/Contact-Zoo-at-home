@@ -8,12 +8,36 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.ComponentModel;
 using System.Data.Common;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Transactions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class UserManager : IUserManeger
+    public class UserManager : IUserManeger, IDisposable
     {
-        public async Task CreateNewUserAsync(BaseUser newUser, DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
+        private bool _disposeConnection;
+        private DbConnection _connection;
+        private DbTransaction? _transaction;
+
+        public UserManager(DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
+        {
+            if (activeDbConnection == null)
+            {
+                activeDbTransaction = null;
+                _disposeConnection = true;
+            }
+            _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+            _transaction = activeDbTransaction;
+        }
+        public void Dispose()
+        {
+            if (_disposeConnection)
+            {
+                _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
+            }
+        }
+
+        public async Task CreateNewUserAsync(BaseUser newUser)
         {
             if (newUser is null)
             {
@@ -25,73 +49,11 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(newUser), $"Invalid Id={newUser.Id}");
             }
 
-            if (activeDbConnection is null)
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
             {
-                activeDbTransaction = null; // nullify transaction if no connection is passed
-            }
-
-            activeDbConnection ??= DBConnections.GetNewDbConnection(); // set connection if it is null
-
-            await InnerCreateNewUserAsync(newUser, activeDbConnection, activeDbTransaction);
-        }
-
-        public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId, DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
-        {
-            if (userId <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
-            }
-
-            activeDbConnection ??= DBConnections.GetNewDbConnection();
-            
-            using var dbContext = new ApplicationDbContext(activeDbConnection);
-
-            if(activeDbTransaction is not null)
-            {
-                dbContext.Database.UseTransaction(activeDbTransaction);
-            }
-
-            var user = await dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
-
-            if (user is null)
-            {
-                throw new InvalidOperationException($"User with id={userId} does not exist");
-            }
-
-            return user;
-        }
-
-        public async Task SaveUserProfileChangesAsync(BaseUser user, DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
-        {
-            if (user is null)
-            {
-                throw new ArgumentNullException("User is not specified", nameof(user));
-            }
-
-            if (user.Id <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(user), $"Invalid Id={user.Id}");
-            }
-
-            if (activeDbConnection is null)
-            {
-                activeDbTransaction = null; // nullify transaction if no connection is passed
-            }
-
-            activeDbConnection ??= DBConnections.GetNewDbConnection(); // set connection if it is null
-
-            await InnerSaveUserProfileChangesAsync(user, activeDbConnection, activeDbTransaction);
-        }
-
-
-
-        private async Task InnerCreateNewUserAsync(BaseUser newUser, DbConnection connection, DbTransaction? transaction) // change naming
-        {
-            using var dbContext = new ApplicationDbContext(connection);
-
-            if(transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(transaction);
+                await dbContext.Database.UseTransactionAsync(_transaction);
             }
 
             if (await dbContext.Users.FindAsync(newUser.Id) is not null)
@@ -107,13 +69,48 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await dbContext.SaveChangesAsync();
         }
 
-        private async Task InnerSaveUserProfileChangesAsync(BaseUser user, DbConnection connection, DbTransaction? transaction)
+
+        public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId)
         {
-            using var dbContext = new ApplicationDbContext(connection);
-            
-            if (transaction is not null)
+            if (userId <= 0)
             {
-                await dbContext.Database.UseTransactionAsync(transaction);
+                throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
+            }
+            
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if(_transaction is not null)
+            {
+                dbContext.Database.UseTransaction(_transaction);
+            }
+
+            var user = await dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
+
+            if (user is null)
+            {
+                throw new InvalidOperationException($"User with id={userId} does not exist");
+            }
+
+            return user;
+        }
+
+        public async Task SaveUserProfileChangesAsync(BaseUser user)
+        {
+            if (user is null)
+            {
+                throw new ArgumentNullException("User is not specified", nameof(user));
+            }
+
+            if (user.Id <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(user), $"Invalid Id={user.Id}");
+            }
+
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                await dbContext.Database.UseTransactionAsync(_transaction);
             }
 
             var originalUser = await dbContext.Users.FindAsync(user.Id);
