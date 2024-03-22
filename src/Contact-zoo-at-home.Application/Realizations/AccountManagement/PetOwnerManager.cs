@@ -2,11 +2,45 @@
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class PetOwnerManager
+    public class PetOwnerManager : IDisposable
     {
+        private bool _disposeConnection;
+        private DbConnection _connection;
+        private DbTransaction? _transaction;
+
+        public PetOwnerManager(DbConnection? activeDbConnection = null)
+        {
+            if (activeDbConnection == null)
+            {
+                _disposeConnection = true;
+            }
+
+            _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+        }
+
+        public PetOwnerManager(DbTransaction activeDbTransaction)
+        {
+            if (activeDbTransaction?.Connection is null)
+            {
+                throw new ArgumentNullException("Transaction is null, or it's connection has closed");
+            }
+
+            _connection = activeDbTransaction.Connection;
+            _transaction = activeDbTransaction;
+        }
+
+        public void Dispose()
+        {
+            if (_disposeConnection)
+            {
+                _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
+            }
+        }
+
         public async Task<IList<Pet>> GetAllOwnedPetsAsync(int ownerId)
         {
             if (ownerId <= 0)
@@ -14,8 +48,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var connection = DBConnections.GetNewDbConnection();
-            using var dbContext = new ApplicationDbContext(connection);
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                dbContext.Database.UseTransaction(_transaction);
+            }
 
             var pets = await dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
                 .AsNoTracking()
@@ -41,8 +79,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var connection = DBConnections.GetNewDbConnection();
-            using var dbContext = new ApplicationDbContext(connection);
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                dbContext.Database.UseTransaction(_transaction);
+            }
 
             var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
@@ -79,8 +121,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var connection = DBConnections.GetNewDbConnection();
-            using var dbContext = new ApplicationDbContext(connection);
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                dbContext.Database.UseTransaction(_transaction);
+            }
 
             var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
@@ -113,8 +159,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var connection = DBConnections.GetNewDbConnection();
-            using var dbContext = new ApplicationDbContext(connection);
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                dbContext.Database.UseTransaction(_transaction);
+            }
 
             var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
@@ -135,8 +185,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             return pet;
         }
 
-
-        public async Task CreateNewOwnedPetAsync(Pet newPet, int ownerId, DbConnection? activeDbConnection = null, DbTransaction? activeDbTransaction = null)
+        public async Task CreateNewOwnedPetAsync(Pet newPet, int ownerId)
         {
             if (newPet is null)
             {
@@ -148,23 +197,11 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            if (activeDbConnection is null)
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
             {
-                activeDbTransaction = null; // nullify transaction if no connection is passed
-            }
-
-            activeDbConnection ??= DBConnections.GetNewDbConnection(); // set connection if it is null
-
-            await InnerCreateNewOwnedPetAsync(newPet, ownerId, activeDbConnection, activeDbTransaction);
-        }
-
-        public async Task InnerCreateNewOwnedPetAsync(Pet newPet, int ownerId, DbConnection connection, DbTransaction? transaction)
-        {
-            using var dbContext = new ApplicationDbContext(connection);
-            
-            if(transaction is not null)
-            {
-                dbContext.Database.UseTransaction(transaction);
+                dbContext.Database.UseTransaction(_transaction);
             }
 
             var owner = await dbContext.PetOwners.FindAsync(ownerId);
@@ -177,8 +214,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             dbContext.Attach(newPet);
 
             newPet.Owner = owner;
-            
-            if(newPet.PetOptions != null)
+
+            if (newPet.PetOptions != null)
             {
                 dbContext.Attach(newPet.PetOptions);
             }
