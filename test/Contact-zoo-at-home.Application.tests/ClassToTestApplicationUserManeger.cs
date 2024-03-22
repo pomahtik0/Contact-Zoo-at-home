@@ -4,6 +4,7 @@ using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Common;
 
@@ -13,10 +14,10 @@ namespace Contact_zoo_at_home.Application.tests
     public class ClassToTestApplicationUserManeger
     {
         private const string testDbConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true";
-        
+
         private static DbConnection testConnection = null!;
         private static ApplicationDbContext testDbContext = null!;
-        private static DbTransaction testTransaction = null!;
+        private DbTransaction testTransaction = null!;
         private static TestContext testContext = null!;
 
         [ClassInitialize]
@@ -24,28 +25,49 @@ namespace Contact_zoo_at_home.Application.tests
         {
             testConnection = new SqlConnection(testDbConnectionString);
             testDbContext = new ApplicationDbContext(testConnection);
-            testTransaction = testDbContext.Database.BeginTransaction().GetDbTransaction();
             testContext = context;
             testContext.WriteLine($"Initializing {nameof(ClassToTestApplicationUserManeger)}");
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            testTransaction = testDbContext.Database.BeginTransaction().GetDbTransaction();
         }
 
         [TestMethod]
         public void CreateNewUser_EmptyUserWithValidId_CreatesNewUser()
         {
+            // Arrange
             IUserManeger userManager = new UserManager();
             BaseUser customer = new CustomerUser() { Id = 1 };
 
+            // Act
             userManager.CreateNewUserAsync(customer, testConnection, testTransaction).Wait();
 
-            var savedUser = testDbContext.Users.Find(customer.Id);
+
+            // Assert
+
+            var savedUser = testDbContext.Users.Where(user => user.Id == customer.Id)
+                .Include(user => user.ProfileImage)
+                .Include(user => user.NotificationOptions)
+                .FirstOrDefault();
+
             Assert.IsNotNull(savedUser);
+            Assert.IsNotNull(savedUser.NotificationOptions, "Notiffication options should be created by default!");
+            Assert.IsNotNull(savedUser.ProfileImage, "Profile image should be created by default!");
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            testTransaction.Rollback();
+            testTransaction.Dispose();
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            testTransaction.Rollback();
-            testTransaction.Dispose();
             testDbContext.Dispose();
             testConnection.Dispose();
             testContext.WriteLine($"Cleaning up {nameof(ClassToTestApplicationUserManeger)}");

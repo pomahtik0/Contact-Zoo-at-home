@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users.Images;
 using Contact_zoo_at_home.Core.Entities.Users;
-using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -92,6 +92,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             {
                 throw new InvalidOperationException($"User with Id={newUser.Id} already exists");
             }
+
+            // Creating defaults:
+            newUser.ProfileImage ??= new ProfileImage();
+            newUser.NotificationOptions ??= new NotificationOptions();
 
             await dbContext.AddAsync(newUser);
             await dbContext.SaveChangesAsync();
