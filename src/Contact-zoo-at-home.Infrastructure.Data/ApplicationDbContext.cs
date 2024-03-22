@@ -54,7 +54,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data
             optionsBuilder.UseSqlServer(_connection);
         }
 
-        // optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true");
+        // testDb: optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true");
+        // nonTestDb: optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.database;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
