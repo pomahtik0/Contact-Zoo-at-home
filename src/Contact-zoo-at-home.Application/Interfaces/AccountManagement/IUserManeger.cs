@@ -3,7 +3,7 @@ using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
-    public interface IUserManeger
+    public interface IUserManeger : IDisposable
     {
         Task CreateNewUserAsync(BaseUser newUser);
         Task<BaseUser> GetUserProfileInfoByIdAsync(int userId);

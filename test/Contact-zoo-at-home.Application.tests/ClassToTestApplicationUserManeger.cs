@@ -17,8 +17,10 @@ namespace Contact_zoo_at_home.Application.tests
 
         private static DbConnection testConnection = null!;
         private static ApplicationDbContext testDbContext = null!;
-        private IDbContextTransaction testTransaction = null!;
         private static TestContext testContext = null!;
+        
+        private IDbContextTransaction testTransaction = null!;
+        private IUserManeger userManeger = null!;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -33,17 +35,17 @@ namespace Contact_zoo_at_home.Application.tests
         public void TestInitialize()
         {
             testTransaction = testDbContext.Database.BeginTransaction();
+            userManeger = new UserManager(testConnection, testTransaction.GetDbTransaction());
         }
 
         [TestMethod]
         public void CreateNewUser_EmptyUserWithValidId_CreatesNewUser()
         {
             // Arrange
-            IUserManeger userManager = new UserManager();
             BaseUser customer = new CustomerUser() { Id = 1 };
 
             // Act
-            userManager.CreateNewUserAsync(customer, testConnection, testTransaction.GetDbTransaction()).Wait();
+            userManeger.CreateNewUserAsync(customer).Wait();
 
 
             // Assert
@@ -62,12 +64,11 @@ namespace Contact_zoo_at_home.Application.tests
         public void GetUserProfileInfoByIdAsync_ExistingId_FindsUser()
         {
             // Arrange
-            IUserManeger userManager = new UserManager();
             BaseUser customer = new CustomerUser() { Id = 1 };
-            userManager.CreateNewUserAsync(customer, testConnection, testTransaction.GetDbTransaction()).Wait();
+            userManeger.CreateNewUserAsync(customer).Wait();
 
             // Act
-            var operation = userManager.GetUserProfileInfoByIdAsync(customer.Id, testConnection, testTransaction.GetDbTransaction());
+            var operation = userManeger.GetUserProfileInfoByIdAsync(customer.Id);
             operation.Wait();
             var user = operation.Result;
 
@@ -79,6 +80,7 @@ namespace Contact_zoo_at_home.Application.tests
         {
             testTransaction.Rollback();
             testTransaction.Dispose();
+            userManeger.Dispose();
         }
 
         [ClassCleanup]

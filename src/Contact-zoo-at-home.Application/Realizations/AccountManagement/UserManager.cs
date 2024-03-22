@@ -13,7 +13,7 @@ using System.Transactions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class UserManager : IUserManeger, IDisposable
+    public class UserManager : IUserManeger
     {
         private bool _disposeConnection;
         private DbConnection _connection;
