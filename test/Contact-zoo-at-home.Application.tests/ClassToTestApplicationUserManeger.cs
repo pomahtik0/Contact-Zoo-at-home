@@ -20,7 +20,7 @@ namespace Contact_zoo_at_home.Application.tests
         private static TestContext testContext = null!;
         
         private IDbContextTransaction testTransaction = null!;
-        private IUserManeger userManeger = null!;
+        private IUserManager userManeger = null!;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
