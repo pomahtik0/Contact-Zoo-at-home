@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320140447_init")]
+    [Migration("20240323070731_init")]
     partial class init
     {
         /// <inheritdoc />
