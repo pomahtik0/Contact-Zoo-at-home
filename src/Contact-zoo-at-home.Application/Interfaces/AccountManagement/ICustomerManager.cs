@@ -6,7 +6,7 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
     public interface ICustomerManager : IDisposable
     {
-        Task CreateNewContractAsync(BaseContract baseContract, InnerNotification? notification);
+        Task CreateNewContractAsync(BaseContract baseContract);
 
         Task<IList<BaseContract>> GetAllContractsAsync(int customerId);
 

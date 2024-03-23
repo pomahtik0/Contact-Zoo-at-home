@@ -1,4 +1,6 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
+using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
@@ -8,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,12 +52,49 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
         }
 
-        private async Task SendNotification(InnerNotification notification)
+        private InnerNotification ContractIsCreatedNotification(BaseContract baseContract)
         {
-            // some external notification logic
+            return new InnerNotification()
+            {
+                Title = $"New contract-num.{baseContract.Id} is created",
+                Text = "Congratulations! You have new contract, go to your conract page to get more information about it.",
+                NotificationTarget = baseContract.Contractor
+            };
         }
 
-        public async Task CreateNewContractAsync(BaseContract baseContract, InnerNotification? notification) // Aplyes to Standart and longterm contracts
+        private InnerNotification ContractIsCanceledNotification(BaseContract baseContract)
+        {
+            var timeToContract = baseContract.ContractDate! - DateTime.UtcNow;
+            
+            if (timeToContract.Value.Hours < 1)
+            {
+                return new InnerNotification()
+                {
+                    Title = $"Contract-num.{baseContract.Id} was canceled by user",
+                    Text = "Contract was canceled by customer, buy you will get all money assigned to the contract!",
+                    NotificationTarget = baseContract.Contractor
+                };
+            }
+
+            if(timeToContract.Value.Hours < 6)
+            {
+                return new InnerNotification()
+                {
+                    Title = $"Contract-num.{baseContract.Id} was canceled by user",
+                    Text = "Contract was canceled by customer. Customer will get partial refund. You will get some money!",
+                    NotificationTarget = baseContract.Contractor
+                };
+            }
+
+            return new InnerNotification()
+            {
+                Title = $"Contract-num.{baseContract.Id} was canceled by user",
+                Text = "Contract was canceled by customer. Customer will get full refund.",
+                NotificationTarget = baseContract.Contractor
+            };
+        }
+
+        public async Task CreateNewContractAsync(BaseContract baseContract) // Aplyes to Standart and longterm contracts
         {
             if (baseContract == null)
             {
@@ -86,6 +126,11 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentException("No pet representative should be assigned on ContractCreate");
             }
 
+            if (baseContract is PolyContract)
+            {
+                throw new NotImplementedException("Does not support poly contracts");
+            }
+
 
             using var dbContext = new ApplicationDbContext(_connection);
 
@@ -95,13 +140,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             dbContext.Attach(baseContract);
-            
-            if (notification is not null)
-            {
-                notification.NotificationTarget = baseContract.Contractor;
-                dbContext.Attach(notification);
-                await SendNotification(notification);
-            }
+
+            NotificationManager.CreateNotification(dbContext, ContractIsCreatedNotification(baseContract));
             
             await dbContext.SaveChangesAsync();
         }
@@ -127,6 +167,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             var contracts = await dbContext.Contracts
                 .Where(contract => contract.Customer.Id == customerId)
+                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.Customer)
                 .Include(contract => contract.Contractor)
@@ -157,6 +198,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var wantedContract = await dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Customer.Id == customerId)
+                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.PetsInContract)
                 .FirstOrDefaultAsync();
@@ -181,8 +223,6 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
             }
 
-            throw new NotImplementedException(); // stub
-
             using var dbContext = new ApplicationDbContext(_connection);
 
             if (_transaction is not null)
@@ -203,6 +243,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
 
+            NotificationManager.CreateNotification(dbContext, ContractIsCanceledNotification(contractToCancel));
+            
             await dbContext.SaveChangesAsync();
         }
     }
