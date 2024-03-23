@@ -1,5 +1,7 @@
-﻿using Contact_zoo_at_home.Core.Entities.Contracts;
+﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class CustomerManager : IDisposable
+    public class CustomerManager : ICustomerManager
     {
         private bool _disposeConnection;
         private DbConnection _connection;
@@ -108,5 +110,100 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         //{
 
         //}
+
+        public async Task<IList<BaseContract>> GetAllContractsAsync(int customerId)
+        {
+            if (customerId <= 0) 
+            {
+                throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
+            }
+
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                await dbContext.Database.UseTransactionAsync(_transaction);
+            }
+
+            var contracts = await dbContext.Contracts
+                .Where(contract => contract.Customer.Id == customerId)
+                .AsNoTracking()
+                .Include(contract => contract.Customer)
+                .Include(contract => contract.Contractor)
+                .ToListAsync();
+
+            return contracts;
+        }
+
+        public async Task<IList<Pet>> GetAllContractPetsAsync(int contractId, int customerId)
+        {
+            if (customerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contractId), $"Invalid Id={contractId}");
+            }
+
+            if (customerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
+            }
+
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                await dbContext.Database.UseTransactionAsync(_transaction);
+            }
+
+            var wantedContract = await dbContext.Contracts
+                .Where(contract => contract.Id == contractId)
+                .Where(contract => contract.Customer.Id == customerId)
+                .AsNoTracking()
+                .Include(contract => contract.PetsInContract)
+                .FirstOrDefaultAsync();
+
+            if (wantedContract == null)
+            {
+                throw new InvalidOperationException($"Contract with id={contractId} does not exist, or does not belong to Customer with id={customerId}");
+            }
+
+            return wantedContract.PetsInContract;
+        }
+
+        public async Task CancelContract(int contractId, int customerId)
+        {
+            if (customerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contractId), $"Invalid Id={contractId}");
+            }
+
+            if (customerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
+            }
+
+            throw new NotImplementedException(); // stub
+
+            using var dbContext = new ApplicationDbContext(_connection);
+
+            if (_transaction is not null)
+            {
+                await dbContext.Database.UseTransactionAsync(_transaction);
+            }
+
+            var contractToCancel = await dbContext.Contracts
+                .Where(contract => contract.Id == contractId)
+                .Where(contract => contract.Customer.Id == customerId)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            if (contractToCancel == null)
+            {
+                throw new InvalidOperationException($"Contract with id={contractId} does not exist, or does not belong to Customer with id={customerId}");
+            }
+
+            contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
