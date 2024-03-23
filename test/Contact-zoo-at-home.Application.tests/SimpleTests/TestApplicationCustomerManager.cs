@@ -1,6 +1,7 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
@@ -20,22 +21,21 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
     [TestClass]
     public class TestApplicationCustomerManager
     {
-        private const string testDbConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private static DbConnection classDbConnection;
+        private static ApplicationDbContext classDbContext; // use to arrange data
+        private static TestContext classTestContext;
 
-        private static DbConnection testConnection = null!;
-        private static ApplicationDbContext testDbContext = null!;
-        private static TestContext testContext = null!;
-
-        private IDbContextTransaction testTransaction = null!;
-
+        private DbConnection testDbConnection;
+        private ApplicationDbContext testDbContext; // use to act and assert
+        private IDbContextTransaction testTransaction;
         private CustomerManager testCustomerManager;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            testConnection = new SqlConnection(testDbConnectionString);
-            testDbContext = new ApplicationDbContext(testConnection);
-            testContext = context;
+            classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
+            classDbContext = new ApplicationDbContext(classDbConnection);
+            classTestContext = context;
 
             var customer = new CustomerUser()
             {
@@ -58,24 +58,26 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             };
             comapany.OwnedPets.Add(pet);
 
-            testDbContext.Attach(pet);
-            testDbContext.Add(customer);
-            testDbContext.Add(comapany);
-            testDbContext.SaveChanges();
+            classDbContext.Attach(pet);
+            classDbContext.Add(customer);
+            classDbContext.Add(comapany);
+            classDbContext.SaveChanges();
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            testDbContext.Database.EnsureDeleted();
-            testDbContext.Database.Migrate();
-            testDbContext.Dispose();
-            testConnection.Dispose();
+            classDbContext.Database.EnsureDeleted();
+            classDbContext.Database.Migrate();
+            classDbContext.Dispose();
+            classDbConnection.Dispose();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
+            testDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
+            testDbContext = new ApplicationDbContext(testDbConnection); // local db context to act
             testTransaction = testDbContext.Database.BeginTransaction();
             testCustomerManager = new CustomerManager(testTransaction.GetDbTransaction());
         }
@@ -86,6 +88,8 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             testTransaction.Rollback();
             testTransaction.Dispose();
             testCustomerManager.Dispose();
+            testDbContext.Dispose();
+            testDbConnection.Dispose();
         }
 
 
@@ -94,9 +98,9 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         public void CreateNewContract_SomeValidTypeOfContract_CreatesContractAndNoInnerNotification()
         {
             // Arrange
-            var customer = testDbContext.Users.Find(1) as CustomerUser;
-            var company = testDbContext.Users.Find(2) as Company;
-            var pet = testDbContext.Pets.FirstOrDefault();
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var pet = classDbContext.Pets.FirstOrDefault();
             var baseContract = new StandartContract()
             {
                 Customer = customer!,
@@ -116,6 +120,40 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             Assert.AreEqual(createdContract.Contractor!.Id, company!.Id);
             Assert.AreEqual(createdContract.Customer.Id, customer.Id);
             Assert.AreEqual(createdContract.PetsInContract.First().Id, pet.Id);
+        }
+
+        [TestMethod]
+        public void CreateNewContract_SomeValidTypeOfContract_CreatesInnerNotification()
+        {
+            // Arrange
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var pet = classDbContext.Pets.FirstOrDefault();
+            var baseContract = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+            };
+            var notificaton = new InnerNotification()
+            {
+                NotificationTarget = company,
+                Status = Core.Enums.NotificationStatus.NotShown,
+                Text = "Hello world!",
+                Title = "Test"
+            };
+            baseContract.PetsInContract.Add(pet!);
+
+            // Act
+            testCustomerManager.CreateNewContractAsync(baseContract, notificaton).Wait();
+
+            // Assert
+            var createdNotification = testDbContext.InnerNotifications.Where(not => not.Id == notificaton.Id).Include(x => x.NotificationTarget).FirstOrDefault();
+
+            Assert.IsNotNull(createdNotification);
+            Assert.AreEqual(createdNotification.NotificationTarget.Id, company!.Id);
+            Assert.AreEqual(createdNotification.Text, notificaton.Text);
         }
     }
 }

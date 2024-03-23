@@ -14,35 +14,38 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
     [TestClass]
     public class TestApplicationUserManager
     {
-        private const string testDbConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private static DbConnection classDbConnection;
+        private static ApplicationDbContext classDbContext; // use to arrange data
+        private static TestContext classTestContext;
 
-        private static DbConnection testConnection = null!;
-        private static ApplicationDbContext testDbContext = null!;
-        private static TestContext testContext = null!;
+        private DbConnection testDbConnection;
+        private ApplicationDbContext testDbContext; // use to act and assert
+        private IDbContextTransaction testTransaction;
 
-        private IDbContextTransaction testTransaction = null!;
-        private IUserManager userManeger = null!;
+        private UserManager testUserManager; // what is tested
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            testConnection = new SqlConnection(testDbConnectionString);
-            testDbContext = new ApplicationDbContext(testConnection);
-            testContext = context;
+            classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
+            classDbContext = new ApplicationDbContext(classDbConnection);
+            classTestContext = context;
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            testDbContext.Dispose();
-            testConnection.Dispose();
+            classDbContext.Dispose();
+            classDbConnection.Dispose();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
+            testDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
+            testDbContext = new ApplicationDbContext(testDbConnection);
             testTransaction = testDbContext.Database.BeginTransaction();
-            userManeger = new UserManager(testTransaction.GetDbTransaction());
+            testUserManager = new UserManager(testTransaction.GetDbTransaction());
         }
 
         [TestCleanup]
@@ -50,7 +53,9 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             testTransaction.Rollback();
             testTransaction.Dispose();
-            userManeger.Dispose();
+            testUserManager.Dispose();
+            testDbContext.Dispose();
+            testDbConnection.Dispose();
         }
 
 
@@ -61,7 +66,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             BaseUser customer = new CustomerUser() { Id = 11 };
 
             // Act
-            userManeger.CreateNewUserAsync(customer).Wait();
+            testUserManager.CreateNewUserAsync(customer).Wait();
 
 
             // Assert
@@ -81,14 +86,14 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             // Arrange
             BaseUser customer = new CustomerUser() { Id = 11 };
-            userManeger.CreateNewUserAsync(customer).Wait();
+            testUserManager.CreateNewUserAsync(customer).Wait();
 
             // Act
-            var operation = userManeger.GetUserProfileInfoByIdAsync(customer.Id);
+            var operation = testUserManager.GetUserProfileInfoByIdAsync(customer.Id);
             operation.Wait();
-            var user = operation.Result;
 
             // Assert
+            var user = operation.Result;
             Assert.IsNotNull(user);
         }
     }
