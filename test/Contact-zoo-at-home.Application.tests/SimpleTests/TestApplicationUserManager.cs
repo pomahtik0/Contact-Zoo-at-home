@@ -8,17 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Common;
 
-namespace Contact_zoo_at_home.Application.tests
+namespace Contact_zoo_at_home.Application.tests.SimpleTests
 {
+    // use user id's from 11 to 20 here
     [TestClass]
-    public class ClassToTestApplicationUserManeger
+    public class TestApplicationUserManager
     {
         private const string testDbConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         private static DbConnection testConnection = null!;
         private static ApplicationDbContext testDbContext = null!;
         private static TestContext testContext = null!;
-        
+
         private IDbContextTransaction testTransaction = null!;
         private IUserManager userManeger = null!;
 
@@ -57,7 +58,7 @@ namespace Contact_zoo_at_home.Application.tests
         public void CreateNewUser_EmptyUserWithValidId_CreatesNewUser()
         {
             // Arrange
-            BaseUser customer = new CustomerUser() { Id = 1 };
+            BaseUser customer = new CustomerUser() { Id = 11 };
 
             // Act
             userManeger.CreateNewUserAsync(customer).Wait();
@@ -79,7 +80,7 @@ namespace Contact_zoo_at_home.Application.tests
         public void GetUserProfileInfoByIdAsync_ExistingId_FindsUser()
         {
             // Arrange
-            BaseUser customer = new CustomerUser() { Id = 1 };
+            BaseUser customer = new CustomerUser() { Id = 11 };
             userManeger.CreateNewUserAsync(customer).Wait();
 
             // Act
