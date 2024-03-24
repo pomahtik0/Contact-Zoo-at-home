@@ -47,6 +47,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         public DbSet<PolyContract> PolyContracts { get; set; }
 
         // Supportive
+        public DbSet<PetImage> PetImages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
