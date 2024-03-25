@@ -14,6 +14,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         private bool _disposeConnection;
         private DbConnection _connection;
         private DbTransaction? _transaction;
+        protected ApplicationDbContext _dbContext;
 
         public PetOwnerManager(DbConnection? activeDbConnection = null)
         {
@@ -23,6 +24,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+            _dbContext = new ApplicationDbContext(_connection);
         }
 
         public PetOwnerManager(DbTransaction activeDbTransaction)
@@ -34,10 +36,13 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             _connection = activeDbTransaction.Connection;
             _transaction = activeDbTransaction;
+            _dbContext = new ApplicationDbContext(_connection);
+            _dbContext.Database.UseTransaction(activeDbTransaction);
         }
 
         public void Dispose()
         {
+            _dbContext.Dispose();
             if (_disposeConnection)
             {
                 _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
@@ -62,14 +67,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                dbContext.Database.UseTransaction(_transaction);
-            }
-
-            var pets = await dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
+            var pets = await _dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
                 .AsNoTracking()
                 .Include(x => x.Species)
                 .ThenInclude(x => x.Names)
@@ -93,14 +91,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                dbContext.Database.UseTransaction(_transaction);
-            }
-
-            var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Species)
@@ -135,14 +126,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                dbContext.Database.UseTransaction(_transaction);
-            }
-
-            var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Images)
@@ -173,14 +157,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                dbContext.Database.UseTransaction(_transaction);
-            }
-
-            var pet = await dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.BlockedDates)
@@ -211,30 +188,23 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var owner = await dbContext.PetOwners.FindAsync(ownerId);
+            var owner = await _dbContext.PetOwners.FindAsync(ownerId);
 
             if (owner == null)
             {
                 throw new ArgumentException($"No pet owner, with Id={ownerId} exists.", nameof(ownerId));
             }
 
-            dbContext.Attach(newPet);
+            _dbContext.Attach(newPet);
 
             newPet.Owner = owner;
 
             if (newPet.PetOptions != null)
             {
-                dbContext.Attach(newPet.PetOptions);
+                _dbContext.Attach(newPet.PetOptions);
             }
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task AddNewImageToPetAsync(int petId, PetImage image) // maybe owner id to check ownership
@@ -246,14 +216,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             // maybe some image checks later
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var pet = await dbContext.Pets.FindAsync(petId);
+            var pet = await _dbContext.Pets.FindAsync(petId);
 
             if (pet is null)
             {
@@ -262,10 +225,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             pet.Images.Add(image); // hope this works
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RemovePetImage (int petId, int petImageId) // maybe owner id to check ownership
+        public async Task RemovePetImage(int petId, int petImageId) // maybe owner id to check ownership
         {
             if (petId <= 0)
             {
@@ -277,16 +240,9 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(petImageId), $"Invalid Id={petImageId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            dbContext.PetImages
-                .Where(image => image.Id == petImageId)
-                .ExecuteDelete();
+            await _dbContext.PetImages
+                   .Where(image => image.Id == petImageId)
+                   .ExecuteDeleteAsync();
         }
 
         // Contracts:
@@ -298,14 +254,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(contractorId), $"Invalid Id={contractorId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var contracts = await dbContext.Contracts
+            var contracts = await _dbContext.Contracts
                 .Where(contract => contract.Contractor!.Id == contractorId)
                 .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
                 .AsNoTracking()
@@ -329,14 +278,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(contractorId), $"Invalid Id={contractorId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var wantedContract = await dbContext.Contracts
+            var wantedContract = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Contractor.Id == contractorId)
                 .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
@@ -364,14 +306,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(contractorId), $"Invalid Id={contractorId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var contractToCancel = await dbContext.Contracts
+            var contractToCancel = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Contractor.Id == contractorId)
                 .AsNoTracking()
@@ -384,9 +319,9 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
 
-            NotificationManager.CreateNotification(dbContext, ContractIsCanceledNotification(contractToCancel));
+            NotificationManager.CreateNotification(_dbContext, ContractIsCanceledNotification(contractToCancel));
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

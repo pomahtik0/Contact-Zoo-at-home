@@ -18,6 +18,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         private bool _disposeConnection;
         private DbConnection _connection;
         private DbTransaction? _transaction;
+        protected ApplicationDbContext _dbContext;
 
         public UserManager(DbConnection? activeDbConnection = null)
         {
@@ -27,6 +28,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+            _dbContext = new ApplicationDbContext(_connection);
         }
 
         public UserManager(DbTransaction activeDbTransaction)
@@ -38,10 +40,13 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             _connection = activeDbTransaction.Connection;
             _transaction = activeDbTransaction;
+            _dbContext = new ApplicationDbContext(_connection);
+            _dbContext.Database.UseTransaction(activeDbTransaction);
         }
 
         public void Dispose()
         {
+            _dbContext.Dispose();
             if (_disposeConnection)
             {
                 _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
@@ -60,14 +65,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(newUser), $"Invalid Id={newUser.Id}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            if (await dbContext.Users.FindAsync(newUser.Id) is not null)
+            if (await _dbContext.Users.FindAsync(newUser.Id) is not null)
             {
                 throw new InvalidOperationException($"User with Id={newUser.Id} already exists");
             }
@@ -76,8 +74,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             newUser.ProfileImage ??= new ProfileImage();
             newUser.NotificationOptions ??= new NotificationOptions();
 
-            await dbContext.AddAsync(newUser);
-            await dbContext.SaveChangesAsync();
+            await _dbContext.AddAsync(newUser);
+            await _dbContext.SaveChangesAsync();
         }
 
 
@@ -87,15 +85,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             {
                 throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
             }
-            
-            using var dbContext = new ApplicationDbContext(_connection);
 
-            if(_transaction is not null)
-            {
-                dbContext.Database.UseTransaction(_transaction);
-            }
-
-            var user = await dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
+            var user = await _dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
 
             if (user is null)
             {
@@ -117,14 +108,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(user), $"Invalid Id={user.Id}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var originalUser = await dbContext.Users.FindAsync(user.Id);
+            var originalUser = await _dbContext.Users.FindAsync(user.Id);
 
             if (originalUser is null)
             {
@@ -147,7 +131,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 originalUser.ProfileImage = user.ProfileImage;
             }
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

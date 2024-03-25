@@ -22,6 +22,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         private bool _disposeConnection;
         private DbConnection _connection;
         private DbTransaction? _transaction;
+        protected ApplicationDbContext _dbContext;
 
         public CustomerManager(DbConnection? activeDbConnection = null)
         {
@@ -31,6 +32,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
+            _dbContext = new ApplicationDbContext(_connection);
         }
 
         public CustomerManager(DbTransaction activeDbTransaction)
@@ -42,15 +44,19 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             _connection = activeDbTransaction.Connection;
             _transaction = activeDbTransaction;
+            _dbContext = new ApplicationDbContext(_connection);
+            _dbContext.Database.UseTransaction(activeDbTransaction);
         }
 
         public void Dispose()
         {
+            _dbContext.Dispose();
             if (_disposeConnection)
             {
                 _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
             }
         }
+
 
         private InnerNotification ContractIsCreatedNotification(BaseContract baseContract)
         {
@@ -94,6 +100,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             };
         }
 
+
+
         public async Task CreateNewContractAsync(BaseContract baseContract) // Aplyes to Standart and longterm contracts
         {
             if (baseContract == null)
@@ -131,19 +139,11 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new NotImplementedException("Does not support poly contracts");
             }
 
+            _dbContext.Attach(baseContract);
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            dbContext.Attach(baseContract);
-
-            NotificationManager.CreateNotification(dbContext, ContractIsCreatedNotification(baseContract));
+            NotificationManager.CreateNotification(_dbContext, ContractIsCreatedNotification(baseContract));
             
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
         //public async Task CreateNewPolyContractAsync(BaseContract baseContract)
@@ -158,14 +158,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var contracts = await dbContext.Contracts
+            var contracts = await _dbContext.Contracts
                 .Where(contract => contract.Customer.Id == customerId)
                 .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
                 .AsNoTracking()
@@ -188,14 +181,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var wantedContract = await dbContext.Contracts
+            var wantedContract = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Customer.Id == customerId)
                 .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
@@ -223,14 +209,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(customerId), $"Invalid Id={customerId}");
             }
 
-            using var dbContext = new ApplicationDbContext(_connection);
-
-            if (_transaction is not null)
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction);
-            }
-
-            var contractToCancel = await dbContext.Contracts
+            var contractToCancel = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Customer.Id == customerId)
                 .AsNoTracking()
@@ -243,9 +222,9 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
 
-            NotificationManager.CreateNotification(dbContext, ContractIsCanceledNotification(contractToCancel));
+            NotificationManager.CreateNotification(_dbContext, ContractIsCanceledNotification(contractToCancel));
             
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
