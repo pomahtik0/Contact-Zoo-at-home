@@ -1,32 +1,46 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using StubWebUI.Models;
-using System.Diagnostics;
+using System.Net.Http.Headers;
+using IdentityModel.Client;
 
 namespace StubWebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var client = _httpClientFactory.CreateClient();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var discoveryDocument = await client.GetDiscoveryDocumentAsync("https://localhost:7263");
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var tokenResponce = await client.RequestClientCredentialsTokenAsync(
+                new ClientCredentialsTokenRequest
+                {
+                    Address = discoveryDocument.TokenEndpoint,
+                    ClientId = "Contact-zoo-at-home.WebUI",
+                    ClientSecret = "secret",
+
+                    Scope = "Contact-zoo-at-home.WebAPI"
+                });
+
+            var apiClient = _httpClientFactory.CreateClient();
+
+            apiClient.SetBearerToken(tokenResponce.AccessToken!);
+
+            var responce = await apiClient.GetStringAsync("https://localhost:7192/Home");
+
+            return Ok(new
+            {
+                access_token = tokenResponce.AccessToken,
+                message = responce,
+            });
         }
     }
 }

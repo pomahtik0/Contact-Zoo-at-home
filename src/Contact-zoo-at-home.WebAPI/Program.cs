@@ -1,4 +1,6 @@
 
+using System.Security.Claims;
+
 namespace Contact_zoo_at_home.WebAPI
 {
     public class Program
@@ -7,7 +9,21 @@ namespace Contact_zoo_at_home.WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:7263";
+                    options.TokenValidationParameters.ValidateAudience = false;
+                });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "Contact-zoo-at-home.WebAPI");
+                });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,7 +41,8 @@ namespace Contact_zoo_at_home.WebAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            //app.MapGet("identity", (ClaimsPrincipal user) => user.Claims.Select(c => new { c.Type, c.Value }))
+            //    .RequireAuthorization("ApiScope");
 
 
             app.MapControllers();

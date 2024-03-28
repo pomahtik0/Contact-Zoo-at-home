@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.Application.tests", "test\Contact-zoo-at-home.Application.tests\Contact-zoo-at-home.Application.tests.csproj", "{FD11F92F-A827-481F-B22F-FF98665FDCAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact-zoo-at-home.Server", "src\Contact-zoo-at-home.Server\Contact-zoo-at-home.Server.csproj", "{C31C1113-BE98-4F12-8096-8E6D577303B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.Server", "src\Contact-zoo-at-home.Server\Contact-zoo-at-home.Server.csproj", "{C31C1113-BE98-4F12-8096-8E6D577303B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact-zoo-at-home.WebAPI", "src\Contact-zoo-at-home.WebAPI\Contact-zoo-at-home.WebAPI.csproj", "{7DA70588-B6BB-44B0-9268-CC075AF17488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.WebAPI", "src\Contact-zoo-at-home.WebAPI\Contact-zoo-at-home.WebAPI.csproj", "{7DA70588-B6BB-44B0-9268-CC075AF17488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StubWebUI", "src\StubWebUI\StubWebUI.csproj", "{58EFC5DF-F1A6-43A5-87FE-963DD653F813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StubWebUI", "src\StubWebUI\StubWebUI.csproj", "{58EFC5DF-F1A6-43A5-87FE-963DD653F813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact-zoo-at-home.Shared", "src\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj", "{57E79A56-E959-461E-9B10-68F39D73212A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact-zoo-at-home.Shared", "src\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj", "{57E79A56-E959-461E-9B10-68F39D73212A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
