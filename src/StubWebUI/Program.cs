@@ -21,17 +21,17 @@ namespace StubWebUI
             {
                 options.Authority = "https://localhost:7263";
 
-                options.ClientId = "Contact-zoo-at-home.WebUI";
-                options.ClientSecret = "secret"; // some secret password
+                options.ClientId = "webui_id";
+                options.ClientSecret = "webui_secret"; // some secret password
                 options.ResponseType = "code";
-
+               
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("api1");
-                options.Scope.Add("offline_access");
-                options.Scope.Add("verification");
-                options.ClaimActions.MapJsonKey("email_verified", "email_verified");
+                options.Scope.Add("webapi");
+                //options.Scope.Add("offline_access");
+                //options.Scope.Add("verification");
+                //options.ClaimActions.MapJsonKey("email_verified", "email_verified");
                 options.GetClaimsFromUserInfoEndpoint = true;
 
                 options.MapInboundClaims = false; // Don't rename claim types

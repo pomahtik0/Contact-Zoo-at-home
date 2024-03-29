@@ -21,7 +21,7 @@ namespace Contact_zoo_at_home.WebAPI
                 options.AddPolicy("ApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "Contact-zoo-at-home.WebAPI");
+                    policy.RequireClaim("scope", "webapi");
                 });
             });
 

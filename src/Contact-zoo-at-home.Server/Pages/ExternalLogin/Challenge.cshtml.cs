@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.ExternalLogin
+namespace Contact_zoo_at_home.Server.Pages.ExternalLogin
 {
     [AllowAnonymous]
     [SecurityHeaders]

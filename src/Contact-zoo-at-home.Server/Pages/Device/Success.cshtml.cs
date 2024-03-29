@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.Device
+namespace Contact_zoo_at_home.Server.Pages.Device
 {
     [SecurityHeaders]
     [Authorize]

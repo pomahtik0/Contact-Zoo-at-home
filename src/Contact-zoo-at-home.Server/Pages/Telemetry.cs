@@ -3,7 +3,7 @@
 
 using System.Diagnostics.Metrics;
 
-namespace Server_sample_2.Pages
+namespace Contact_zoo_at_home.Server.Pages
 {
 #pragma warning disable CA1034 // Nested types should not be visible
 #pragma warning disable CA1724 // Type names should not match namespaces

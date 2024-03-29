@@ -3,15 +3,21 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Contact_zoo_at_home.Server.Pages.Login
+namespace Contact_zoo_at_home.Server.Pages.Register
 {
     public class InputModel
     {
         [Required]
         public string? Username { get; set; }
+
         [Required]
+        [DataType(DataType.Password)]
         public string? Password { get; set; }
-        public bool RememberLogin { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        public string? ConfirmPassword { get; set; }
         public string? ReturnUrl { get; set; }
         public string? Button { get; set; }
     }

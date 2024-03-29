@@ -8,6 +8,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     [Route("[controller]")]
     public class HomeController : Controller
     {
+        [Authorize]
         [HttpGet]
         public string Index()
         {

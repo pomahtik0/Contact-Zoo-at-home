@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Contact_zoo_at_home.Server.Pages.Login
+namespace Contact_zoo_at_home.Server.Pages.Register
 {
     [SecurityHeaders]
     [AllowAnonymous]
@@ -215,3 +215,4 @@ namespace Contact_zoo_at_home.Server.Pages.Login
         }
     }
 }
+

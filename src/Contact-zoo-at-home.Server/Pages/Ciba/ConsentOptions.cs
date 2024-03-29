@@ -1,7 +1,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace Server_sample_2.Pages.Ciba
+namespace Contact_zoo_at_home.Server.Pages.Ciba
 {
     public static class ConsentOptions
     {

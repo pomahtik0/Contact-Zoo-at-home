@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.Account
+namespace Contact_zoo_at_home.Server.Pages.Account
 {
     public class AccessDeniedModel : PageModel
     {

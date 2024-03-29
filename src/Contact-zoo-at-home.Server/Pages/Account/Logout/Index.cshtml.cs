@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.Logout
+namespace Contact_zoo_at_home.Server.Pages.Logout
 {
     [SecurityHeaders]
     [AllowAnonymous]

@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace Server_sample_2.Pages.Error
+namespace Contact_zoo_at_home.Server.Pages.Error
 {
     public class ViewModel
     {

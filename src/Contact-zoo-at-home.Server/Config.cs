@@ -16,7 +16,7 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-                new ApiScope("webapp"),
+                new ApiScope("webapi"),
         };
 
     public static IEnumerable<Client> Clients =>
@@ -42,12 +42,14 @@ public static class Config
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44300/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:7293/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:7293/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "webapp" }
+                    AllowedScopes = { "openid", "profile", "webapi" }
                 },
         };
 }

@@ -19,7 +19,15 @@ namespace Contact_zoo_at_home.Server
             builder.Services.AddDbContext<ApplicationIdentityUserDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole<int>>()
+            builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole<int>>(
+                options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false; // simplify password rules
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 5;
+                })
                 .AddEntityFrameworkStores<ApplicationIdentityUserDbContext>()
                 .AddDefaultTokenProviders();
 

@@ -4,7 +4,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace Server_sample_2.Pages.Logout
+namespace Contact_zoo_at_home.Server.Pages.Logout
 {
     public class LoggedOutViewModel
     {

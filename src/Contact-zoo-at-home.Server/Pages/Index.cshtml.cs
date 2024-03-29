@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Reflection;
 
-namespace Server_sample_2.Pages.Home
+namespace Contact_zoo_at_home.Server.Pages.Home
 {
     [AllowAnonymous]
     public class Index : PageModel

@@ -5,7 +5,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.Error
+namespace Contact_zoo_at_home.Server.Pages.Error
 {
     [AllowAnonymous]
     [SecurityHeaders]

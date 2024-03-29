@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages
+namespace Contact_zoo_at_home.Server.Pages
 {
     public sealed class SecurityHeadersAttribute : ActionFilterAttribute
     {

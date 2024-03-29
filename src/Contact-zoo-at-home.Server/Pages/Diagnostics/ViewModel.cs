@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Text;
 using System.Text.Json;
 
-namespace Server_sample_2.Pages.Diagnostics
+namespace Contact_zoo_at_home.Server.Pages.Diagnostics
 {
     public class ViewModel
     {

@@ -7,7 +7,7 @@ using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.ServerSideSessions
+namespace Contact_zoo_at_home.Server.Pages.ServerSideSessions
 {
     public class IndexModel : PageModel
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Server_sample_2.Pages.Redirect
+namespace Contact_zoo_at_home.Server.Pages.Redirect
 {
     [AllowAnonymous]
     public class IndexModel : PageModel
