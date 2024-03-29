@@ -27,8 +27,8 @@ namespace StubWebUI
                
                 options.Scope.Clear();
                 options.Scope.Add("openid");
-                options.Scope.Add("profile");
                 options.Scope.Add("webapi");
+                options.Scope.Add("basicAppClaims");
                 //options.Scope.Add("offline_access");
                 //options.Scope.Add("verification");
                 //options.ClaimActions.MapJsonKey("email_verified", "email_verified");

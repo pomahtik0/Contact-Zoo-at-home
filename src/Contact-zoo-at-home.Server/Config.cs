@@ -10,7 +10,15 @@ public static class Config
             new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                //new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    Name = "basicAppClaims",
+                    UserClaims =
+                    {
+                        "ApplicationRole"
+                    }
+                }
             };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -48,8 +56,10 @@ public static class Config
                     // where to redirect to after logout
                     PostLogoutRedirectUris = { "https://localhost:7293/signout-callback-oidc" },
 
+                    AlwaysIncludeUserClaimsInIdToken = true,
+
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "webapi" }
+                    AllowedScopes = { "openid", "webapi", "basicAppClaims" }
                 },
         };
 }

@@ -17,15 +17,4 @@
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Account\Register\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Pages\Account\Register\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
