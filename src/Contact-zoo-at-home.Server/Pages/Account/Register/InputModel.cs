@@ -3,6 +3,7 @@
 
 using Contact_zoo_at_home.Server.Identity;
 using System.ComponentModel.DataAnnotations;
+using Contact_zoo_at_home.Shared;
 
 namespace Contact_zoo_at_home.Server.Pages.Register
 {

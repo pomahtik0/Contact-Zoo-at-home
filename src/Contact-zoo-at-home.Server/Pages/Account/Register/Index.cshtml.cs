@@ -3,17 +3,16 @@
 using Contact_zoo_at_home.Server.Identity;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 using Humanizer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using Contact_zoo_at_home.Shared;
 
 namespace Contact_zoo_at_home.Server.Pages.Register
 {

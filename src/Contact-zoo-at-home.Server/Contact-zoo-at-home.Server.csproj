@@ -17,4 +17,8 @@
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

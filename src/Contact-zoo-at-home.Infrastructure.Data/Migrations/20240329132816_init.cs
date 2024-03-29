@@ -489,7 +489,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PetImage",
+                name: "PetImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -500,9 +500,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PetImage", x => x.Id);
+                    table.PrimaryKey("PK_PetImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PetImage_Pets_PetId",
+                        name: "FK_PetImages_Pets_PetId",
                         column: x => x.PetId,
                         principalTable: "Pets",
                         principalColumn: "Id");
@@ -692,8 +692,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PetImage_PetId",
-                table: "PetImage",
+                name: "IX_PetImages_PetId",
+                table: "PetImages",
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
@@ -769,7 +769,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "PetComments");
 
             migrationBuilder.DropTable(
-                name: "PetImage");
+                name: "PetImages");
 
             migrationBuilder.DropTable(
                 name: "PetsInContract");

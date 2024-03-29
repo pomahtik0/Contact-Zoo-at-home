@@ -4,13 +4,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
     <RootNamespace>Contact_zoo_at_home.WebAPI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contact-zoo-at-home.Application\Contact-zoo-at-home.Application.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj" />
   </ItemGroup>
 
 </Project>

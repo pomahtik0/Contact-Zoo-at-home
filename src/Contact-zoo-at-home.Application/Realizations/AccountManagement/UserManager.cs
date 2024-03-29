@@ -10,6 +10,8 @@ using System.Data.Common;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Transactions;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Shared;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
@@ -77,7 +79,41 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await _dbContext.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
         }
+        
+        public async Task CreateNewUserAsync(int userId, Roles role)
+        {
+            if (userId <= 0) // though possible, i don't want my db populated with negative user id's
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
+            }
 
+            if (await _dbContext.Users.FindAsync(userId) is not null)
+            {
+                throw new InvalidOperationException($"User with Id={userId} already exists");
+            }
+
+            BaseUser newUser;
+
+            switch (role)
+            {
+                case Roles.Customer:
+                    newUser = new CustomerUser();
+                    break;
+                case Roles.IndividualPetOwner:
+                    newUser = new IndividualOwner();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            // Creating defaults:
+            newUser.Id = userId;
+            newUser.ProfileImage ??= new ProfileImage();
+            newUser.NotificationOptions ??= new NotificationOptions();
+
+            await _dbContext.AddAsync(newUser);
+            await _dbContext.SaveChangesAsync();
+        }
 
         public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId)
         {

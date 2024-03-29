@@ -302,7 +302,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("PetImage");
+                    b.ToTable("PetImages");
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetBreed", b =>

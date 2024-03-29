@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240323070731_init")]
+    [Migration("20240329132816_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -305,7 +305,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("PetImage");
+                    b.ToTable("PetImages");
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetBreed", b =>

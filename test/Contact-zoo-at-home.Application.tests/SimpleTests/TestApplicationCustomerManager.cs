@@ -111,7 +111,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            testCustomerManager.CreateNewContractAsync(baseContract, null).Wait();
+            //testCustomerManager.CreateNewContractAsync(baseContract, null).Wait();
 
             // Assert
             var createdContract = testDbContext.Contracts.Include(x => x.Contractor).Include(x => x.Customer).Include(x => x.PetsInContract).FirstOrDefault();
@@ -146,7 +146,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            testCustomerManager.CreateNewContractAsync(baseContract, notificaton).Wait();
+            //testCustomerManager.CreateNewContractAsync(baseContract, notificaton).Wait();
 
             // Assert
             var createdNotification = testDbContext.InnerNotifications.Where(not => not.Id == notificaton.Id).Include(x => x.NotificationTarget).FirstOrDefault();

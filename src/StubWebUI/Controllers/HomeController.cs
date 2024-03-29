@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using Contact_zoo_at_home.Shared.SharedModels;
 
 namespace StubWebUI.Controllers
 {
@@ -20,12 +21,14 @@ namespace StubWebUI.Controllers
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var responce = await client.GetStringAsync("https://localhost:7192/Home");
+            var responce = await client.GetAsync("https://localhost:7192/api/settings");
+
+            var model = await responce.Content.ReadFromJsonAsync<StandartUserSettingsDto>();
 
             return Ok(new
             {
                 access_token = accessToken,
-                message = responce,
+                message = Json(model),
             });
         }
     }

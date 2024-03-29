@@ -1,5 +1,7 @@
-
-using System.Security.Claims;
+using Contact_zoo_at_home.Application;
+using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Application.Realizations.AccountManagement;
+using System.Globalization;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -8,6 +10,11 @@ namespace Contact_zoo_at_home.WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // autoMapper for DTOs
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            DBConnections.ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi;Trusted_Connection=True;MultipleActiveResultSets=true";
 
             builder.Services.AddAuthentication()
                 .AddJwtBearer(options =>
@@ -29,6 +36,8 @@ namespace Contact_zoo_at_home.WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IUserManager, UserManager>();
 
             var app = builder.Build();
 

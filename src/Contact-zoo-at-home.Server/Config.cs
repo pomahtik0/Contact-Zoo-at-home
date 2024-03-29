@@ -24,7 +24,7 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-                new ApiScope("webapi"),
+                new ApiScope("webapi", new string[] { "ApplicationRole", "sub" }),
         };
 
     public static IEnumerable<Client> Clients =>
