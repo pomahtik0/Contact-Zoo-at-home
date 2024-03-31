@@ -1,0 +1,19 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model Contact_zoo_at_home.Server.ViewModels.Account.RegisterConfirmationViewModel
+@{
+    ViewData["Title"] = Localizer["ConfirmEmailTitle"];
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @Localizer["VerificationSent"]
+</p>
+
+
+
+
+
+
+

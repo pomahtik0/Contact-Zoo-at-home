@@ -1,10 +1,10 @@
-using Duende.IdentityServer.Test;
-using Duende.IdentityServer;
-using IdentityServer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
-using Contact_zoo_at_home.Server.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using Skoruba.Duende.IdentityServer.Shared.Configuration.Helpers;
+using System;
+using System.IO;
 
 namespace Contact_zoo_at_home.Server
 {
@@ -12,70 +12,93 @@ namespace Contact_zoo_at_home.Server
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var configuration = GetConfiguration(args);
 
-            builder.Services.AddRazorPages();
-
-            builder.Services.AddDbContext<ApplicationIdentityUserDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole<int>>(
-                options =>
-                {
-                    options.Password.RequireNonAlphanumeric = false; // simplify password rules
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 5;
-                })
-                .AddEntityFrameworkStores<ApplicationIdentityUserDbContext>()
-                .AddDefaultTokenProviders();
-
-            builder.Services
-                .AddIdentityServer(options =>
-                {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
-
-                    // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
-                    options.EmitStaticAudienceClaim = true;
-                })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<ApplicationIdentityUser>();
-
-            builder.Services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
-
-
-            var app = builder.Build();
-
-            if (app.Environment.IsDevelopment())
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+            try
             {
-                app.UseDeveloperExceptionPage();
+                DockerHelpers.ApplyDockerConfiguration(configuration);
+
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        private static IConfiguration GetConfiguration(string[] args)
+        {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var isDevelopment = environment == Environments.Development;
+
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("serilog.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"serilog.{environment}.json", optional: true, reloadOnChange: true);
+
+            if (isDevelopment)
+            {
+                configurationBuilder.AddUserSecrets<Startup>(true);
             }
 
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseIdentityServer();
-            app.UseAuthorization();
+            var configuration = configurationBuilder.Build();
 
-            app.MapRazorPages()
-                .RequireAuthorization();
+            configuration.AddAzureKeyVaultConfiguration(configurationBuilder);
 
-            app.Run();
+            configurationBuilder.AddCommandLine(args);
+            configurationBuilder.AddEnvironmentVariables();
+
+            return configurationBuilder.Build();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                 .ConfigureAppConfiguration((hostContext, configApp) =>
+                 {
+                     var configurationRoot = configApp.Build();
+
+                     configApp.AddJsonFile("serilog.json", optional: true, reloadOnChange: true);
+
+                     var env = hostContext.HostingEnvironment;
+
+                     configApp.AddJsonFile($"serilog.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                     if (env.IsDevelopment())
+                     {
+                         configApp.AddUserSecrets<Startup>(true);
+                     }
+
+                     configurationRoot.AddAzureKeyVaultConfiguration(configApp);
+
+                     configApp.AddEnvironmentVariables();
+                     configApp.AddCommandLine(args);
+                 })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureKestrel(options => options.AddServerHeader = false);
+                    webBuilder.UseStartup<Startup>();
+                })
+                .UseSerilog((hostContext, loggerConfig) =>
+                {
+                    loggerConfig
+                        .ReadFrom.Configuration(hostContext.Configuration)
+                        .Enrich.WithProperty("ApplicationName", hostContext.HostingEnvironment.ApplicationName);
+                });
     }
 }
+
+
+
+
+
+
+
