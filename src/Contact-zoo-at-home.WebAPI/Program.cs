@@ -1,6 +1,7 @@
 using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
+using Contact_zoo_at_home.WebAPI.Extensions;
 using System.Globalization;
 
 namespace Contact_zoo_at_home.WebAPI
@@ -13,8 +14,6 @@ namespace Contact_zoo_at_home.WebAPI
 
             // autoMapper for DTOs
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-            DBConnections.ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi;Trusted_Connection=True;MultipleActiveResultSets=true";
 
             builder.Services.AddAuthentication()
                 .AddJwtBearer(options =>
@@ -37,7 +36,9 @@ namespace Contact_zoo_at_home.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IUserManager, UserManager>();
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // ensure it is not null
+
+            builder.Services.AddMyServices(connectionString);
 
             var app = builder.Build();
 

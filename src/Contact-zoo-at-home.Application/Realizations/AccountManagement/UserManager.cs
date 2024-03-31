@@ -15,44 +15,26 @@ using Contact_zoo_at_home.Shared;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class UserManager : IUserManager
+    public class UserManager : BaseService, IUserManager
     {
-        private bool _disposeConnection;
-        private DbConnection _connection;
-        private DbTransaction? _transaction;
-        protected ApplicationDbContext _dbContext;
-
-        public UserManager(DbConnection? activeDbConnection = null)
+        public UserManager() : base()
         {
-            if (activeDbConnection == null)
-            {
-                _disposeConnection = true;
-            }
 
-            _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
-            _dbContext = new ApplicationDbContext(_connection);
         }
 
-        public UserManager(DbTransaction activeDbTransaction)
-        {
-            if (activeDbTransaction?.Connection is null)
-            {
-                throw new ArgumentNullException("Transaction is null, or it's connection has closed");
-            }
-
-            _connection = activeDbTransaction.Connection;
-            _transaction = activeDbTransaction;
-            _dbContext = new ApplicationDbContext(_connection);
-            _dbContext.Database.UseTransaction(activeDbTransaction);
+        public UserManager(DbConnection activeDbConnection) : base(activeDbConnection) 
+        { 
+        
         }
 
-        public void Dispose()
+        public UserManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
         {
-            _dbContext.Dispose();
-            if (_disposeConnection)
-            {
-                _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
-            }
+
+        }
+
+        public UserManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        {
+
         }
 
         public async Task CreateNewUserAsync(BaseUser newUser)
