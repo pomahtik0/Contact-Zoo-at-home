@@ -18,7 +18,7 @@ namespace Contact_zoo_at_home.WebAPI
             builder.Services.AddAuthentication()
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "https://localhost:7263";
+                    options.Authority = "https://localhost:44310";
                     options.TokenValidationParameters.ValidateAudience = false;
                 });
 

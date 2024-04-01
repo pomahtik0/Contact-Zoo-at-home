@@ -19,7 +19,7 @@ namespace StubWebUI
             .AddCookie("Cookies")
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:7263";
+                options.Authority = "https://localhost:44310";
 
                 options.ClientId = "webui_id";
                 options.ClientSecret = "webui_secret"; // some secret password
@@ -27,8 +27,7 @@ namespace StubWebUI
                
                 options.Scope.Clear();
                 options.Scope.Add("openid");
-                options.Scope.Add("webapi");
-                options.Scope.Add("basicAppClaims");
+                options.Scope.Add("webapi_scope");
                 //options.Scope.Add("offline_access");
                 //options.Scope.Add("verification");
                 //options.ClaimActions.MapJsonKey("email_verified", "email_verified");

@@ -624,12 +624,13 @@ namespace Contact_zoo_at_home.Server.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                var addingClaimsTask = _userManager.AddClaimAsync(user, new Claim("ApplicationRole", model.Role.ToString()));
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
 
                 await _emailSender.SendEmailAsync(model.Email, _localizer["ConfirmEmailTitle"], _localizer["ConfirmEmailBody", HtmlEncoder.Default.Encode(callbackUrl)]);
-
+                await addingClaimsTask;
                 if (_identityOptions.SignIn.RequireConfirmedAccount)
                 {
                     return View("RegisterConfirmation");

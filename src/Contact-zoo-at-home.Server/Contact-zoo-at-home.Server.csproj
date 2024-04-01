@@ -50,6 +50,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Contact-zoo-at-home.Server.Infrastructure\Contact-zoo-at-home.Server.Infrastructure.csproj" />
       <ProjectReference Include="..\Contact-zoo-at-home.Server.Shared\Contact-zoo-at-home.Server.Shared.csproj" />
+      <ProjectReference Include="..\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

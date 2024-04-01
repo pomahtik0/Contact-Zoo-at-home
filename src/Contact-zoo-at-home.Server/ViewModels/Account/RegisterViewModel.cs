@@ -1,3 +1,4 @@
+using Contact_zoo_at_home.Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace Contact_zoo_at_home.Server.ViewModels.Account
@@ -18,6 +19,8 @@ namespace Contact_zoo_at_home.Server.ViewModels.Account
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+
+        public Roles Role { get; set; }
     }
 }
 

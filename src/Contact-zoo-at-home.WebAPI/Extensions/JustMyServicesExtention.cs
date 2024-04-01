@@ -8,6 +8,11 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
     {
         public static IServiceCollection AddMyServices(this IServiceCollection services, string connectionString)
         {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException(nameof(connectionString), "Configure connection string");
+            }
+
             DBConnections.ConnectionString = connectionString;
             services.AddScoped<IUserManager, UserManager>();
 
