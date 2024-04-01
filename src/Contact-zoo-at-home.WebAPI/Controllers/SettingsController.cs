@@ -26,12 +26,10 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
-            int userId = Convert.ToInt32(_accessToken.Claims.First(x => x.Type == "sub").Value); // ?! try to find out if it is possible to pass id to user claims
+            int userId = Convert.ToInt32(User.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value); // ?! try to find out if it is possible to pass id to user claims
             BaseUser? user;
             
             try

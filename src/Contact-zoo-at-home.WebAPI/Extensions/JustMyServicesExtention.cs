@@ -6,7 +6,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
 {
     public static class JustMyServicesExtention
     {
-        public static IServiceCollection AddMyServices(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddMyServices(this IServiceCollection services, string? connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
             {

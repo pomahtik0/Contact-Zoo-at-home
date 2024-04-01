@@ -11,14 +11,14 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "commandLineArgs": "/seed",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Contact_zoo_at_home.Server.Admin": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
