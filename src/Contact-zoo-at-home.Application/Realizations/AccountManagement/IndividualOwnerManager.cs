@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
@@ -6,8 +7,25 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
     public class IndividualOwnerManager : PetOwnerManager
     {
-        public IndividualOwnerManager(DbConnection? connection) : base (connection) { }
-        public IndividualOwnerManager(DbTransaction transaction) : base (transaction) { }
+        public IndividualOwnerManager() : base()
+        {
+
+        }
+
+        public IndividualOwnerManager(DbConnection activeDbConnection) : base(activeDbConnection)
+        {
+
+        }
+
+        public IndividualOwnerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
+        {
+
+        }
+
+        public IndividualOwnerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        {
+
+        }
 
         public async Task SaveUniqueSettings/*rename me later*/(IndividualOwner individualOwner)
         {

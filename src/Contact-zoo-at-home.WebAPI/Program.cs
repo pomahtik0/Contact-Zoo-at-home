@@ -5,14 +5,7 @@ using Contact_zoo_at_home.WebAPI.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using System.Globalization;
-using Contact_zoo_at_home.Server.Infrastructure.Entities.Identity;
-using Contact_zoo_at_home.Server.Infrastructure.DbContexts;
-using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -26,15 +19,6 @@ namespace Contact_zoo_at_home.WebAPI
 
             // autoMapper for DTOs
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-            builder.Services.AddDbContext<AdminIdentityDbContext>(options => 
-                options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.server;Trusted_Connection=True;MultipleActiveResultSets=true"));
-
-            builder.Services.AddIdentityCore<UserIdentity>()
-                .AddRoles<UserIdentityRole>()
-                .AddEntityFrameworkStores<AdminIdentityDbContext>()
-                .AddDefaultTokenProviders();
-
 
             builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -55,7 +39,7 @@ namespace Contact_zoo_at_home.WebAPI
 
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Web API", Version = "v1" });
+                options.SwaggerDoc("v0.001", new OpenApiInfo { Title = "Web API", Version = "v0.001" });
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -72,18 +56,8 @@ namespace Contact_zoo_at_home.WebAPI
                         }
                     }
                 });
-                options.OperationFilter<AuthorizeCheckOperationFilter>();
-            });
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
+                options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
             builder.Services.AddControllers();
@@ -96,23 +70,13 @@ namespace Contact_zoo_at_home.WebAPI
 
             var app = builder.Build();
 
-            var forwardingOptions = new ForwardedHeadersOptions()
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            };
-
-            forwardingOptions.KnownNetworks.Clear();
-            forwardingOptions.KnownProxies.Clear();
-
-            app.UseForwardedHeaders(forwardingOptions);
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint($"https://localhost:7192/swagger/v1/swagger.json", "WebAPI");
+                    options.SwaggerEndpoint($"https://localhost:7192/swagger/v0.001/swagger.json", "WebAPI");
 
                     options.OAuthClientId("webapi_id");
                     //options.OAuthClientSecret("webapi_secret");
@@ -120,10 +84,6 @@ namespace Contact_zoo_at_home.WebAPI
                     options.OAuthUsePkce();
                 });
             }
-
-            app.UseAuthentication();
-            app.UseCors();
-            app.UseAuthorization();
 
             app.MapControllers();
 

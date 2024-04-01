@@ -9,45 +9,31 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public abstract class PetOwnerManager : IDisposable
+    /// <summary>
+    /// Abstraction for all PetOwners to be able to manage their pets.
+    /// </summary>
+    public abstract class PetOwnerManager : BaseService, IDisposable
     {
-        private bool _disposeConnection;
-        private DbConnection _connection;
-        private DbTransaction? _transaction;
-        protected ApplicationDbContext _dbContext;
-
-        public PetOwnerManager(DbConnection? activeDbConnection = null)
+        public PetOwnerManager() : base()
         {
-            if (activeDbConnection == null)
-            {
-                _disposeConnection = true;
-            }
 
-            _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
-            _dbContext = new ApplicationDbContext(_connection);
         }
 
-        public PetOwnerManager(DbTransaction activeDbTransaction)
+        public PetOwnerManager(DbConnection activeDbConnection) : base(activeDbConnection)
         {
-            if (activeDbTransaction?.Connection is null)
-            {
-                throw new ArgumentNullException("Transaction is null, or it's connection has closed");
-            }
 
-            _connection = activeDbTransaction.Connection;
-            _transaction = activeDbTransaction;
-            _dbContext = new ApplicationDbContext(_connection);
-            _dbContext.Database.UseTransaction(activeDbTransaction);
         }
 
-        public void Dispose()
+        public PetOwnerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
         {
-            _dbContext.Dispose();
-            if (_disposeConnection)
-            {
-                _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
-            }
+
         }
+
+        public PetOwnerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        {
+
+        }
+
 
         private InnerNotification ContractIsCanceledNotification(BaseContract baseContract)
         {

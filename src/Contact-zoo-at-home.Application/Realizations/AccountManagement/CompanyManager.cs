@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
+    /// <summary>
+    /// Finish only if i have time, focus on Customers/IndividualOwner relationship
+    /// </summary>
     public class CompanyManager : PetOwnerManager
     {
         public CompanyManager(DbConnection? connection) : base(connection) { }
