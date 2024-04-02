@@ -8,7 +8,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     [Route("api/settings/contracts")]
     public class SettingsContractsController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(int page = 1, int pageElements = 10)
         {
             throw new NotImplementedException();
         }

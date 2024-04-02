@@ -21,5 +21,19 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        [HttpGet]
+        [Route("pets")]
+        public IActionResult Pets()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("pets/{petId}")] 
+        public IActionResult Pet() // actualy dublicates action from PetsController so probably just redirect
+        {
+            throw new NotImplementedException();
+        }
     }
 }
