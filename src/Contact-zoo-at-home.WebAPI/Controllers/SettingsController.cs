@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using Contact_zoo_at_home.WebAPI.Extensions;
+using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
@@ -29,20 +31,23 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            int userId = Convert.ToInt32(User.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value); // ?! try to find out if it is possible to pass id to user claims
+            int userId = User.Claims.GetId();
+
             BaseUser? user;
             
             try
             {
                 user = await _userManager.GetUserProfileInfoByIdAsync(userId);
             }
-            catch (InvalidOperationException) // user was not found
+            catch (NotExistsException) // user was not found
             {
-                string role = User.Claims.First(x => x.Type == "ApplicationRole").Value;
-                await _userManager.CreateNewUserAsync(userId, Enum.Parse<Roles>(role)); // create new user, cause access token is valid, so user must exist
+                Roles role = User.Claims.GetRole();
+                await _userManager.CreateNewUserAsync(userId, role); // create new user, cause access token is valid, so user must exist
                 user = await _userManager.GetUserProfileInfoByIdAsync(userId);
             }
+
             var model = _mapper.Map<StandartUserSettingsDto>(user);
+            
             return Json(model);
         }
 
