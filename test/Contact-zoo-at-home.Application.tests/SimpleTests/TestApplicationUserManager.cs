@@ -29,12 +29,14 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
             classDbContext = new ApplicationDbContext(classDbConnection);
+            classDbContext.Database.EnsureCreated();
             classTestContext = context;
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
+            classDbContext.Database.EnsureDeleted();
             classDbContext.Dispose();
             classDbConnection.Dispose();
         }

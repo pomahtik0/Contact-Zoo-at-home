@@ -35,6 +35,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
             classDbContext = new ApplicationDbContext(classDbConnection);
+            classDbContext.Database.EnsureCreated();
             classTestContext = context;
 
             var customer = new CustomerUser()
@@ -68,7 +69,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         public static void ClassCleanup()
         {
             classDbContext.Database.EnsureDeleted();
-            classDbContext.Database.Migrate();
             classDbContext.Dispose();
             classDbConnection.Dispose();
         }
