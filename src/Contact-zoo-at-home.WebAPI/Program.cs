@@ -1,13 +1,8 @@
-using Contact_zoo_at_home.Application;
-using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
-using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.WebAPI.Extensions;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Contact_zoo_at_home.WebAPI.Helpers;
+using Contact_zoo_at_home.WebAPI.Configuration;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -16,6 +11,13 @@ namespace Contact_zoo_at_home.WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var basicAppInfo = builder.Configuration.GetSection(nameof(BasicAppInfo)).Get<BasicAppInfo>();
+            var swaggerInfo = builder.Configuration.GetSection(nameof(SwaggerInfo)).Get<SwaggerInfo>();
+
+            if (basicAppInfo is null || swaggerInfo is null)
+            {
+                throw new ArgumentNullException(nameof(builder.Configuration), "Configurate file to have needed sections");
+            }
 
             // autoMapper for DTOs
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -23,9 +25,9 @@ namespace Contact_zoo_at_home.WebAPI
             builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:44310";
+                    options.Authority = basicAppInfo.ServerPath;
                     options.TokenValidationParameters.ValidateAudience = false;
-                    options.RequireHttpsMetadata = true;
+                    options.RequireHttpsMetadata = false;
                 });
 
             builder.Services.AddAuthorization(options =>
@@ -33,13 +35,13 @@ namespace Contact_zoo_at_home.WebAPI
                 options.AddPolicy("ApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "webapi");
+                    policy.RequireClaim("scope", basicAppInfo.ScopeToAccess);
                 });
             });
 
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v0.001", new OpenApiInfo { Title = "Web API", Version = "v0.001" });
+                options.SwaggerDoc(swaggerInfo.CurrentVersion, new OpenApiInfo { Title = basicAppInfo.ApplicationName, Version = swaggerInfo.CurrentVersion });
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -48,10 +50,10 @@ namespace Contact_zoo_at_home.WebAPI
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri($"https://localhost:44310/connect/authorize"),
-                            TokenUrl = new Uri($"https://localhost:44310/connect/token"),
+                            AuthorizationUrl = new Uri($"{basicAppInfo.ServerPath}/connect/authorize"),
+                            TokenUrl = new Uri($"{basicAppInfo.ServerPath}/connect/token"),
                             Scopes = new Dictionary<string, string> {
-                                { "webapi_scope", "webapi_scope" }
+                                { swaggerInfo.ScopeName, swaggerInfo.ScopeDescription }
                             }
                         }
                     }
@@ -76,11 +78,11 @@ namespace Contact_zoo_at_home.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint($"https://localhost:7192/swagger/v0.001/swagger.json", "WebAPI");
+                    options.SwaggerEndpoint($"{basicAppInfo.ThisPath}/swagger/{swaggerInfo.CurrentVersion}/swagger.json", basicAppInfo.ApplicationName);
 
-                    options.OAuthClientId("webapi_id");
-                    //options.OAuthClientSecret("webapi_secret");
-                    options.OAuthAppName("Web API");
+                    options.OAuthClientId(swaggerInfo.SwaggerId);
+                    options.OAuthClientSecret(swaggerInfo.SwaggerSecret);
+                    options.OAuthAppName(basicAppInfo.ApplicationName);
                     options.OAuthUsePkce();
                 });
             }
@@ -88,40 +90,6 @@ namespace Contact_zoo_at_home.WebAPI
             app.MapControllers();
 
             app.Run();
-        }
-    }
-    public class AuthorizeCheckOperationFilter : IOperationFilter
-    {
-
-        public AuthorizeCheckOperationFilter()
-        {
-
-        }
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            var hasAuthorize = context.MethodInfo.DeclaringType != null && (context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any()
-                                                                            || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any());
-
-            if (hasAuthorize)
-            {
-                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
-
-                operation.Security = new List<OpenApiSecurityRequirement>
-                {
-                    new OpenApiSecurityRequirement
-                    {
-                        [
-                            new OpenApiSecurityScheme {Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "oauth2"}
-                            }
-                        ] = new[] { "Web API" }
-                    }
-                };
-
-            }
         }
     }
 }
