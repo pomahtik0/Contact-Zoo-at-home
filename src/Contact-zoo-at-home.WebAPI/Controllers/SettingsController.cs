@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Contact_zoo_at_home.Application.Exceptions;
+using Contact_zoo_at_home.WebAPI.Helpers;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
@@ -28,7 +29,6 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             int userId = User.Claims.GetId();
@@ -39,38 +39,87 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             {
                 user = await _userManager.GetUserProfileInfoByIdAsync(userId);
             }
-            catch (NotExistsException) // user was not found
+            catch (NotExistsException)
             {
-                Roles role = User.Claims.GetRole();
-                await _userManager.CreateNewUserAsync(userId, role); // create new user, cause access token is valid, so user must exist
-                user = await _userManager.GetUserProfileInfoByIdAsync(userId);
+                if(await NotExistsExceptionHandler.HandleException(_userManager, User))
+                {
+                    user = await _userManager.GetUserProfileInfoByIdAsync(userId);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
 
-            var model = _mapper.Map<StandartUserSettingsDto>(user);
+            var dto = _mapper.Map<StandartUserSettingsDto>(user);
             
-            return Json(model);
+            return Json(dto);
         }
 
         [HttpPost]
-        public IActionResult Index(StandartUserSettingsDto userSettingsDto)
+        public async Task<IActionResult> Index([FromBody]StandartUserSettingsDto dto)
         {
-            return View();
+            var user = _mapper.Map<BaseUser>(dto);
+
+            try
+            {
+                await _userManager.SaveUserProfileChangesAsync(user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         [HttpGet]
         [Route("description")]
         [Authorize(Policy = "IndividualOwner")]
-        public IActionResult UniqueSettings() 
+        public async Task<IActionResult> UniqueSettings() 
         {
-            return View();
+            int userId = User.Claims.GetId();
+
+            IndividualOwner user;
+
+            try
+            {
+                user = await _userManager.GetUserProfileInfoByIdAsync(userId) as IndividualOwner; // rework!
+            }
+            catch(NotExistsException)
+            {
+                if (await NotExistsExceptionHandler.HandleException(_userManager, User))
+                {
+                    user = await _userManager.GetUserProfileInfoByIdAsync(userId) as IndividualOwner;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+
+            var dto = _mapper.Map<IndividualOwnerSpecialSettingsDto>(user);
+
+            return Json(dto);
         }
 
         [HttpPost]
         [Route("description")]
         [Authorize(Policy = "IndividualOwner")]
-        public IActionResult UniqueSettings(IndividualOwner dto) // create dto later
+        public async Task<IActionResult> UniqueSettings(IndividualOwnerSpecialSettingsDto dto)
         {
-            return View();
+            var user = _mapper.Map<BaseUser>(dto);
+
+            try
+            {
+                await _userManager.SaveUserProfileChangesAsync(user); // rework!
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }
