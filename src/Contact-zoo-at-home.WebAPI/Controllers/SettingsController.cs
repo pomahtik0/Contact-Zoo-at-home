@@ -2,12 +2,9 @@
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared;
 using Contact_zoo_at_home.Shared.SharedModels;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Contact_zoo_at_home.Application.Exceptions;
 using Contact_zoo_at_home.WebAPI.Helpers;

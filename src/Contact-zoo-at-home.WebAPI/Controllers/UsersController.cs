@@ -19,7 +19,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

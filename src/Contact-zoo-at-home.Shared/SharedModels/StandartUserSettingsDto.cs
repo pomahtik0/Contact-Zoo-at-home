@@ -9,8 +9,6 @@ namespace Contact_zoo_at_home.Shared.SharedModels
 {
     public class StandartUserSettingsDto
     {
-        public string? StatusMessage { get; set; }
-
         [Phone]
         [Display(Name = "Phone number")]
         [MaxLength(20, ErrorMessage = "To long phone number!")]
