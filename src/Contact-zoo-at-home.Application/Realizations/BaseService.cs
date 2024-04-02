@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace Contact_zoo_at_home.Application
+namespace Contact_zoo_at_home.Application.Realizations
 {
     /// <summary>
     /// Just a little realization, of services with specified connection, transaction or dbContext
@@ -24,7 +24,7 @@ namespace Contact_zoo_at_home.Application
 
         public BaseService(DbConnection activeDbConnection)
         {
-            if(activeDbConnection == null)
+            if (activeDbConnection == null)
             {
                 throw new ArgumentNullException(nameof(activeDbConnection));
             }

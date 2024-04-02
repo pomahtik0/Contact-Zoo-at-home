@@ -7,6 +7,14 @@ namespace Contact_zoo_at_home.Application
     {
         public static string ConnectionString { get; set; }
 
-        public static DbConnection GetNewDbConnection() => new SqlConnection(ConnectionString);
+        public static DbConnection GetNewDbConnection()
+        {
+            if (string.IsNullOrEmpty(ConnectionString))
+            {
+                throw new ArgumentNullException(ConnectionString, "Configure connection string!");
+            }
+
+            return new SqlConnection(ConnectionString);
+        }
     }
 }
