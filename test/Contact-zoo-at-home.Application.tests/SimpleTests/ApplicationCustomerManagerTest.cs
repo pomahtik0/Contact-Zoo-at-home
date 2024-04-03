@@ -20,7 +20,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
 {
     // use user id's from 1 to 10 here
     [TestClass]
-    public class TestApplicationCustomerManager
+    public class ApplicationCustomerManagerTest
     {
         private static DbConnection classDbConnection;
         private static ApplicationDbContext classDbContext; // use to arrange data

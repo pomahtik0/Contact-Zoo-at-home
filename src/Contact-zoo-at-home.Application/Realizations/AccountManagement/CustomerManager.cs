@@ -1,19 +1,12 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
-using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {

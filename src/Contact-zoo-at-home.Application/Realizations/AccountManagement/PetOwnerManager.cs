@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
+﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
@@ -12,7 +13,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// <summary>
     /// Abstraction for all PetOwners to be able to manage their pets.
     /// </summary>
-    public abstract class PetOwnerManager : BaseService, IDisposable
+    public abstract class PetOwnerManager : BaseService, IPetOwner, IDisposable
     {
         public PetOwnerManager() : base()
         {

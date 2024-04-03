@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
 {
     // use user id's from 11 to 20 here
     [TestClass]
-    public class TestApplicationUserManager
+    public class ApplicationUserManagerTest
     {
         private static DbConnection classDbConnection;
         private static ApplicationDbContext classDbContext; // use to arrange data

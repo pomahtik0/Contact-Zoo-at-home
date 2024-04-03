@@ -1,11 +1,12 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class IndividualOwnerManager : PetOwnerManager
+    public class IndividualOwnerManager : PetOwnerManager, IIndividualOwner
     {
         public IndividualOwnerManager() : base()
         {
@@ -27,7 +28,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         }
 
-        public async Task SaveUniqueSettings/*rename me later*/(IndividualOwner individualOwner)
+        public async Task SaveNewDescription(IndividualOwner individualOwner)
         {
             if (individualOwner == null)
             {
