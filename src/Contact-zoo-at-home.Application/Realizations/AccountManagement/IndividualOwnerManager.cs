@@ -28,7 +28,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         }
 
-        public async Task SaveNewDescription(IndividualOwner individualOwner)
+        public async Task SaveNewDescriptionAsync(IndividualOwner individualOwner)
         {
             if (individualOwner == null)
             {
