@@ -13,7 +13,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// <summary>
     /// Abstraction for all PetOwners to be able to manage their pets.
     /// </summary>
-    public abstract class PetOwnerManager : BaseService, IPetOwner, IDisposable
+    public abstract class PetOwnerManager : BaseService, IPetOwnerManager, IDisposable
     {
         public PetOwnerManager() : base()
         {
