@@ -3,6 +3,7 @@ using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
@@ -95,7 +96,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
 
 
         [TestMethod]
-        public void CreateNewContract_SomeValidTypeOfContract_CreatesContractAndNoInnerNotification()
+        public void CreateNewContractAsync_SomeValidTypeOfContract_CreatesContractAndNoInnerNotification()
         {
             // Arrange
             var customer = classDbContext.Users.Find(1) as CustomerUser;
@@ -111,10 +112,15 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            //testCustomerManager.CreateNewContractAsync(baseContract, null).Wait();
+            testCustomerManager.CreateNewContractAsync(baseContract).Wait();
 
             // Assert
-            var createdContract = testDbContext.Contracts.Include(x => x.Contractor).Include(x => x.Customer).Include(x => x.PetsInContract).FirstOrDefault();
+            var createdContract = testDbContext.Contracts
+                .Include(x => x.Contractor)
+                .Include(x => x.Customer)
+                .Include(x => x.PetsInContract)
+                .AsNoTracking()
+                .FirstOrDefault();
 
             Assert.IsNotNull(createdContract);
             Assert.AreEqual(createdContract.Contractor!.Id, company!.Id);
@@ -123,7 +129,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         }
 
         [TestMethod]
-        public void CreateNewContract_SomeValidTypeOfContract_CreatesInnerNotification()
+        public void CreateNewContractAsync_SomeValidTypeOfContract_CreatesInnerNotification()
         {
             // Arrange
             var customer = classDbContext.Users.Find(1) as CustomerUser;
@@ -136,24 +142,177 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
             };
-            var notificaton = new InnerNotification()
-            {
-                NotificationTarget = company,
-                Status = Core.Enums.NotificationStatus.NotShown,
-                Text = "Hello world!",
-                Title = "Test"
-            };
+
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            //testCustomerManager.CreateNewContractAsync(baseContract, notificaton).Wait();
+            testCustomerManager.CreateNewContractAsync(baseContract).Wait();
 
             // Assert
-            var createdNotification = testDbContext.InnerNotifications.Where(not => not.Id == notificaton.Id).Include(x => x.NotificationTarget).FirstOrDefault();
+            var createdNotification = testDbContext.InnerNotifications
+                .Include(x=>x.NotificationTarget)
+                .Where(x => x.NotificationTarget == company)
+                .AsNoTracking()
+                .FirstOrDefault();
 
             Assert.IsNotNull(createdNotification);
             Assert.AreEqual(createdNotification.NotificationTarget.Id, company!.Id);
-            Assert.AreEqual(createdNotification.Text, notificaton.Text);
+        }
+
+        [TestMethod]
+        public void GetAllContractsAsync_ValidData_ReturnsAllUserContracts()
+        {
+            // Arrange
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var pet = classDbContext.Pets.FirstOrDefault();
+
+            var baseContract1 = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Active
+            };
+
+            var baseContract2 = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Active
+            };
+
+            var baseContract3 = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Active
+            };
+
+            baseContract1.PetsInContract.Add(pet!);
+            baseContract2.PetsInContract.Add(pet!);
+            baseContract3.PetsInContract.Add(pet!);
+
+            testDbContext.AttachRange([baseContract1, baseContract2, baseContract3]);
+
+            testDbContext.SaveChanges();
+
+            // Act
+            var listOfContracts = testCustomerManager.GetAllContractsAsync(customer.Id).GetAwaiter().GetResult();
+
+            // Assert
+            Assert.AreEqual(3, listOfContracts.Count);
+        }
+
+        [TestMethod]
+        public void CancelContractAsync_ValidDate_SetsContractToCanceledAndCreatesNotification()
+        {
+            // Arrange
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var pet = classDbContext.Pets.FirstOrDefault();
+            var baseContract = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+            };
+
+            baseContract.PetsInContract.Add(pet!);
+
+            testDbContext.Attach(baseContract);
+            testDbContext.SaveChanges();
+
+            // Act
+            testCustomerManager.CancelContractAsync(baseContract.Id, customer.Id).Wait();
+
+            // Assert
+
+            var contract = testDbContext.Contracts
+                .Where(contract => contract.Id == baseContract.Id)
+                .AsNoTracking()
+                .FirstOrDefault();
+
+            var nottification = testDbContext.InnerNotifications
+                .Where(x => x.NotificationTarget == company)
+                .Include(x=>x.NotificationTarget)
+                .AsNoTracking()
+                .FirstOrDefault();
+
+            Assert.IsNotNull(contract);
+            Assert.IsNotNull(nottification);
+            Assert.AreEqual(Core.Enums.ContractStatus.Canceled, contract.StatusOfTheContract);
+        }
+
+        [TestMethod]
+        public void GetAllContracts_OneCanceledContract_CanceledContractDoesNotShowUpInListOfContracts()
+        {
+            // Arrange
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var pet = classDbContext.Pets.FirstOrDefault();
+            var baseContract = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Canceled,
+            };
+
+            baseContract.PetsInContract.Add(pet!);
+
+            testDbContext.Attach(baseContract);
+            testDbContext.SaveChanges();
+
+            // Act
+            var listOfContracts = testCustomerManager.GetAllContractsAsync(customer.Id).GetAwaiter().GetResult();
+
+            // Assert
+            Assert.AreEqual(0, listOfContracts.Count);
+        }
+
+
+        [TestMethod]
+        public void CancelContractAsync_CanceledOrPerfermedContract_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var customer = classDbContext.Users.Find(1) as CustomerUser;
+            var company = classDbContext.Users.Find(2) as Company;
+            var baseContract_canceled = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Canceled,
+            }; 
+            
+            var baseContract_perfermed = new StandartContract()
+            {
+                Customer = customer!,
+                Contractor = company,
+                ContractAdress = "someAddress",
+                ContractDate = DateTime.Now,
+                StatusOfTheContract = Core.Enums.ContractStatus.Perfermed,
+            };
+
+            testDbContext.AttachRange([baseContract_canceled, baseContract_perfermed]);
+            testDbContext.SaveChanges();
+
+            // Act + Assert
+
+            Assert.ThrowsException<InvalidOperationException>(
+                () => testCustomerManager.CancelContractAsync(baseContract_canceled.Id, customer.Id).GetAwaiter().GetResult());
+
+            Assert.ThrowsException<InvalidOperationException>(
+                () => testCustomerManager.CancelContractAsync(baseContract_perfermed.Id, customer.Id).GetAwaiter().GetResult());
         }
     }
 }

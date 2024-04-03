@@ -12,6 +12,6 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 
         Task<IList<Pet>> GetAllContractPetsAsync(int contractId, int customerId);
 
-        Task CancelContract(int contractId, int customerId);
+        Task CancelContractAsync(int contractId, int customerId);
     }
 }

@@ -17,44 +17,26 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class CustomerManager : ICustomerManager
+    public class CustomerManager : BaseService, ICustomerManager
     {
-        private bool _disposeConnection;
-        private DbConnection _connection;
-        private DbTransaction? _transaction;
-        protected ApplicationDbContext _dbContext;
-
-        public CustomerManager(DbConnection? activeDbConnection = null)
+        public CustomerManager() : base()
         {
-            if (activeDbConnection == null)
-            {
-                _disposeConnection = true;
-            }
 
-            _connection = activeDbConnection ?? DBConnections.GetNewDbConnection();
-            _dbContext = new ApplicationDbContext(_connection);
         }
 
-        public CustomerManager(DbTransaction activeDbTransaction)
+        public CustomerManager(DbConnection activeDbConnection) : base(activeDbConnection)
         {
-            if (activeDbTransaction?.Connection is null)
-            {
-                throw new ArgumentNullException("Transaction is null, or it's connection has closed");
-            }
 
-            _connection = activeDbTransaction.Connection;
-            _transaction = activeDbTransaction;
-            _dbContext = new ApplicationDbContext(_connection);
-            _dbContext.Database.UseTransaction(activeDbTransaction);
         }
 
-        public void Dispose()
+        public CustomerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
         {
-            _dbContext.Dispose();
-            if (_disposeConnection)
-            {
-                _connection.Dispose(); // Ensure connection will be disposed, it is not managed somewhere else.
-            }
+
+        }
+
+        public CustomerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        {
+
         }
 
 
@@ -139,17 +121,16 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new NotImplementedException("Does not support poly contracts");
             }
 
+            baseContract.StatusOfTheContract = Core.Enums.ContractStatus.Active;
+
             _dbContext.Attach(baseContract);
 
-            NotificationManager.CreateNotification(_dbContext, ContractIsCreatedNotification(baseContract));
+            await _dbContext.SaveChangesAsync(); // need to save changes to get contract id
             
+            NotificationManager.CreateNotification(_dbContext, ContractIsCreatedNotification(baseContract));
+
             await _dbContext.SaveChangesAsync();
         }
-
-        //public async Task CreateNewPolyContractAsync(BaseContract baseContract)
-        //{
-
-        //}
 
         public async Task<IList<BaseContract>> GetAllContractsAsync(int customerId)
         {
@@ -197,7 +178,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             return wantedContract.PetsInContract;
         }
 
-        public async Task CancelContract(int contractId, int customerId)
+        public async Task CancelContractAsync(int contractId, int customerId)
         {
             if (customerId <= 0)
             {
@@ -212,15 +193,22 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var contractToCancel = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Customer.Id == customerId)
-                .AsNoTracking()
+                .Include(contract => contract.Contractor)
                 .FirstOrDefaultAsync();
 
             if (contractToCancel == null)
             {
                 throw new InvalidOperationException($"Contract with id={contractId} does not exist, or does not belong to Customer with id={customerId}");
             }
-
-            contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+            
+            switch(contractToCancel.StatusOfTheContract)
+            {
+                case Core.Enums.ContractStatus.Canceled or Core.Enums.ContractStatus.Perfermed:
+                    throw new InvalidOperationException();
+                default:
+                    contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+                    break;
+            }
 
             NotificationManager.CreateNotification(_dbContext, ContractIsCanceledNotification(contractToCancel));
             
