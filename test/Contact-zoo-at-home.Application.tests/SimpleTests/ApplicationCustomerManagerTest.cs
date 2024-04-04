@@ -165,7 +165,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             // Arrange
             var customer = classDbContext.Users.Find(1) as CustomerUser;
             var company = classDbContext.Users.Find(2) as Company;
-            var pet = classDbContext.Pets.FirstOrDefault();
+            var pet = classDbContext.Pets.Where(pet => pet.Owner == company).FirstOrDefault();
 
             var baseContract1 = new StandartContract()
             {

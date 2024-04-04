@@ -1,10 +1,13 @@
-﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+﻿using Contact_zoo_at_home.Application.Exceptions;
+using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Enums;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Data.Common;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -47,26 +50,33 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         }
 
         // Pets:
-        public async Task<IList<Pet>> GetAllOwnedPetsAsync(int ownerId)
+        public async Task<IList<Pet>> GetAllOwnedPetsAsync(int ownerId, int page = 1, int elementsOnPage = 10, Language language = Language.English)
         {
             if (ownerId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
+            // page checks
+            
+            page = page - 1;
+
             var pets = await _dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
                 .AsNoTracking()
                 .Include(x => x.Species)
-                .ThenInclude(x => x.Names)
-                .AsSplitQuery()
+                .ThenInclude(x => x.Names
+                    .Where(name => name.Language == language))
                 .Include(x => x.Breed)
-                .ThenInclude(x => x.Names)
+                .ThenInclude(x => x.Names
+                    .Where(name => name.Language == language))
+                .Skip(elementsOnPage * page)
+                .Take(elementsOnPage)
                 .ToListAsync();
 
             return pets;
         }
 
-        public async Task<Pet> GetOwnedPetAsync(int petId, int ownerId)
+        public async Task<Pet> GetOwnedPetAsync(int petId, int ownerId, Language language = Language.English)
         {
             if (petId <= 0)
             {
@@ -82,10 +92,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Species)
-                .ThenInclude(species => species.Names)
+                .ThenInclude(species => species.Names
+                    .Where(name => name.Language == language))
                 .AsSplitQuery()
                 .Include(pet => pet.Breed)
-                .ThenInclude(breed => breed.Names)
+                .ThenInclude(breed => breed.Names
+                    .Where(name => name.Language == language))
                 .FirstOrDefaultAsync();
 
             if (pet == null)
@@ -95,7 +107,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             if (pet.Owner.Id != ownerId)
             {
-                throw new ArgumentException($"User with specified Id={ownerId} is not an owner of a pet", nameof(ownerId));
+                throw new NoRightsException();
             }
 
             return pet;
@@ -186,11 +198,6 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             newPet.Owner = owner;
 
-            if (newPet.PetOptions != null)
-            {
-                _dbContext.Attach(newPet.PetOptions);
-            }
-
             await _dbContext.SaveChangesAsync();
         }
 
@@ -234,7 +241,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         // Contracts:
 
-        public async Task<IList<BaseContract>> GetAllActiveContractsAsync(int contractorId)
+        public async Task<IList<BaseContract>> GetAllActiveContractsAsync(int contractorId) // paging here!
         {
             if (contractorId <= 0)
             {
@@ -243,7 +250,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             var contracts = await _dbContext.Contracts
                 .Where(contract => contract.Contractor!.Id == contractorId)
-                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
+                .Where(contract => contract.StatusOfTheContract == ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.Customer)
                 .Include(contract => contract.Contractor)
@@ -255,7 +262,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         public async Task<IList<Pet>> GetAllContractPetsAsync(int contractId, int contractorId)
         {
-            if (contractorId <= 0)
+            if (contractId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(contractId), $"Invalid Id={contractId}");
             }
@@ -268,7 +275,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var wantedContract = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Contractor.Id == contractorId)
-                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
+                .Where(contract => contract.StatusOfTheContract == ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.PetsInContract)
                 .FirstOrDefaultAsync();
@@ -283,7 +290,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         public async Task CancelContractAsync(int contractId, int contractorId)
         {
-            if (contractorId <= 0)
+            if (contractId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(contractId), $"Invalid Id={contractId}");
             }
@@ -296,6 +303,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var contractToCancel = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Contractor.Id == contractorId)
+                .Include(contract => contract.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
@@ -304,7 +312,14 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new InvalidOperationException($"Contract with id={contractId} does not exist, or does not belong to Customer with id={contractorId}");
             }
 
-            contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+            switch (contractToCancel.StatusOfTheContract)
+            {
+                case Core.Enums.ContractStatus.Canceled or Core.Enums.ContractStatus.Perfermed:
+                    throw new InvalidOperationException();
+                default:
+                    contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+                    break;
+            }
 
             NotificationManager.CreateNotification(_dbContext, ContractIsCanceledNotification(contractToCancel));
 
