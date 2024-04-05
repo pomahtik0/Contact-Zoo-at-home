@@ -2,12 +2,13 @@
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared.SharedModels;
+using Contact_zoo_at_home.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Contact_zoo_at_home.Application.Exceptions;
 using Contact_zoo_at_home.WebAPI.Helpers;
+using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
@@ -17,11 +18,15 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     public class SettingsController : Controller
     {
         private readonly IUserManager _userManager;
+        private readonly IIndividualOwnerManager _individualOwnerManager;
         private readonly IMapper _mapper;
 
-        public SettingsController(IUserManager userManager, IMapper mapper)
+        public SettingsController(IUserManager userManager,
+            IIndividualOwnerManager individualOwnerManager,
+            IMapper mapper)
         {
             _userManager = userManager;
+            _individualOwnerManager = individualOwnerManager;
             _mapper = mapper;
         }
 
@@ -56,10 +61,20 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index([FromBody]StandartUserSettingsDto dto)
         {
-            var user = _mapper.Map<BaseUser>(dto);
+            // var user = _mapper.Map<BaseUser>(dto); // reverse mapping won't work on dto
+
+            int userId = User.Claims.GetId();
+
 
             try
             {
+                BaseUser user = await _userManager.GetUserProfileInfoByIdAsync(userId);
+
+                user.Name = dto.Name;
+                user.PhoneNumber = dto.PhoneNumber;
+                user.Email = dto.Email;
+                user.ProfileImage.Image = dto.ProfileImage;
+
                 await _userManager.SaveUserProfileChangesAsync(user);
             }
             catch
@@ -77,17 +92,17 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             int userId = User.Claims.GetId();
 
-            IndividualOwner user;
+            BaseUser user;
 
             try
             {
-                user = await _userManager.GetUserProfileInfoByIdAsync(userId) as IndividualOwner; // rework!
+                user = await _userManager.GetUserProfileInfoByIdAsync(userId);
             }
             catch(NotExistsException)
             {
                 if (await NotExistsExceptionHandler.HandleException(_userManager, User))
                 {
-                    user = await _userManager.GetUserProfileInfoByIdAsync(userId) as IndividualOwner;
+                    user = await _userManager.GetUserProfileInfoByIdAsync(userId);
                 }
                 else
                 {
@@ -103,13 +118,14 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [HttpPost]
         [Route("description")]
         [Authorize(Policy = "IndividualOwner")]
-        public async Task<IActionResult> UniqueSettings(IndividualOwnerSpecialSettingsDto dto)
+        public async Task<IActionResult> UniqueSettings([FromBody] IndividualOwnerSpecialSettingsDto dto)
         {
-            var user = _mapper.Map<BaseUser>(dto);
+            var user = _mapper.Map<IndividualOwner>(dto);
 
             try
             {
-                await _userManager.SaveUserProfileChangesAsync(user); // rework!
+                user.Id = User.Claims.GetId();
+                await _individualOwnerManager.SaveNewDescriptionAsync(user);
             }
             catch
             {

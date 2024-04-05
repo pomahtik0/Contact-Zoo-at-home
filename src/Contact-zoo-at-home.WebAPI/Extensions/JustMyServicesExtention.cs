@@ -15,6 +15,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
 
             DBConnections.ConnectionString = connectionString;
             services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
 
             return services;
         }

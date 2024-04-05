@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.WebAPI.Helpers;
 using Contact_zoo_at_home.WebAPI.Configuration;
+using Contact_zoo_at_home.Shared;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -37,6 +38,7 @@ namespace Contact_zoo_at_home.WebAPI
                     policy.RequireAuthenticatedUser();
                     policy.RequireClaim("scope", basicAppInfo.ScopeToAccess);
                 });
+                options.AddPolicy("IndividualOwner", policy => policy.RequireClaim("ApplicationRole", Roles.IndividualPetOwner.ToString()));
             });
 
             builder.Services.AddSwaggerGen(options =>

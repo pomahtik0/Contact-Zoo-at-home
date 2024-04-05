@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared.SharedModels;
+using Contact_zoo_at_home.Shared.Dto;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -10,9 +10,15 @@ namespace Contact_zoo_at_home.WebAPI
         public AutoMapperProfile()
         {
             CreateMap<CustomerUser, StandartUserSettingsDto>()
-                .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image));
+                .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
+                .ReverseMap();
+
             CreateMap<IndividualOwner, StandartUserSettingsDto>()
-                .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image));
+                .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
+                .ReverseMap();
+
+            CreateMap<IndividualOwner, IndividualOwnerSpecialSettingsDto>()
+                .ReverseMap();
 
             //CreateMap<CustomerUser, UserProfileDTO>()
             //    //.ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))

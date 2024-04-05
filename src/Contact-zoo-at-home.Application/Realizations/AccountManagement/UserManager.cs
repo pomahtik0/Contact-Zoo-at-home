@@ -12,6 +12,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Transactions;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Shared;
+using Microsoft.IdentityModel.Tokens;
+using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
@@ -104,11 +106,16 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(userId), $"Invalid Id={userId}");
             }
 
-            var user = await _dbContext.Users.Include(x => x.NotificationOptions).Where(user => user.Id == userId).FirstOrDefaultAsync();
+            var user = await _dbContext.Users
+                .Include(user => user.NotificationOptions)
+                .Include(user => user.ProfileImage)
+                .Where(user => user.Id == userId)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
 
             if (user is null)
             {
-                throw new InvalidOperationException($"User with id={userId} does not exist");
+                throw new NotExistsException();
             }
 
             return user;
@@ -126,25 +133,29 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(user), $"Invalid Id={user.Id}");
             }
 
-            var originalUser = await _dbContext.Users.FindAsync(user.Id);
+            var originalUser = await _dbContext.Users
+                .Where(_user => _user.Id == user.Id)
+                .Include(_user => _user.ProfileImage)
+                .Include(_user => _user.NotificationOptions)
+                .FirstOrDefaultAsync();
 
             if (originalUser is null)
             {
                 throw new InvalidOperationException($"User with Id={user.Id} does not exist");
             }
 
+            originalUser.Name = user.Name;
+            originalUser.Email = user.Email;
+            originalUser.PhoneNumber = user.PhoneNumber;
+            originalUser.CurrentRating = user.CurrentRating;
+            originalUser.RatedBy = user.RatedBy;
+
             if (user.NotificationOptions is not null)
             {
-                originalUser.Name = user.Name;
-                originalUser.Email = user.Email;
-                originalUser.PhoneNumber = user.PhoneNumber;
-                originalUser.CurrentRating = user.CurrentRating;
-                originalUser.RatedBy = user.RatedBy;
-
                 originalUser.NotificationOptions = user.NotificationOptions;
             }
 
-            if (user.ProfileImage is not null)
+            if (!user.ProfileImage.Image.IsNullOrEmpty())
             {
                 originalUser.ProfileImage = user.ProfileImage;
             }
