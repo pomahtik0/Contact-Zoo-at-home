@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240405113204_init")]
+    [Migration("20240405113948_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -531,7 +531,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner");
 
-                    b.Property<string>("Descriptions")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");

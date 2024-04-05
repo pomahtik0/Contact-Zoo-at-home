@@ -196,7 +196,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Descriptions = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false)
                 },
                 constraints: table =>
                 {

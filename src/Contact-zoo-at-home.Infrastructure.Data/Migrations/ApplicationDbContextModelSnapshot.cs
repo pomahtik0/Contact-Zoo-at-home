@@ -528,7 +528,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner");
 
-                    b.Property<string>("Descriptions")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
