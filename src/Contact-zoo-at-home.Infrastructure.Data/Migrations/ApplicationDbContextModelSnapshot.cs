@@ -169,32 +169,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.ToTable("ExtraPetOption");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.MLPetBreed", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MLPetBreed");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.MLPetSpecies", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MLPetSpecies");
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.Pet", b =>
                 {
                     b.Property<int>("Id")
@@ -280,6 +254,24 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.ToTable("PetBlockedDate");
                 });
 
+            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.PetBreed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Breeds", (string)null);
+                });
+
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.PetImage", b =>
                 {
                     b.Property<int>("Id")
@@ -305,39 +297,22 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.ToTable("PetImages");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetBreed", b =>
+            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.PetSpecies", b =>
                 {
-                    b.Property<int>("MLBreedId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("MLBreedId", "Language");
+                    b.HasKey("Id");
 
-                    b.ToTable("PetBreed");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetSpecies", b =>
-                {
-                    b.Property<int>("MLSpeciesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MLSpeciesId", "Language");
-
-                    b.ToTable("PetSpecies");
+                    b.ToTable("Species", (string)null);
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BaseUser", b =>
@@ -435,42 +410,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("RepresentativesOfCompanies", (string)null);
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff.CompanyDescription", b =>
-                {
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(4096)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CompanyId", "Language");
-
-                    b.ToTable("CompanyDescription");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff.CompanyName", b =>
-                {
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.HasKey("CompanyId", "Language");
-
-                    b.ToTable("CompanyName");
                 });
 
             modelBuilder.Entity("PetsInContract", b =>
@@ -589,6 +528,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner");
 
+                    b.Property<string>("Descriptions")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)");
+
                     b.ToTable("Companies", (string)null);
                 });
 
@@ -668,7 +612,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.Pet", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.MLPetBreed", "Breed")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.PetBreed", "Breed")
                         .WithMany()
                         .HasForeignKey("BreedId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -680,7 +624,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.MLPetSpecies", "Species")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.PetSpecies", "Species")
                         .WithMany()
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -709,24 +653,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .HasForeignKey("PetId");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetBreed", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.MLPetBreed", null)
-                        .WithMany("Names")
-                        .HasForeignKey("MLBreedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.TranslateveStaff.PetSpecies", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.MLPetSpecies", null)
-                        .WithMany("Names")
-                        .HasForeignKey("MLSpeciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Images.CompanyImage", b =>
                 {
                     b.HasOne("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.Company", null)
@@ -752,24 +678,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff.CompanyDescription", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.Company", null)
-                        .WithMany("Descriptions")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.TranslativeStaff.CompanyName", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.Company", null)
-                        .WithMany("Names")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PetsInContract", b =>
@@ -923,16 +831,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.MLPetBreed", b =>
-                {
-                    b.Navigation("Names");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.MLPetSpecies", b =>
-                {
-                    b.Navigation("Names");
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.Pet", b =>
                 {
                     b.Navigation("BlockedDates");
@@ -981,11 +879,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.Company", b =>
                 {
-                    b.Navigation("Descriptions");
-
                     b.Navigation("Images");
-
-                    b.Navigation("Names");
 
                     b.Navigation("Representatives");
                 });

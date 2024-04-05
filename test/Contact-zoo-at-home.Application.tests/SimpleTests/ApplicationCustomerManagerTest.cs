@@ -47,15 +47,22 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             var comapany = new Company()
             {
                 Id = 2,
-                Name = "SomeCompany"
+                Name = "SomeCompany",
+                Description = "Description"
             };
             var pet = new Pet()
             {
                 Name = "Test Pet",
                 Description = "dafasf",
                 ShortDescription = "asfadsfsd",
-                Species = new MLPetSpecies(),
-                Breed = new MLPetBreed(),
+                Species = new PetSpecies()
+                {
+                    Name = ""
+                },
+                Breed = new PetBreed()
+                {
+                    Name = ""
+                },
                 Owner = comapany
             };
             comapany.OwnedPets.Add(pet);

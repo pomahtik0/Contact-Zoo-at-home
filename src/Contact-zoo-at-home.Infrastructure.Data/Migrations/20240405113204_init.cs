@@ -12,27 +12,29 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "MLPetBreed",
+                name: "Breeds",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MLPetBreed", x => x.Id);
+                    table.PrimaryKey("PK_Breeds", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MLPetSpecies",
+                name: "Species",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MLPetSpecies", x => x.Id);
+                    table.PrimaryKey("PK_Species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,44 +51,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PetBreed",
-                columns: table => new
-                {
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    MLBreedId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PetBreed", x => new { x.MLBreedId, x.Language });
-                    table.ForeignKey(
-                        name: "FK_PetBreed_MLPetBreed_MLBreedId",
-                        column: x => x.MLBreedId,
-                        principalTable: "MLPetBreed",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PetSpecies",
-                columns: table => new
-                {
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    MLSpeciesId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PetSpecies", x => new { x.MLSpeciesId, x.Language });
-                    table.ForeignKey(
-                        name: "FK_PetSpecies_MLPetSpecies_MLSpeciesId",
-                        column: x => x.MLSpeciesId,
-                        principalTable: "MLPetSpecies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +195,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Descriptions = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -285,15 +250,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Pets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pets_MLPetBreed_BreedId",
+                        name: "FK_Pets_Breeds_BreedId",
                         column: x => x.BreedId,
-                        principalTable: "MLPetBreed",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pets_MLPetSpecies_SpeciesId",
-                        column: x => x.SpeciesId,
-                        principalTable: "MLPetSpecies",
+                        principalTable: "Breeds",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -301,25 +260,12 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         column: x => x.OwnerId,
                         principalTable: "PetOwners",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CompanyDescription",
-                columns: table => new
-                {
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyDescription", x => new { x.CompanyId, x.Language });
                     table.ForeignKey(
-                        name: "FK_CompanyDescription_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
+                        name: "FK_Pets_Species_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "Species",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -340,25 +286,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CompanyName",
-                columns: table => new
-                {
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyName", x => new { x.CompanyId, x.Language });
-                    table.ForeignKey(
-                        name: "FK_CompanyName_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -736,13 +663,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CompanyDescription");
-
-            migrationBuilder.DropTable(
                 name: "CompanyImage");
-
-            migrationBuilder.DropTable(
-                name: "CompanyName");
 
             migrationBuilder.DropTable(
                 name: "ExtraPetOption");
@@ -763,9 +684,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "PetBlockedDate");
 
             migrationBuilder.DropTable(
-                name: "PetBreed");
-
-            migrationBuilder.DropTable(
                 name: "PetComments");
 
             migrationBuilder.DropTable(
@@ -773,9 +691,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "PetsInContract");
-
-            migrationBuilder.DropTable(
-                name: "PetSpecies");
 
             migrationBuilder.DropTable(
                 name: "ProfileImage");
@@ -799,10 +714,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "MLPetBreed");
+                name: "Breeds");
 
             migrationBuilder.DropTable(
-                name: "MLPetSpecies");
+                name: "Species");
 
             migrationBuilder.DropTable(
                 name: "Contracts");

@@ -47,8 +47,14 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Id = 52,
                 Name = "Inna",
             };
-            MLPetSpecies testSpecies = new MLPetSpecies();
-            MLPetBreed testBreed = new MLPetBreed();
+            PetSpecies testSpecies = new PetSpecies()
+            {
+                Name = ""
+            };
+            PetBreed testBreed = new PetBreed()
+            {
+                Name = ""
+            };
 
             Pet pet1_1 = new Pet
             {
@@ -204,8 +210,14 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Name = "",
                 Description = "",
                 ShortDescription = newPetDescription,
-                Species = new MLPetSpecies(),
-                Breed = new MLPetBreed(),
+                Species = new PetSpecies()
+                {
+                    Name = ""
+                },
+                Breed = new PetBreed()
+                {
+                    Name = ""
+                },
                 PetOptions = [new ExtraPetOption() { Name = "Fur", Value = "1kg"}], 
             };
 

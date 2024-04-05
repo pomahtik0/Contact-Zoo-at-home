@@ -64,11 +64,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var pets = await _dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
                 .AsNoTracking()
                 .Include(x => x.Species)
-                .ThenInclude(x => x.Names
-                    .Where(name => name.Language == language))
                 .Include(x => x.Breed)
-                .ThenInclude(x => x.Names
-                    .Where(name => name.Language == language))
                 .Skip(elementsOnPage * page)
                 .Take(elementsOnPage)
                 .ToListAsync();
@@ -92,12 +88,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Species)
-                .ThenInclude(species => species.Names
-                    .Where(name => name.Language == language))
                 .AsSplitQuery()
                 .Include(pet => pet.Breed)
-                .ThenInclude(breed => breed.Names
-                    .Where(name => name.Language == language))
                 .FirstOrDefaultAsync();
 
             if (pet == null)
