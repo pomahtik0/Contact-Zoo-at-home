@@ -12,19 +12,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Breeds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Breeds", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Species",
                 columns: table => new
                 {
@@ -238,7 +225,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(38,17)", nullable: false),
                     SpeciesId = table.Column<int>(type: "int", nullable: false),
-                    BreedId = table.Column<int>(type: "int", nullable: false),
                     ActivityType = table.Column<int>(type: "int", nullable: false),
                     CurrentPetStatus = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<int>(type: "int", nullable: false),
@@ -249,12 +235,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pets_Breeds_BreedId",
-                        column: x => x.BreedId,
-                        principalTable: "Breeds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Pets_PetOwners_OwnerId",
                         column: x => x.OwnerId,
@@ -624,11 +604,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pets_BreedId",
-                table: "Pets",
-                column: "BreedId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pets_OwnerId",
                 table: "Pets",
                 column: "OwnerId");
@@ -712,9 +687,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "Breeds");
 
             migrationBuilder.DropTable(
                 name: "Species");
