@@ -38,10 +38,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(x => x.Breed)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(x => x.Owner)
                 .WithMany(x => x.OwnedPets)
                 .OnDelete(DeleteBehavior.ClientCascade);

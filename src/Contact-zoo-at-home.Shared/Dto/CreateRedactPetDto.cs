@@ -18,9 +18,6 @@ namespace Contact_zoo_at_home.Shared.Dto
         [Required]
         public PetSpecies Species { get; set; }
 
-        [Required]
-        public PetBreed Breed { get; set; }
-
         [MaxLength(10)]
         public IList<ExtraPetOptionsDTO> PetOptions { get; set; } = [];
     }

@@ -23,7 +23,6 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 
 
         public PetSpecies Species { get; set; }
-        public PetBreed Breed {  get; set; }
 
         // Pet options
         public IList<ExtraPetOption> PetOptions { get; set; } = [];

@@ -9,7 +9,6 @@ namespace Contact_zoo_at_home.Shared.Dto
         public string Name { get; set; }
         public string Species {  get; set; }
         public float Rating {  get; set; }
-        public string Breed {  get; set; }
         public PetStatus PetStatus { get; set; }
     }
 }

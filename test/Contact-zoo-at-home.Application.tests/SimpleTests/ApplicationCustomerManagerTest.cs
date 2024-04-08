@@ -59,10 +59,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 {
                     Name = ""
                 },
-                Breed = new PetBreed()
-                {
-                    Name = ""
-                },
                 Owner = comapany
             };
             comapany.OwnedPets.Add(pet);

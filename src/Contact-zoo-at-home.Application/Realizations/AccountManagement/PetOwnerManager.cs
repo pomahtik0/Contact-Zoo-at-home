@@ -66,7 +66,6 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
                 .AsNoTracking()
                 .Include(x => x.Species)
-                .Include(x => x.Breed)
                 .Skip(elementsOnPage * page)
                 .Take(elementsOnPage)
                 .ToListAsync();
@@ -86,12 +85,11 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets
+                .Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Species)
-                .AsSplitQuery()
-                .Include(pet => pet.Breed)
                 .FirstOrDefaultAsync();
 
             if (pet == null)
@@ -233,7 +231,6 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             originalPet.Name = pet.Name;
             originalPet.Species = pet.Species;
-            originalPet.Breed = pet.Breed;
             originalPet.ShortDescription = pet.ShortDescription;
             originalPet.Description = pet.Description;
             originalPet.PetOptions = pet.PetOptions;

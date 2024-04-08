@@ -51,10 +51,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             {
                 Name = ""
             };
-            PetBreed testBreed = new PetBreed()
-            {
-                Name = ""
-            };
 
             Pet pet1_1 = new Pet
             {
@@ -62,7 +58,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Description = "",
                 ShortDescription = "First pet of Max",
                 Species = testSpecies,
-                Breed = testBreed,
                 Owner = petOwner1
                 
             };
@@ -72,7 +67,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Description = "",
                 ShortDescription = "Second pet of Max",
                 Species = testSpecies,
-                Breed = testBreed,
                 Owner = petOwner1
             };
             Pet pet2_1 = new Pet
@@ -81,7 +75,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Description = "",
                 ShortDescription = "First pet of Inna",
                 Species = testSpecies,
-                Breed = testBreed,
                 Owner = petOwner2
             };
             Pet pet2_2 = new Pet
@@ -90,7 +83,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Description = "",
                 ShortDescription = "Second pet of Inna",
                 Species = testSpecies,
-                Breed = testBreed,
                 Owner = petOwner2
             };
 
@@ -211,10 +203,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Description = "",
                 ShortDescription = newPetDescription,
                 Species = new PetSpecies()
-                {
-                    Name = ""
-                },
-                Breed = new PetBreed()
                 {
                     Name = ""
                 },

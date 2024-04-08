@@ -23,7 +23,6 @@ namespace Contact_zoo_at_home.WebAPI
                 .ReverseMap();
 
             CreateMap<Pet, DisplayPetsDto>()
-                .ForMember( dest => dest.Breed, opt => opt.MapFrom(src => src.Breed.Name))
                 .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name));
 
             CreateMap<Pet, CreateRedactPetDto>()
