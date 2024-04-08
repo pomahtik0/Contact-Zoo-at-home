@@ -1,6 +1,7 @@
 ﻿using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
+using Contact_zoo_at_home.Infrastructure.Data;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -13,7 +14,12 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 throw new ArgumentNullException(nameof(connectionString), "Configure connection string");
             }
 
+
             DBConnections.ConnectionString = connectionString;
+            using var connection = DBConnections.GetNewDbConnection();
+            using var dbContext = new ApplicationDbContext(connection);
+            dbContext.Database.EnsureCreated();
+
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
 
