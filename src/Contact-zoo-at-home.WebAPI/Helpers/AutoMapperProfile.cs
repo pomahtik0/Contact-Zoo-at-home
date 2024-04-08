@@ -23,7 +23,17 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
                 .ReverseMap();
 
             CreateMap<Pet, DisplayPetsDto>()
-                .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name));
+                .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.FirstOrDefault().Image));
+
+            CreateMap<Pet, ShortDisplayPetDto>()
+                .IncludeBase<Pet, DisplayPetsDto>()
+                .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Owner.Name))
+                .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id));
+
+            CreateMap<Pet, FullDisplayPetDto>()
+                .IncludeBase<Pet, ShortDisplayPetDto>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images));
 
             CreateMap<ExtraPetOptionsDTO, ExtraPetOption>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.OptionName))
@@ -36,6 +46,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
 
             CreateMap<Pet, CreateRedactPetDto>()
                 .ReverseMap();
+
         }
     }
 }

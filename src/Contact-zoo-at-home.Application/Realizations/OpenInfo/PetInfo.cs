@@ -1,4 +1,7 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Application.Exceptions;
+using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
+using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,7 +17,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// class to get open information about pets
     /// use to get what customers should see
     /// </summary>
-    public class PetInfo : BaseService
+    public class PetInfo : BaseService, IPetInfo
     {
         public PetInfo() : base()
         {
@@ -44,7 +47,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
         /// <param name="page">Current page. From 1 to max pages.</param>
         /// <param name="numberOfPetsOnPage">specify number of pets on one page, or as default. Not more then 100.</param>
         /// <returns>List of pets on selected page, and total number of pages.</returns>
-        public async Task<(IList<Pet> pets, int pages)> GetAllPetsAsync(int page, int numberOfPetsOnPage = 20)
+        public async Task<IList<Pet>> GetAllPetsAsync(int page, int numberOfPetsOnPage = 20)
         {
             if (page <= 0 || numberOfPetsOnPage <= 0 || numberOfPetsOnPage > maxNumberOfPetsOnPage)
             {
@@ -52,59 +55,34 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
             }
             page = page - 1;
 
-            var pages = _dbContext.Pets
-                .Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active)
-                .Count() / numberOfPetsOnPage; // 10 / 10 = 1, 1/10 = 0, needs fix
-
-            if (page > pages && page != 0) // trying to access not existing page
-            {
-                page = pages; // returning last existing page
-            }
-
             var pets = await _dbContext.Pets
                 .Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active)
+                .Include(pet => pet.Species)
+                .Include(pet => pet.Images)
+                .AsNoTracking()
                 .Skip(page * numberOfPetsOnPage)
                 .Take(numberOfPetsOnPage)
-                .Include(pet => pet.Owner)
                 .ToListAsync();
 
-            return (pets, pages);
+            return pets;
         }
 
-        /// <summary>
-        /// Returns all pets on the page, that belong to user (IndividualOwner or Company).
-        /// </summary>
-        /// <param name="page">Current page. From 1 to max pages.</param>
-        /// <param name="numberOfPetsOnPage">specify number of pets on one page, or as default. Not more then 100.</param>
-        /// <returns>List of pets on selected page, and total number of pages.</returns>
-        public async Task<(IList<Pet> pets, int pages)> GetAllUserPetsAsync(int ownerId, int page, int numberOfPetsOnPage = 10)
+        public async Task<Pet> GetPetProfileAsync(int petId)
         {
-            if (page <= 0 || numberOfPetsOnPage <= 0 || numberOfPetsOnPage > maxNumberOfPetsOnPage)
+            if (petId <= 0)
             {
-                throw new ArgumentOutOfRangeException($"Incorect page values page={page}; numberOfPetsOnPage={numberOfPetsOnPage}(max {maxNumberOfPetsOnPage}).");
+                throw new ArgumentOutOfRangeException();
             }
 
-            page = page - 1;
-
-            var pages = _dbContext.Pets
-                .Where(pet => pet.Owner.Id == ownerId)
-                .Where(pet => pet.CurrentPetStatus != Core.Enums.PetStatus.Archived)
-                .Count() / numberOfPetsOnPage; // 10 / 10 = 1, 1/10 = 0, needs fix
-
-            if (page > pages && page != 0) // trying to access not existing page
-            {
-                page = pages; // returning last existing page
-            }
-
-            var pets = await _dbContext.Pets
-                .Where(pet => pet.Owner.Id == ownerId)
-                .Where(pet => pet.CurrentPetStatus != Core.Enums.PetStatus.Archived) // Archived == deleted
-                .Skip(page * numberOfPetsOnPage)
-                .Take(numberOfPetsOnPage)
+            var pet = await _dbContext.Pets
+                .Where(pet => pet.Id == petId)
                 .Include(pet => pet.Owner)
-                .ToListAsync();
+                .Include(pet => pet.Images)
+                .Include(pet => pet.Species)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
 
-            return (pets, pages);
+            return pet;
         }
     }
 }

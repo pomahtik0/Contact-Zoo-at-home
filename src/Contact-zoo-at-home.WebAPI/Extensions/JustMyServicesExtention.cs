@@ -25,6 +25,8 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
             services.AddScoped<IUserInfo, UserInfo>();
+            services.AddScoped<IPetInfo, PetInfo>();
+
             return services;
         }
     }
