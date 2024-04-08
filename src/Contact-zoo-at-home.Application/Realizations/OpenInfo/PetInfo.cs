@@ -53,7 +53,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
             page = page - 1;
 
             var pages = _dbContext.Pets
-                .Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active) // only accessable pets
+                .Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active)
                 .Count() / numberOfPetsOnPage; // 10 / 10 = 1, 1/10 = 0, needs fix
 
             if (page > pages && page != 0) // trying to access not existing page

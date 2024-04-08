@@ -180,9 +180,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Property<int>("ActivityType")
                         .HasColumnType("int");
 
-                    b.Property<int>("BreedId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CurrentPetStatus")
                         .HasColumnType("int");
 
@@ -221,8 +218,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BreedId");
-
                     b.HasIndex("OwnerId");
 
                     b.HasIndex("SpeciesId");
@@ -252,24 +247,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("PetBlockedDate");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.PetBreed", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Breeds", (string)null);
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.PetImage", b =>
@@ -612,12 +589,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Pets.Pet", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.PetBreed", "Breed")
-                        .WithMany()
-                        .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", "Owner")
                         .WithMany("OwnedPets")
                         .HasForeignKey("OwnerId")
@@ -629,8 +600,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Breed");
 
                     b.Navigation("Owner");
 

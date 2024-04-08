@@ -1,4 +1,6 @@
-﻿using Contact_zoo_at_home.Core.Entities.Users;
+﻿using Contact_zoo_at_home.Application.Exceptions;
+using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// Getting public information about users,
     /// profile, images, etc.
     /// </summary>
-    public class UserInfo : BaseService
+    public class UserInfo : BaseService, IUserInfo
     {
 
         public UserInfo() : base()
@@ -44,39 +46,27 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
         /// <param name="userId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public async Task<CustomerUser> GetPublicUserProfileAsync(int userId)
+        public async Task<BaseUser> GetPublicUserProfileAsync(int userId)
         {
             if (userId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(userId));
             }
 
-            var userProfile = await _dbContext.Customers
+            var userProfile = await _dbContext.Users
                 .Where(user => user.Id == userId)
                 .Include(user => user.Comments)
                 .AsNoTracking()
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
 
-            if (userProfile == null)
+            if (userProfile is IndividualOwner)
             {
-                throw new ArgumentException("Invalid id, User does not exist", nameof(userId));
+                await _dbContext
+                    .Entry((IndividualOwner)userProfile)
+                    .Collection(user => user.OwnedPets)
+                    .LoadAsync();
             }
-
-            return userProfile;
-        }
-
-        public async Task<IndividualOwner> GetPublicIndividualOwnerProfileAsync(int userId)
-        {
-            if (userId <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(userId));
-            }
-
-            var userProfile = await _dbContext.IndividualOwners
-                .Where(user => user.Id == userId)
-                .Include(user => user.Comments)
-                .Include(user => user.OwnedPets)
-                .FirstOrDefaultAsync();
 
             if (userProfile == null)
             {
