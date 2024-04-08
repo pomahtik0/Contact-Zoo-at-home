@@ -82,7 +82,37 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                 .FirstOrDefaultAsync()
                 ?? throw new NotExistsException();
 
+            await _dbContext.Entry(pet)
+                .Collection(pet => pet.Comments)
+                .Query()
+                //.Where(comment => comment.CommentTarget.Id ==  petId)
+                .OrderBy(comment => comment.Id)
+                .Take(10)
+                .LoadAsync();
+
             return pet;
+        }
+
+        public async Task<IList<PetComment>> UploadMoreCommentsAsync(int petId, int lastCommentId)
+        {
+            if (petId <= 0 || lastCommentId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (lastCommentId == 0) // nothing to upload
+            {
+                return new List<PetComment>();
+            }
+
+            var comments = await _dbContext.PetComments
+                .Where(comment => comment.CommentTarget.Id == petId)
+                .OrderBy(comment => comment.Id)
+                .Where(comment => comment.Id > lastCommentId)
+                .Take(10)
+                .ToListAsync();
+
+            return comments;
         }
     }
 }

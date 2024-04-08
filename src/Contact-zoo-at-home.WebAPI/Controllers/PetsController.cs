@@ -58,13 +58,13 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 
         [HttpGet]
         [Route("{petId}/comments/{lastCommentId}")]
-        public async Task<IActionResult> Pet(int petId, int? lastCommentId)
+        public async Task<IActionResult> Pet(int petId, int lastCommentId)
         {
             try
             {
-                var pet = await _petInfo.GetPetProfileAsync(petId);
+                var comments = await _petInfo.UploadMoreCommentsAsync(petId, lastCommentId);
 
-                var model = _mapper.Map<FullDisplayPetDto>(pet);
+                var model = _mapper.Map<IList<PetCommentsDto>>(comments);
 
                 return Json(model);
             }

@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Core.Entities.Pets;
+﻿using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Pets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Contact_zoo_at_home.Application.Interfaces.OpenInfo
     {
         Task<IList<Pet>> GetAllPetsAsync(int page, int numberOfPetsOnPage = 20);
         Task<Pet> GetPetProfileAsync(int petId);
+        Task<IList<PetComment>> UploadMoreCommentsAsync(int petId, int lastCommentId);
     }
 }

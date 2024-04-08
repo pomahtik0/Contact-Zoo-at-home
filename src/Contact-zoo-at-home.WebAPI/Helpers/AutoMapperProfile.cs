@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Shared.Dto;
 
@@ -10,6 +12,10 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
         public AutoMapperProfile()
         {
             AllowNullCollections = true;
+
+            CreateMap<BaseUser, LinkedUserDto>();
+
+            CreateMap<PetCommentsDto, PetComment>();
 
             CreateMap<CustomerUser, StandartUserSettingsDto>()
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
@@ -27,9 +33,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.FirstOrDefault().Image));
 
             CreateMap<Pet, ShortDisplayPetDto>()
-                .IncludeBase<Pet, DisplayPetsDto>()
-                .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Owner.Name))
-                .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id));
+                .IncludeBase<Pet, DisplayPetsDto>();
 
             CreateMap<Pet, FullDisplayPetDto>()
                 .IncludeBase<Pet, ShortDisplayPetDto>()
