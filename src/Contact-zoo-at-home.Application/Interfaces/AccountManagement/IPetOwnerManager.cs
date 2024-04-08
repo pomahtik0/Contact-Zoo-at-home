@@ -26,8 +26,8 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
         Task AddNewImageToPetAsync(int petId, PetImage image);
 
         Task RemovePetImage(int petId, int petImageId);
-
-        // Method to update pet
+        Task RemovePetAsync(int petId, int ownerId);
+        Task UpdatePetAsync(Pet pet, int ownerId);
 
         // Method to update Blocked dates
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using System.ComponentModel.DataAnnotations;
 
 namespace Contact_zoo_at_home.Shared.Dto
 {
@@ -13,16 +14,12 @@ namespace Contact_zoo_at_home.Shared.Dto
         [Required]
         public string Description { get; set; }
         public double Price { get; set; }
-        public double Weight { get; set; }
 
         [Required]
-        public string Color { get; set; }
+        public PetSpecies Species { get; set; }
 
         [Required]
-        public string Species { get; set; }
-
-        [Required]
-        public string Breed { get; set; }
+        public PetBreed Breed { get; set; }
 
         [MaxLength(10)]
         public IList<ExtraPetOptionsDTO> PetOptions { get; set; } = [];

@@ -61,7 +61,9 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             
             page = page - 1;
 
-            var pets = await _dbContext.Pets.Where(pet => pet.Owner.Id == ownerId)
+            var pets = await _dbContext.Pets
+                .Where(pet => pet.Owner.Id == ownerId)
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
                 .AsNoTracking()
                 .Include(x => x.Species)
                 .Include(x => x.Breed)
@@ -189,6 +191,56 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             _dbContext.Attach(newPet);
 
             newPet.Owner = owner;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemovePetAsync(int petId, int ownerId)
+        {
+            if (petId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
+            }
+
+            await _dbContext.Pets
+                .Where(pet => pet.Id == petId)
+                .Where(pet => pet.Owner.Id == ownerId)
+                .ExecuteUpdateAsync(pet => pet.SetProperty(x => x.CurrentPetStatus, PetStatus.Archived));
+        }
+
+        public async Task UpdatePetAsync(Pet pet, int ownerId)
+        {
+            if (pet is null)
+            {
+                throw new ArgumentNullException("No pet to create is specified");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
+            }
+
+            Pet originalPet = await _dbContext.Pets
+                .Where(_pet => _pet.Id == pet.Id)
+                .Where(_pet => _pet.Owner.Id == ownerId)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            originalPet.Name = pet.Name;
+            originalPet.Species = pet.Species;
+            originalPet.Breed = pet.Breed;
+            originalPet.ShortDescription = pet.ShortDescription;
+            originalPet.Description = pet.Description;
+            originalPet.PetOptions = pet.PetOptions;
+            originalPet.ActivityType = pet.ActivityType;
+            originalPet.Price = pet.Price;
+            originalPet.RestorationTimeInDays = pet.RestorationTimeInDays;
+            //originalPet.BlockedDates = pet.BlockedDates;
 
             await _dbContext.SaveChangesAsync();
         }

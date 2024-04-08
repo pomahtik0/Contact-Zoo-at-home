@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
-using Contact_zoo_at_home.Shared.SharedModels;
+using Contact_zoo_at_home.Shared.Dto;
 
 namespace StubWebUI.Controllers
 {

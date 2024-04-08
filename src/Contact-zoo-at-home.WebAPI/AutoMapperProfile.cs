@@ -9,6 +9,8 @@ namespace Contact_zoo_at_home.WebAPI
     {
         public AutoMapperProfile()
         {
+            AllowNullCollections = true;
+
             CreateMap<CustomerUser, StandartUserSettingsDto>()
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
                 .ReverseMap();
@@ -20,6 +22,12 @@ namespace Contact_zoo_at_home.WebAPI
             CreateMap<IndividualOwner, IndividualOwnerSpecialSettingsDto>()
                 .ReverseMap();
 
+            CreateMap<Pet, DisplayPetsDto>()
+                .ForMember( dest => dest.Breed, opt => opt.MapFrom(src => src.Breed.Name))
+                .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name));
+
+            CreateMap<Pet, CreateRedactPetDto>()
+                .ReverseMap();
             //CreateMap<CustomerUser, UserProfileDTO>()
             //    //.ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactPhone))
             //    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
