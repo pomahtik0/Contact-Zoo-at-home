@@ -403,7 +403,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    PetId = table.Column<int>(type: "int", nullable: true)
+                    PetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -412,7 +412,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         name: "FK_PetImages_Pets_PetId",
                         column: x => x.PetId,
                         principalTable: "Pets",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -452,24 +453,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LongTermContracts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    ClosingDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LongTermContracts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LongTermContracts_Contracts_Id",
-                        column: x => x.Id,
-                        principalTable: "Contracts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PetsInContract",
                 columns: table => new
                 {
@@ -494,28 +477,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PolyContracts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PolyContracts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PolyContracts_Contracts_Id",
-                        column: x => x.Id,
-                        principalTable: "Contracts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StandartContracts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    PartOfOtherContractId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -526,11 +491,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         principalTable: "Contracts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StandartContracts_PolyContracts_PartOfOtherContractId",
-                        column: x => x.PartOfOtherContractId,
-                        principalTable: "PolyContracts",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -557,6 +517,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "IX_Contracts_RepresentativeId",
                 table: "Contracts",
                 column: "RepresentativeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_StatusOfTheContract",
+                table: "Contracts",
+                column: "StatusOfTheContract");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExtraPetOption_PetId",
@@ -624,11 +589,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StandartContracts_PartOfOtherContractId",
-                table: "StandartContracts",
-                column: "PartOfOtherContractId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserComments_CommentTargetId",
                 table: "UserComments",
                 column: "CommentTargetId");
@@ -648,9 +608,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "InnerRatingNotifications");
-
-            migrationBuilder.DropTable(
-                name: "LongTermContracts");
 
             migrationBuilder.DropTable(
                 name: "NotificationOptions");
@@ -683,16 +640,13 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "Pets");
 
             migrationBuilder.DropTable(
-                name: "PolyContracts");
+                name: "Contracts");
 
             migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Species");
-
-            migrationBuilder.DropTable(
-                name: "Contracts");
 
             migrationBuilder.DropTable(
                 name: "Customers");

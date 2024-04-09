@@ -3,13 +3,9 @@ using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Infrastructure.Data;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
 {
@@ -56,7 +52,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
             page = page - 1;
 
             var pets = await _dbContext.Pets
-                .Where(pet => pet.CurrentPetStatus == Core.Enums.PetStatus.Active)
+                .Where(pet => pet.CurrentPetStatus == PetStatus.Active)
                 .Include(pet => pet.Species)
                 .Include(pet => pet.Images)
                 .AsNoTracking()

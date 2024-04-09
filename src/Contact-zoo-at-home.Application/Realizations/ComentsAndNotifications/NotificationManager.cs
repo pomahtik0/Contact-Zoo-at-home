@@ -1,10 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
@@ -26,7 +22,7 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
             {
                 throw new ArgumentNullException(nameof(notification.NotificationTarget), "Target of notification is not set");
             }
-            notification.Status = Core.Enums.NotificationStatus.NotShown;
+            notification.Status = NotificationStatus.NotShown;
 
             dbContext.Attach(notification);
 

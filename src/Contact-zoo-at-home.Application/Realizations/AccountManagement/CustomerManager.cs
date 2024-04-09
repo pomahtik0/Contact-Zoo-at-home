@@ -6,6 +6,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
@@ -109,12 +110,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentException("No pet representative should be assigned on ContractCreate");
             }
 
-            if (baseContract is PolyContract)
-            {
-                throw new NotImplementedException("Does not support poly contracts");
-            }
-
-            baseContract.StatusOfTheContract = Core.Enums.ContractStatus.Active;
+            baseContract.StatusOfTheContract = ContractStatus.Active;
 
             _dbContext.Attach(baseContract);
 
@@ -134,7 +130,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             var contracts = await _dbContext.Contracts
                 .Where(contract => contract.Customer.Id == customerId)
-                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
+                .Where(contract => contract.StatusOfTheContract == ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.Customer)
                 .Include(contract => contract.Contractor)
@@ -158,7 +154,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             var wantedContract = await _dbContext.Contracts
                 .Where(contract => contract.Id == contractId)
                 .Where(contract => contract.Customer.Id == customerId)
-                .Where(contract => contract.StatusOfTheContract == Core.Enums.ContractStatus.Active)
+                .Where(contract => contract.StatusOfTheContract == ContractStatus.Active)
                 .AsNoTracking()
                 .Include(contract => contract.PetsInContract)
                 .FirstOrDefaultAsync();
@@ -196,10 +192,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             
             switch(contractToCancel.StatusOfTheContract)
             {
-                case Core.Enums.ContractStatus.Canceled or Core.Enums.ContractStatus.Perfermed:
+                case ContractStatus.Canceled or ContractStatus.Perfermed:
                     throw new InvalidOperationException();
                 default:
-                    contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+                    contractToCancel.StatusOfTheContract = ContractStatus.Canceled;
                     break;
             }
 

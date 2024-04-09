@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240408073116_init")]
+    [Migration("20240409141915_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -91,6 +91,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("RepresentativeId");
+
+                    b.HasIndex("StatusOfTheContract");
 
                     b.ToTable("Contracts", (string)null);
 
@@ -267,7 +269,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PetId")
+                    b.Property<int>("PetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -444,31 +446,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.ToTable("UserComments");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.LongTermContract", b =>
-                {
-                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract");
-
-                    b.Property<DateTime>("ClosingDate")
-                        .HasColumnType("datetime2");
-
-                    b.ToTable("LongTermContracts");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.PolyContract", b =>
-                {
-                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract");
-
-                    b.ToTable("PolyContracts");
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.StandartContract", b =>
                 {
                     b.HasBaseType("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract");
-
-                    b.Property<int?>("PartOfOtherContractId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("PartOfOtherContractId");
 
                     b.ToTable("StandartContracts");
                 });
@@ -622,7 +602,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.Pet", null)
                         .WithMany("Images")
-                        .HasForeignKey("PetId");
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Images.CompanyImage", b =>
@@ -712,24 +694,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Navigation("CommentTarget");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.LongTermContract", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract", null)
-                        .WithOne()
-                        .HasForeignKey("Contact_zoo_at_home.Core.Entities.Contracts.LongTermContract", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.PolyContract", b =>
-                {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract", null)
-                        .WithOne()
-                        .HasForeignKey("Contact_zoo_at_home.Core.Entities.Contracts.PolyContract", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.StandartContract", b =>
                 {
                     b.HasOne("Contact_zoo_at_home.Core.Entities.Contracts.BaseContract", null)
@@ -737,13 +701,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Contracts.StandartContract", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Contracts.PolyContract", "PartOfOtherContract")
-                        .WithMany("SubContracts")
-                        .HasForeignKey("PartOfOtherContractId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("PartOfOtherContract");
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Notifications.InnerRatingNotification", b =>
@@ -830,11 +787,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Representative", b =>
                 {
                     b.Navigation("ContractsToRepresent");
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Contracts.PolyContract", b =>
-                {
-                    b.Navigation("SubContracts");
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", b =>
