@@ -238,7 +238,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = petOwner,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             var baseContract2 = new StandartContract()
@@ -247,7 +247,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = petOwner,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             var baseContract3 = new StandartContract()
@@ -256,7 +256,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = petOwner,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             baseContract1.PetsInContract.Add(pet);
@@ -287,7 +287,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = petOwner,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             baseContract.PetsInContract.Add(petOwner.OwnedPets.First());

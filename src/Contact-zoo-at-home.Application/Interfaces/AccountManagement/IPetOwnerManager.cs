@@ -1,6 +1,6 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Enums;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

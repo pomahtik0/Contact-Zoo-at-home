@@ -4,7 +4,7 @@ using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Core.Enums;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -355,10 +355,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             switch (contractToCancel.StatusOfTheContract)
             {
-                case Core.Enums.ContractStatus.Canceled or Core.Enums.ContractStatus.Perfermed:
+                case ContractStatus.Canceled or ContractStatus.Perfermed:
                     throw new InvalidOperationException();
                 default:
-                    contractToCancel.StatusOfTheContract = Core.Enums.ContractStatus.Canceled;
+                    contractToCancel.StatusOfTheContract = ContractStatus.Canceled;
                     break;
             }
 

@@ -1,7 +1,7 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.Images;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Core.Enums;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;

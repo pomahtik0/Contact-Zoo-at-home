@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contact_zoo_at_home.Core.Entities.Users.Images
+﻿namespace Contact_zoo_at_home.Core.Entities.Users.Images
 {
     /// <summary>
     /// Class for company images. supports short description, but only in one language.

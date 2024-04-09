@@ -5,6 +5,6 @@
     /// </summary>
     public class StandartContract : BaseContract
     {
-        public PolyContract? PartOfOtherContract { get; set; }
+
     }
 }

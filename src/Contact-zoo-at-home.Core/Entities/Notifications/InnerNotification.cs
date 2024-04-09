@@ -1,5 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Users;
-using Contact_zoo_at_home.Core.Enums;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 
 namespace Contact_zoo_at_home.Core.Entities.Notifications
 {

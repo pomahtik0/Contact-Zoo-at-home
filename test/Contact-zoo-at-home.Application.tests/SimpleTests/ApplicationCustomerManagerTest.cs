@@ -176,7 +176,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             var baseContract2 = new StandartContract()
@@ -185,7 +185,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             var baseContract3 = new StandartContract()
@@ -194,7 +194,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Active
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Active
             };
 
             baseContract1.PetsInContract.Add(pet!);
@@ -250,7 +250,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
 
             Assert.IsNotNull(contract);
             Assert.IsNotNull(nottification);
-            Assert.AreEqual(Core.Enums.ContractStatus.Canceled, contract.StatusOfTheContract);
+            Assert.AreEqual(Shared.Basics.Enums.ContractStatus.Canceled, contract.StatusOfTheContract);
         }
 
         [TestMethod]
@@ -266,7 +266,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Canceled,
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Canceled,
             };
 
             baseContract.PetsInContract.Add(pet!);
@@ -294,7 +294,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Canceled,
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Canceled,
             }; 
             
             var baseContract_perfermed = new StandartContract()
@@ -303,7 +303,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 Contractor = company,
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
-                StatusOfTheContract = Core.Enums.ContractStatus.Perfermed,
+                StatusOfTheContract = Shared.Basics.Enums.ContractStatus.Perfermed,
             };
 
             testDbContext.AttachRange([baseContract_canceled, baseContract_perfermed]);
