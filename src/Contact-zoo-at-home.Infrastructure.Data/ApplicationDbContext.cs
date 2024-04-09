@@ -8,6 +8,7 @@ using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using System.Data.Common;
 using Contact_zoo_at_home.Core.Entities.Users.Images;
+using Contact_zoo_at_home.Infrastructure.Data.Helpers;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
@@ -43,15 +44,14 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         // Contracts
         public DbSet<BaseContract> Contracts { get; set; }
         public DbSet<StandartContract> StandartContracts {  get; set; }
-        public DbSet<LongTermContract> LongTermContracts { get; set; }
-        public DbSet<PolyContract> PolyContracts { get; set; }
 
         // Supportive
         public DbSet<PetImage> PetImages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connection);
+            optionsBuilder.UseSqlServer(_connection)
+                .AddInterceptors(new SoftDeletePetInterceptor()); // move to configuration
         }
 
         // testDb: optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true");
