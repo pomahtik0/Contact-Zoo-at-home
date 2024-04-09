@@ -53,9 +53,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data
             optionsBuilder.UseSqlServer(_connection)
                 .AddInterceptors(new SoftDeletePetInterceptor()); // move to configuration
         }
-
-        // testDb: optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true");
-        // nonTestDb: optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi;Trusted_Connection=True;MultipleActiveResultSets=true");
+        
+        // optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,6 +2,7 @@
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Contact_zoo_at_home.Shared.Basics.Enums;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.ConcreteMapping
 {
@@ -43,6 +44,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
             builder.HasOne(x => x.Representative)
                 .WithMany(x => x.ContractsToRepresent)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasQueryFilter(x => x.StatusOfTheContract == ContractStatus.Active);
+
+            builder.HasIndex(x => x.StatusOfTheContract);
         }
     }
 }

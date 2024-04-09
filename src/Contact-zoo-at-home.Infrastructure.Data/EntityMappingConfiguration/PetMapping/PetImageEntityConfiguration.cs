@@ -6,9 +6,12 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
 {
     internal class PetImageEntityConfiguration : IEntityTypeConfiguration<PetImage>
     {
+        public const string ForeignKey_Pet = "PetId";
         public void Configure(EntityTypeBuilder<PetImage> builder)
         {
+            builder.Property<int>(ForeignKey_Pet);
 
+            builder.HasIndex(ForeignKey_Pet);
         }
     }
 }

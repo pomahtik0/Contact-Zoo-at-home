@@ -10,6 +10,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
         public void Configure(EntityTypeBuilder<PetBlockedDate> builder)
         {
             builder.Property<int>(ForeignKey_Pet);
+
+            builder.HasIndex(ForeignKey_Pet);
         }
     }
 }

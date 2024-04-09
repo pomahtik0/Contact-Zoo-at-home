@@ -9,10 +9,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Con
         public void Configure(EntityTypeBuilder<StandartContract> builder)
         {
             builder.HasBaseType<BaseContract>();
-
-            builder.HasOne(x => x.PartOfOtherContract)
-                .WithMany(x => x.SubContracts)
-                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

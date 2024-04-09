@@ -16,7 +16,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Com
             builder.HasOne(x => x.CommentTarget)
                 .WithMany(x => x.Comments)
                 .OnDelete(DeleteBehavior.ClientCascade);
-
         }
     }
 }
