@@ -39,7 +39,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         }
 
-        public async Task CreateNewUserAsync(BaseUser newUser)
+        public async Task CreateNewUserAsync(StandartUser newUser)
         {
             if (newUser is null)
             {
@@ -76,7 +76,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new InvalidOperationException($"User with Id={userId} already exists");
             }
 
-            BaseUser newUser;
+            StandartUser newUser;
 
             switch (role)
             {
@@ -99,7 +99,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<BaseUser> GetUserProfileInfoByIdAsync(int userId)
+        public async Task<StandartUser> GetUserProfileInfoByIdAsync(int userId)
         {
             if (userId <= 0)
             {
@@ -121,7 +121,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             return user;
         }
 
-        public async Task SaveUserProfileChangesAsync(BaseUser user)
+        public async Task SaveUserProfileChangesAsync(StandartUser user)
         {
             if (user is null)
             {

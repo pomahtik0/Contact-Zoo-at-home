@@ -8,6 +8,6 @@ namespace Contact_zoo_at_home.Core.Entities.Notifications
     public class InnerRatingNotification : InnerNotification
     {
         public Pet? RateTargetPet { get; set; }
-        public BaseUser? RateTargetUser { get; set; }
+        public StandartUser? RateTargetUser { get; set; }
     }
 }

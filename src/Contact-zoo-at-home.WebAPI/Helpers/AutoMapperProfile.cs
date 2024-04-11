@@ -13,7 +13,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
         {
             AllowNullCollections = true;
 
-            CreateMap<BaseUser, LinkedUserDto>();
+            CreateMap<StandartUser, LinkedUserDto>();
 
             CreateMap<PetComment, PetCommentsDto>();
 

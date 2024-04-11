@@ -35,7 +35,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             int userId = User.Claims.GetId();
 
-            BaseUser? user;
+            StandartUser? user;
             
             try
             {
@@ -68,7 +68,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 
             try
             {
-                BaseUser user = await _userManager.GetUserProfileInfoByIdAsync(userId);
+                StandartUser user = await _userManager.GetUserProfileInfoByIdAsync(userId);
 
                 user.Name = dto.Name;
                 user.PhoneNumber = dto.PhoneNumber;
@@ -92,7 +92,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             int userId = User.Claims.GetId();
 
-            BaseUser user;
+            StandartUser user;
 
             try
             {

@@ -46,7 +46,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
         /// <param name="userId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public async Task<BaseUser> GetPublicUserProfileAsync(int userId)
+        public async Task<StandartUser> GetPublicUserProfileAsync(int userId)
         {
             if (userId <= 0)
             {

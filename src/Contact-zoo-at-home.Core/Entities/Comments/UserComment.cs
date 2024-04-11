@@ -7,7 +7,7 @@ namespace Contact_zoo_at_home.Core.Entities.Comments
     /// </summary>
     public class UserComment : BaseComment
     {
-        public BaseUser CommentTarget { get; set; }
+        public StandartUser CommentTarget { get; set; }
         public float CommentRating { get; set; }
     }
 }

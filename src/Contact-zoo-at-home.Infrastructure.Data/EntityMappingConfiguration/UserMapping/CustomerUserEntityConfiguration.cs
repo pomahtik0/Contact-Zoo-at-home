@@ -10,7 +10,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
         public const string TableName = "Customers";
         public void Configure(EntityTypeBuilder<CustomerUser> builder)
         {
-            builder.HasBaseType<BaseUser>().ToTable(TableName);
+            builder.HasBaseType<StandartUser>().ToTable(TableName);
         }
     }
 }

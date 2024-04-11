@@ -12,6 +12,6 @@ namespace Contact_zoo_at_home.Core.Entities.Notifications
         public string Title { get; set; }
         public string Text { get; set; }
         public NotificationStatus Status { get; set; }
-        public BaseUser NotificationTarget {  get; set; }
+        public StandartUser NotificationTarget {  get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
         public const string TableName = "PetOwners";
         public void Configure(EntityTypeBuilder<BasePetOwner> builder)
         {
-            builder.HasBaseType(typeof(BaseUser)).ToTable(TableName);
+            builder.HasBaseType(typeof(StandartUser)).ToTable(TableName);
         }
     }
 }

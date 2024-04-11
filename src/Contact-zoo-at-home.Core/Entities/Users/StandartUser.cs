@@ -6,8 +6,10 @@ namespace Contact_zoo_at_home.Core.Entities.Users
 {
     /// <summary>
     /// Base class for all registered users.
+    /// Do not have any rights in application.
+    /// Do not create.
     /// </summary>
-    public abstract class BaseUser
+    public class StandartUser
     {
         public int Id { get; set; }
 

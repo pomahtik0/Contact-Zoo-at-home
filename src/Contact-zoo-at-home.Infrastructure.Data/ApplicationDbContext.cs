@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
         }
 
         // Users
-        public DbSet<BaseUser> Users { get; set; }
+        public DbSet<StandartUser> Users { get; set; }
         public DbSet<BasePetOwner> PetOwners { get; set; }
         public DbSet<CustomerUser> Customers { get; set; }
         public DbSet<IndividualOwner> IndividualOwners { get; set; }

@@ -65,7 +65,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         public void CreateNewUser_EmptyUserWithValidId_CreatesNewUser()
         {
             // Arrange
-            BaseUser customer = new CustomerUser() { Id = 11 };
+            StandartUser customer = new CustomerUser() { Id = 11 };
 
             // Act
             testUserManager.CreateNewUserAsync(customer).Wait();
@@ -87,7 +87,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         public void GetUserProfileInfoByIdAsync_ExistingId_FindsUser()
         {
             // Arrange
-            BaseUser customer = new CustomerUser() { Id = 11 };
+            StandartUser customer = new CustomerUser() { Id = 11 };
             testUserManager.CreateNewUserAsync(customer).Wait();
 
             // Act

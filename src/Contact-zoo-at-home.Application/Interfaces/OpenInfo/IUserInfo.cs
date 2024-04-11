@@ -9,6 +9,6 @@ namespace Contact_zoo_at_home.Application.Interfaces.OpenInfo
 {
     public interface IUserInfo : IDisposable
     {
-        Task<BaseUser> GetPublicUserProfileAsync(int userId);
+        Task<StandartUser> GetPublicUserProfileAsync(int userId);
     }
 }

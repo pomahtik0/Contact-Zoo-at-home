@@ -24,7 +24,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        private CustomerPublicProfileDto UserProfileDtoFactory(BaseUser user)
+        private CustomerPublicProfileDto UserProfileDtoFactory(StandartUser user)
         {
             switch(user)
             {

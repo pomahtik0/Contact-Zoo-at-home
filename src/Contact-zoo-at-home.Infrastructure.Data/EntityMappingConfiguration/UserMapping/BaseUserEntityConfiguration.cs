@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.UserMapping
 {
-    internal class BaseUserEntityConfiguration : IEntityTypeConfiguration<BaseUser>
+    internal class BaseUserEntityConfiguration : IEntityTypeConfiguration<StandartUser>
     {
         public const string TableName = "Users";
-        public void Configure(EntityTypeBuilder<BaseUser> builder)
+        public void Configure(EntityTypeBuilder<StandartUser> builder)
         {
             builder.UseTptMappingStrategy().ToTable(TableName);
 
@@ -31,11 +31,11 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Use
             
             builder.HasOne(x => x.ProfileImage)
                 .WithOne()
-                .HasPrincipalKey<BaseUser>();
+                .HasPrincipalKey<StandartUser>();
 
             builder.HasOne(x => x.NotificationOptions)
                 .WithOne()
-                .HasPrincipalKey<BaseUser>();
+                .HasPrincipalKey<StandartUser>();
         }
     }
 }
