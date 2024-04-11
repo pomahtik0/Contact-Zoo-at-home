@@ -7,7 +7,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// <summary>
     /// Base class for all registered users.
     /// </summary>
-    public class BaseUser
+    public abstract class BaseUser
     {
         public int Id { get; set; }
 
