@@ -365,8 +365,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     CommentTargetId = table.Column<int>(type: "int", nullable: false),
-                    AnswerToId = table.Column<int>(type: "int", nullable: true),
-                    PetId = table.Column<int>(type: "int", nullable: true)
+                    AnswerToId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -388,11 +387,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         principalTable: "Pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PetComments_Pets_PetId",
-                        column: x => x.PetId,
-                        principalTable: "Pets",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -557,11 +551,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                 name: "IX_PetComments_CommentTargetId",
                 table: "PetComments",
                 column: "CommentTargetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PetComments_PetId",
-                table: "PetComments",
-                column: "PetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PetImages_PetId",

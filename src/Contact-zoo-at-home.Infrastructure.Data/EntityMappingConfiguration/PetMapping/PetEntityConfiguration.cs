@@ -39,6 +39,10 @@ namespace Contact_zoo_at_home.Infrastructure.Data.EntityMappingConfiguration.Pet
                 .WithOne()
                 .HasForeignKey(PetImageEntityConfiguration.ForeignKey_Pet);
 
+            builder.HasMany(x => x.Comments)
+                .WithOne(x => x.CommentTarget)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne(x => x.Species)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
