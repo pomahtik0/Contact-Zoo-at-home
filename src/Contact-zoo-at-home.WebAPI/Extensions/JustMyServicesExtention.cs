@@ -6,6 +6,8 @@ using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Infrastructure.Data;
+using Contact_zoo_at_home.WebAPI.Cache;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -29,6 +31,13 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IUserInfo, UserInfo>();
             services.AddScoped<IPetInfo, PetInfo>();
             services.AddScoped<ICommentsManager, CommentsManager>();
+            services.AddScoped<ICommentsManager>(opt =>
+            {
+                IMemoryCache cache = opt.GetService<IMemoryCache>() ?? throw new Exception("Register memory cache");
+                return new CommentsManagerCacheDecorator(
+                    new CommentsManager(),
+                    cache);
+            });
 
             return services;
         }
