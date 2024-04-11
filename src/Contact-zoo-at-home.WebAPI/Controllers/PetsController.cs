@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
+using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +17,13 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     {
         private readonly IPetInfo _petInfo;
         private readonly IMapper _mapper;
+        private readonly ICommentsManager _commentsManager;
 
-        public PetsController(IPetInfo petInfo, IMapper mapper)
+        public PetsController(IPetInfo petInfo, ICommentsManager commentsManager, IMapper mapper)
         {
             _petInfo = petInfo;
             _mapper = mapper;
+            _commentsManager = commentsManager;
         }
 
         [HttpGet]
@@ -62,7 +67,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             try
             {
-                var comments = await _petInfo.UploadMoreCommentsAsync(petId, lastCommentId);
+                var comments = await _commentsManager.UploadMorePetCommentsAsync(petId, lastCommentId);
 
                 var model = _mapper.Map<IList<PetCommentsDto>>(comments);
 
@@ -72,6 +77,24 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost]
+        [Route("{petId}/comments")]
+        [Authorize]
+        public async Task<IActionResult> LeaveComment(int petId, [FromBody] string commentText)
+        {
+            try
+            {
+                int userId = User.Claims.GetId();
+
+                await _commentsManager.LeaveCommentForPetAsync(commentText, userId, petId);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [HttpGet]

@@ -1,7 +1,9 @@
 ﻿using Contact_zoo_at_home.Application;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
+using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Infrastructure.Data;
 
@@ -26,6 +28,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
             services.AddScoped<IUserInfo, UserInfo>();
             services.AddScoped<IPetInfo, PetInfo>();
+            services.AddScoped<ICommentsManager, CommentsManager>();
 
             return services;
         }

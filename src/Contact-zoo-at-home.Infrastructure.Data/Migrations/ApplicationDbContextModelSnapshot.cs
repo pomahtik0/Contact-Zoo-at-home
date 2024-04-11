@@ -416,14 +416,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Property<int>("CommentTargetId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PetId")
-                        .HasColumnType("int");
-
                     b.HasIndex("AnswerToId");
 
                     b.HasIndex("CommentTargetId");
-
-                    b.HasIndex("PetId");
 
                     b.ToTable("PetComments");
                 });
@@ -654,7 +649,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.Pet", "CommentTarget")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("CommentTargetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -664,10 +659,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Comments.PetComment", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Pets.Pet", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("PetId");
 
                     b.Navigation("AnswerTo");
 

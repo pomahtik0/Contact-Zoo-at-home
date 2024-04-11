@@ -15,7 +15,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
 
             CreateMap<BaseUser, LinkedUserDto>();
 
-            CreateMap<PetCommentsDto, PetComment>();
+            CreateMap<PetComment, PetCommentsDto>();
 
             CreateMap<CustomerUser, StandartUserSettingsDto>()
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))

@@ -7,7 +7,7 @@ namespace Contact_zoo_at_home.Core.Entities.Users
     /// <summary>
     /// Base class for all registered users.
     /// </summary>
-    public abstract class BaseUser
+    public class BaseUser
     {
         public int Id { get; set; }
 
@@ -21,10 +21,10 @@ namespace Contact_zoo_at_home.Core.Entities.Users
         public string? PhoneNumber { get; set; }
 
         // Comments aimed on this User
-        public IEnumerable<UserComment> Comments { get; } = [];
+        public IList<UserComment> Comments { get; } = [];
 
         // Comments made by this User
-        public IEnumerable<BaseComment> MyComments { get; } = [];
+        public IList<BaseComment> MyComments { get; } = [];
 
         // Notification options, may be null for companies
         public NotificationOptions NotificationOptions { get; set; }
