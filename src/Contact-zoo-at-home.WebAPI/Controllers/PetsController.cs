@@ -3,6 +3,7 @@ using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
 using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
+using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Shared.Dto;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -82,13 +83,15 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [HttpPost]
         [Route("{petId}/comments")]
         [Authorize]
-        public async Task<IActionResult> LeaveComment(int petId, [FromBody] string commentText)
+        public async Task<IActionResult> LeaveComment(int petId, [FromBody] PetCommentsDto commentDto)
         {
             try
             {
                 int userId = User.Claims.GetId();
 
-                await _commentsManager.LeaveCommentForPetAsync(commentText, userId, petId);
+                var petComment = _mapper.Map<PetComment>(commentDto);
+
+                await _commentsManager.LeaveCommentForPetAsync(petComment, userId, petId);
             }
             catch
             {

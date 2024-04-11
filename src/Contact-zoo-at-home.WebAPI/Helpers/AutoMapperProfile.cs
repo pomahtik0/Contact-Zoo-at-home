@@ -13,9 +13,11 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
         {
             AllowNullCollections = true;
 
-            CreateMap<StandartUser, LinkedUserDto>();
+            CreateMap<StandartUser, LinkedUserDto>()
+                .ReverseMap();
 
-            CreateMap<PetComment, PetCommentsDto>();
+            CreateMap<PetComment, PetCommentsDto>()
+                .ReverseMap();
 
             CreateMap<CustomerUser, StandartUserSettingsDto>()
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))

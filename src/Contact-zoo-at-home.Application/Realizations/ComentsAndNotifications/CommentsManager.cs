@@ -3,6 +3,7 @@ using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
@@ -36,24 +37,16 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
             return oldRating;
         }
 
-        public async Task LeaveCommentForPetAsync(PetComment petComment)
+        public async Task LeaveCommentForPetAsync(PetComment petComment, int authorId, int petId)
         {
-            throw new NotImplementedException();
-            
-            // validation checks
-
-            petComment.Date = DateTime.Now;
-
-            _dbContext.Attach(petComment);
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task LeaveCommentForPetAsync(string commentText, int userId, int petId)
-        {
-            if (userId <= 0)
+            if (petComment.Id != 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(userId));
+                throw new ArgumentException(nameof(petComment.Id));
+            }
+
+            if (authorId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petComment.Author));
             }
 
             if (petId <= 0)
@@ -61,24 +54,19 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
                 throw new ArgumentOutOfRangeException(nameof(petId));
             }
 
-            var user = await _dbContext.Users
-                .Where(user => user.Id == userId)
-                .AsNoTracking()
-                .FirstOrDefaultAsync()
-                ?? throw new NotExistsException();
-
-            var comment = new PetComment
+            petComment.Author = new StandartUser
             {
-                Author = user,
-                CommentTarget = new Pet
-                {
-                    Id = petId,
-                },
-                Text = commentText,
-                Date = DateTime.Now,
+                Id = authorId,
             };
 
-            _dbContext.Comments.Attach(comment);
+            petComment.CommentTarget = new Pet
+            {
+                Id = petId,
+            };
+
+            petComment.Date = DateTime.Now;
+
+            _dbContext.Attach(petComment);
 
             await _dbContext.SaveChangesAsync();
         }
@@ -105,10 +93,34 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
             return comments;
         }
 
-        public async Task LeaveCommentForUserAsync(UserComment userComment)
+        public async Task LeaveCommentForUserAsync(UserComment userComment, int authorId, int ratingNotificationId)
         {
-            throw new NotImplementedException();
-            // validation checks
+            if (userComment.Id != 0)
+            {
+                throw new ArgumentException(nameof(userComment));
+            }
+
+            if (userComment.CommentTarget is null)
+            {
+                throw new ArgumentNullException(nameof(userComment.CommentTarget));
+            }
+
+            if (authorId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(authorId));
+            }
+
+            if (ratingNotificationId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ratingNotificationId));
+            }
+
+            var notification = await _dbContext.InnerRatingNotifications
+                .Where(notification => notification.Id == ratingNotificationId)
+                .Where(notification => notification.RateTargetUser == userComment.CommentTarget)
+                .Where(notification => notification.NotificationTarget.Id == authorId)
+                .FirstOrDefaultAsync()
+                ?? throw new NoRightsException();
 
             if (userComment.CommentRating != 0)
             {
@@ -117,9 +129,16 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
                 user.RatedBy++;
             }
 
+            userComment.Author = new StandartUser
+            {
+                Id = authorId
+            };
+
             userComment.Date = DateTime.Now;
 
             _dbContext.Attach(userComment);
+
+            _dbContext.Remove(notification);
 
             await _dbContext.SaveChangesAsync();
         }
