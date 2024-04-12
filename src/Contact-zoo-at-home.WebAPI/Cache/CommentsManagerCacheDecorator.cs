@@ -1,14 +1,21 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
-using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace Contact_zoo_at_home.WebAPI.Cache
 {
     public class CommentsManagerCacheDecorator : ICommentsManager
     {
         private readonly ICommentsManager _commentsManager;
+        
         private readonly IMemoryCache _memoryCache;
+        
+        private static ConcurrentDictionary<object, SemaphoreSlim> _locks = new ConcurrentDictionary<object, SemaphoreSlim>();
+
+        private static ConcurrentDictionary<object, string> _keysDictionary = new ConcurrentDictionary<object, string>();
+
 
         public CommentsManagerCacheDecorator(ICommentsManager commentsManager, IMemoryCache memoryCache)
         {
@@ -16,9 +23,31 @@ namespace Contact_zoo_at_home.WebAPI.Cache
             _memoryCache = memoryCache;
         }
 
-        public Task LeaveCommentForPetAsync(PetComment petComment, int authorId, int petId)
+
+        public async Task LeaveCommentForPetAsync(PetComment petComment, int authorId, int petId)
         {
-            return _commentsManager.LeaveCommentForPetAsync(petComment, authorId, petId);
+            var mainKey = $"PetComments-{petId}";
+
+            SemaphoreSlim mylock = _locks.GetOrAdd(
+                    mainKey,
+                    k => new SemaphoreSlim(1, 1));
+            try
+            {
+                await mylock.WaitAsync();
+                {
+                    var keys = _keysDictionary.Where(obj => Regex.IsMatch(obj.Value, mainKey));
+                    foreach (var key in keys)
+                    {
+                        _memoryCache.Remove(key.Value);
+                        _keysDictionary.TryRemove(key);
+                    }
+                    await _commentsManager.LeaveCommentForPetAsync(petComment, authorId, petId);
+                }
+            }
+            finally
+            {
+                mylock.Release();
+            }
         }
 
         public Task LeaveCommentForUserAsync(UserComment userComment, int authorId, int ratingNotificationId)
@@ -26,9 +55,49 @@ namespace Contact_zoo_at_home.WebAPI.Cache
             return _commentsManager.LeaveCommentForUserAsync(userComment, authorId, ratingNotificationId);
         }
 
-        public Task<IList<PetComment>> UploadMorePetCommentsAsync(int petId, int lastCommentId)
+        public async Task<IList<PetComment>> UploadMorePetCommentsAsync(int petId, int lastCommentId)
         {
-            return _commentsManager.UploadMorePetCommentsAsync(petId, lastCommentId);
+            List<PetComment>? result;
+
+            var key = $"PetComments-{petId}-{lastCommentId}";
+
+            if (!_memoryCache.TryGetValue(key, out result))
+            {
+                var semaphoreKey = $"PetComments-{petId}";
+
+                SemaphoreSlim? mylock = _locks.GetOrAdd(
+                    semaphoreKey, // "PetComments-{petId}"
+                    k => new SemaphoreSlim(1, 1));
+
+                await mylock.WaitAsync();
+
+                try
+                {
+                    if (!_memoryCache.TryGetValue(key, out result))
+                    {
+                        _keysDictionary.TryAdd(key, key);
+
+                        result = (List<PetComment>?) await _commentsManager.UploadMorePetCommentsAsync(petId, lastCommentId) ?? throw new Exception();
+
+                        var cashedOptions = new MemoryCacheEntryOptions()
+                            .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                            .SetAbsoluteExpiration(TimeSpan.FromHours(1))
+                            .SetSize(result.Capacity);
+
+                        _memoryCache.Set(key, result, cashedOptions);
+                    }
+                }
+                finally
+                {
+                    mylock.Release();
+                    if(mylock.CurrentCount == 0)
+                    {
+                        _locks.TryRemove(semaphoreKey, out mylock); // maybe better not?
+                    }
+                }
+            }
+
+            return result!;
         }
     }
 }

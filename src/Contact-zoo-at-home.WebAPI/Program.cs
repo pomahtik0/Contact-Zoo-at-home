@@ -20,7 +20,10 @@ namespace Contact_zoo_at_home.WebAPI
                 throw new ArgumentNullException(nameof(builder.Configuration), "Configurate file to have needed sections");
             }
 
-            builder.Services.AddMemoryCache();
+            builder.Services.AddMemoryCache(opt =>
+            {
+                opt.SizeLimit = 1024 * 1024;
+            });
 
             // autoMapper for DTOs
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
