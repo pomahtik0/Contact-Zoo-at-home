@@ -23,10 +23,26 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             return Ok(model);
         }
 
+        [Route("")]
+        [Route("profile")]
+        [HttpPost]
+        public async Task<IActionResult> Profile(StandartUserSettingsDto model)
+        {
+            model = new StandartUserSettingsDto() // for checks
+            {
+                Name = "max",
+                PhoneNumber = "123",
+                Email = "asda@a"
+            };
+
+            await HttpContext.MakeApiPostRequestAsync("settings", model);
+
+            return Ok(model);
+        }
 
     }
 
-    public static class HttpContextExstention
+    public static class WebAPIRequests
     {
         /// <summary>
         /// 
@@ -38,7 +54,9 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         {
             var accessToken = await context.GetTokenAsync("access_token")
                 ?? throw new Exception("no access token found");
+            
             var client = new HttpClient();
+            
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             var responce = await client.GetAsync(Constants.WebAPIPath + "/api/" + apiUrl)
@@ -50,6 +68,24 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             }
 
             return await responce.Content.ReadFromJsonAsync<Dto>() ?? throw new Exception("wrong incoming dto");
+        }
+
+        public static async Task MakeApiPostRequestAsync<Dto>(this HttpContext context, string apiUrl, Dto dto)
+        {
+            var accessToken = await context.GetTokenAsync("access_token")
+               ?? throw new Exception("no access token found");
+
+            var client = new HttpClient();
+            
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var responce = await client.PostAsJsonAsync(Constants.WebAPIPath + "/api/" + apiUrl, dto)
+                ?? throw new Exception("No api responce");
+
+            if (!responce.IsSuccessStatusCode)
+            {
+                // throw?
+            }
         }
     }
 }
