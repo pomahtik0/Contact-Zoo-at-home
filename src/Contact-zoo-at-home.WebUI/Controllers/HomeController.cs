@@ -24,8 +24,8 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         [Authorize]
         public IActionResult Login(string? returnUrl)
         {
-            returnUrl ??= Constants.WebUIPath;
-            return Redirect(returnUrl);
+            returnUrl ??= "/";
+            return LocalRedirect(returnUrl);
         }
 
         [Authorize]

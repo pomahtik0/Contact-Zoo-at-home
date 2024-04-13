@@ -19,7 +19,7 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" id="login" asp-controller="Home" asp-action="Login">Login</a>
+            <a class="nav-link text-dark" id="login" asp-controller="Home" asp-action="Login" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">Login</a>
         </li>
     }
 </ul>
