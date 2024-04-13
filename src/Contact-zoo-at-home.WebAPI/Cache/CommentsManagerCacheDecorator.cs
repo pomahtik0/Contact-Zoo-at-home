@@ -99,5 +99,10 @@ namespace Contact_zoo_at_home.WebAPI.Cache
 
             return result!;
         }
+
+        public Task RatePetAsync(int authorId, float rateMark, int ratingNotificationId)
+        {
+            return _commentsManager.RatePetAsync(authorId, rateMark, ratingNotificationId);
+        }
     }
 }

@@ -142,5 +142,42 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task RatePetAsync(int authorId, float rateMark, int ratingNotificationId)
+        {
+            if(ratingNotificationId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ratingNotificationId));
+            }
+
+            if (authorId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(authorId));
+            }
+
+            if (rateMark < 0 || rateMark > 5)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rateMark));
+            }
+
+            var notification = await _dbContext.InnerRatingNotifications
+                .Where(not => not.Id == ratingNotificationId)
+                .Where(not => not.NotificationTarget.Id == authorId)
+                .Include(not => not.RateTargetPet)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if(notification.RateTargetPet == null)
+            {
+                throw new Exception("something went wrong");
+            }
+
+            notification.RateTargetPet.CurrentRating = 
+                UpdateRating(notification.RateTargetPet.CurrentRating, notification.RateTargetPet.RatedBy, rateMark);
+
+            _dbContext.Remove(notification);
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
