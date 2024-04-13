@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+
 namespace Contact_zoo_at_home.WebUI
 {
     public class Program
@@ -6,7 +10,19 @@ namespace Contact_zoo_at_home.WebUI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // minifiing and bundling .js files
+            builder.Services.AddWebOptimizer(
+                pipeline =>
+                {
+                    pipeline.AddJavaScriptBundle("/js/MainPageScripts.min.bundle.js", "js/**/*.js");
+                });
+
             builder.Services.AddHttpClient();
+
+            builder.Services.AddAuthorization(opt =>
+            {
+            });
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddAuthentication(options =>
@@ -34,6 +50,18 @@ namespace Contact_zoo_at_home.WebUI
                 options.MapInboundClaims = false; // Don't rename claim types
 
                 options.SaveTokens = true;
+
+                options.Events = new OpenIdConnectEvents
+                {
+                    OnUserInformationReceived = context =>
+                    {
+                        var client = new HttpClient();
+
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", context.ProtocolMessage.AccessToken);
+
+                        return client.GetAsync("https://localhost:7192/api/settings"); // ensure user exists // aka Костиль
+                    }
+                };
             });
 
             var app = builder.Build();
@@ -44,6 +72,8 @@ namespace Contact_zoo_at_home.WebUI
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                // Updating minified bundles on run
+                app.UseWebOptimizer();
             }
 
             app.UseHttpsRedirection();
@@ -51,8 +81,8 @@ namespace Contact_zoo_at_home.WebUI
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

@@ -1,3 +1,4 @@
+using Contact_zoo_at_home.Shared;
 using Microsoft.AspNetCore.Authentication;
 
 namespace StubWebUI
@@ -19,7 +20,7 @@ namespace StubWebUI
             .AddCookie("Cookies")
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:44310";
+                options.Authority = Constants.SeverPath;
 
                 options.ClientId = "webui_id";
                 options.ClientSecret = "webui_secret"; // some secret password

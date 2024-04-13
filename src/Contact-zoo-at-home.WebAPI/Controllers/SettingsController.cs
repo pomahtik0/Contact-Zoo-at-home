@@ -54,7 +54,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             }
 
             var dto = _mapper.Map<StandartUserSettingsDto>(user);
-            
+
             return Json(dto);
         }
 
