@@ -1,10 +1,7 @@
-﻿using Contact_zoo_at_home.Shared;
-using Contact_zoo_at_home.Shared.Dto;
+﻿using Contact_zoo_at_home.Shared.Dto;
 using Contact_zoo_at_home.WebUI.Helpers;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
 
 namespace Contact_zoo_at_home.WebUI.Controllers
 {

@@ -13,6 +13,9 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
         {
             AllowNullCollections = true;
 
+            CreateMap<PetSpecies, PetCommentsDto>()
+                .ReverseMap();
+
             CreateMap<StandartUser, LinkedUserDto>()
                 .ReverseMap();
 
