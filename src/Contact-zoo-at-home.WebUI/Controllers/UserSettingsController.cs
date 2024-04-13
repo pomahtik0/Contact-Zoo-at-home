@@ -18,7 +18,7 @@ namespace Contact_zoo_at_home.WebUI.Controllers
 
             var model = responce;
 
-            return Ok(model);
+            return View(model);
         }
 
         [Route("")]
@@ -26,16 +26,16 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Profile(StandartUserSettingsDto model)
         {
-            model = new StandartUserSettingsDto() // for checks
+            try
             {
-                Name = "max",
-                PhoneNumber = "123",
-                Email = "asda@a"
-            };
+                await HttpContext.MakeApiPostRequestAsync("settings", model);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "something went wrong. Aka Bad request.");
+            }
 
-            await HttpContext.MakeApiPostRequestAsync("settings", model);
-
-            return Ok(model);
+            return View(model);
         }
 
     }
