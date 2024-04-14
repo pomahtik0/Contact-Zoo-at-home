@@ -1,41 +1,41 @@
-﻿@model CreateRedactPetDto
+﻿@model CreateRedactPetModel
 
 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 <div class="form-floating mb-0">
-    <input asp-for="Name" class="form-control" />
-    <label asp-for="Name" class="form-label">Pet Name</label>
-    <span asp-validation-for="Name" class="text-danger"></span>
+    <input asp-for="PetDto.Name" class="form-control" />
+    <label asp-for="PetDto.Name" class="form-label">Pet Name</label>
+    <span asp-validation-for="PetDto.Name" class="text-danger"></span>
 </div>
 
 <div class="form-floating mb-0">
-    <input asp-for="ShortDescription" class="form-control" />
-    <label asp-for="ShortDescription" class="form-label">Short Description</label>
-    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+    <input asp-for="PetDto.ShortDescription" class="form-control" />
+    <label asp-for="PetDto.ShortDescription" class="form-label">Short Description</label>
+    <span asp-validation-for="PetDto.ShortDescription" class="text-danger"></span>
 </div>
 
 <div class="form-floating mb-0">
-    <input asp-for="Description" class="form-control" />
-    <label asp-for="Description" class="form-label">Description</label>
-    <span asp-validation-for="Description" class="text-danger"></span>
+    <input asp-for="PetDto.Description" class="form-control" />
+    <label asp-for="PetDto.Description" class="form-label">Description</label>
+    <span asp-validation-for="PetDto.Description" class="text-danger"></span>
 </div>
 
 <div class="form-floating mb-0">
-    <input asp-for="Price" class="form-control" />
-    <label asp-for="Price" class="form-label">Price</label>
-    <span asp-validation-for="Price" class="text-danger"></span>
+    <input asp-for="PetDto.Price" class="form-control" />
+    <label asp-for="PetDto.Price" class="form-label">Price</label>
+    <span asp-validation-for="PetDto.Price" class="text-danger"></span>
 </div>
 
-<div class="form-floating mb-0"> @* change *@
-    <input asp-for="Species" class="form-control" />
-    <label asp-for="Species" class="form-label">Species</label>
-    <span asp-validation-for="Species" class="text-danger"></span>
+<div class="form-floating mb-0"> @* change 2 *@
+    <select asp-for="PetDto.Species.Id" asp-items="new SelectList(Model.Species, nameof(PetSpeciesDto.Id),nameof(PetSpeciesDto.Name))">
+
+    </select>
 </div>
 
 <div class="form-floating mb-0">
     Other Pet Options:
 
     <div id="patrialPetOptions">
-        <partial name="_PetOptionsPartial.cshtml" model="Model?.PetOptions ?? new ExtraPetOptionsDTO[0]" />
+        <partial name="_PetOptionsPartial.cshtml" model="Model?.PetDto?.PetOptions ?? new ExtraPetOptionsDTO[0]" />
     </div>
 
     <button type="button" class="btn btn-secondary" onclick="addNewItem_PetOption()"> Add new option</button>

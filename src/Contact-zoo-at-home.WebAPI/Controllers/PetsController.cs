@@ -122,5 +122,16 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("species")]
+        public async Task<IActionResult> PetSpecies()
+        {
+            var species = await _petInfo.GetAllPetSpeciesAsync();
+
+            var model = _mapper.Map<IList<PetSpeciesDto>>(species);
+
+            return Json(model);
+        }
     }
 }

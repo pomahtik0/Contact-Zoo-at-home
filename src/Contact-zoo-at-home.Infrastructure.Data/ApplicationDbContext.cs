@@ -31,6 +31,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
         // Pets
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<PetSpecies> PetSpecies { get; set; }
 
         // Comments
         public DbSet<BaseComment> Comments { get; set; }

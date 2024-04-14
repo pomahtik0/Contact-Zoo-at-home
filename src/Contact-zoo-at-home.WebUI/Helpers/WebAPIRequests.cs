@@ -26,7 +26,7 @@ namespace Contact_zoo_at_home.WebUI.Helpers
 
             if (!responce.IsSuccessStatusCode)
             {
-                // throw?
+                throw new Exception();
             }
 
             return await responce.Content.ReadFromJsonAsync<Dto>() ?? throw new Exception("wrong incoming dto");
@@ -46,7 +46,25 @@ namespace Contact_zoo_at_home.WebUI.Helpers
 
             if (!responce.IsSuccessStatusCode)
             {
-                // throw?
+                throw new Exception();
+            }
+        }
+
+        public static async Task MakeApiPatchRequestAsync<Dto>(this HttpContext context, string apiUrl, Dto dto)
+        {
+            var accessToken = await context.GetTokenAsync("access_token")
+               ?? throw new Exception("no access token found");
+
+            var client = new HttpClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var responce = await client.PatchAsJsonAsync(Constants.WebAPIPath + "/api/" + apiUrl, dto)
+                ?? throw new Exception("No api responce");
+
+            if (!responce.IsSuccessStatusCode)
+            {
+                throw new Exception();
             }
         }
     }

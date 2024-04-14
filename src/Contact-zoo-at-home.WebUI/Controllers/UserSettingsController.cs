@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Shared.Dto;
 using Contact_zoo_at_home.WebUI.Helpers;
+using Contact_zoo_at_home.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,7 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = "PetOwner")]
         [Route("pets")]
         [HttpGet]
         public async Task<IActionResult> Pets(int page = 1)
@@ -49,13 +51,21 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = "PetOwner")]
         [HttpGet]
         [Route("pets/create")]
-        public IActionResult CreateNewPet()
+        public async Task<IActionResult> CreateNewPet()
         {
-            return View();
+            var getSpeciesTask = HttpContext.MakeApiGetRequestAsync<IList<PetSpeciesDto>>($"pets/species");
+            var model = new CreateRedactPetModel
+            {
+                Species = await getSpeciesTask
+            };
+
+            return View(model);
         }
 
+        [Authorize(Policy = "PetOwner")]
         [HttpPost]
         [Route("pets/create")]
         public async Task<IActionResult> CreateNewPet(CreateRedactPetDto model)
@@ -80,40 +90,42 @@ namespace Contact_zoo_at_home.WebUI.Controllers
 
         }
 
+        [Authorize(Policy = "PetOwner")]
         [HttpGet]
         [Route("pets/{id}")]
         public async Task<IActionResult> RedactPet(int id)
         {
-            var responce = await HttpContext.MakeApiGetRequestAsync<CreateRedactPetDto>($"settings/pets/{id}");
+            var getPetTask = HttpContext.MakeApiGetRequestAsync<CreateRedactPetDto>($"settings/pets/{id}");
 
-            var model = responce;
+            var getSpeciesTask = HttpContext.MakeApiGetRequestAsync<IList<PetSpeciesDto>>($"pets/species");
+
+            var model = new CreateRedactPetModel
+            {
+                PetDto = await getPetTask,
+                Species = await getSpeciesTask
+            };
 
             return View(model);
         }
 
 
+        [Authorize(Policy = "PetOwner")]
         [HttpPost]
         [Route("pets/{id}")]
-        public async Task<IActionResult> RedactPet(CreateRedactPetDto model, int id)
+        public async Task<IActionResult> RedactPet(CreateRedactPetModel model, int id)
         {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Invalid model");
-                return View(model);
-            }
-
             try
             {
-                await HttpContext.MakeApiPostRequestAsync($"settings/pets/{id}", model);
+                await HttpContext.MakeApiPatchRequestAsync($"settings/pets/{id}", model.PetDto);
             }
             catch
             {
                 ModelState.AddModelError("", "something went wrong. Aka Bad request.");
+                model.Species = await HttpContext.MakeApiGetRequestAsync<IList<PetSpeciesDto>>($"pets/species");
                 return View(model);
             }
 
             return RedirectToAction("Pets");
-
         }
     }
 }

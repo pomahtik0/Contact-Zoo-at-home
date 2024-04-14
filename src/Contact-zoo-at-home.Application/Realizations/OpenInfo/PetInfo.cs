@@ -88,5 +88,10 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
 
             return pet;
         }
+
+        public Task<List<PetSpecies>> GetAllPetSpeciesAsync()
+        {
+            return _dbContext.PetSpecies.ToListAsync(); // check if works
+        }
     }
 }
