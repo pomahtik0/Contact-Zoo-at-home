@@ -1,5 +1,5 @@
 ﻿@{
-    Roles Role = Roles.NoRole; // ToDo: change it;
+    Roles Role = User.Claims.GetRole();
 }
 
 @functions {
@@ -11,9 +11,25 @@
 }
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @IsActive("profile")" id="profile" asp-controller="UserSettings" asp-action="Profile">Profile</a></li>
+    
+    @if (Role != Roles.Admin)
+    {
+        <li class="nav-item"><a class="nav-link @IsActive("contracts")" id="contracts" asp-controller="UserSettings" asp-action="Contracts">Contracts</a></li>
+    }
 
+    @if (Role == Roles.IndividualPetOwner)
+    {
+        <li class="nav-item"><a class="nav-link @IsActive("otherProfile")" id="otherProfile" asp-controller="UserSettings" asp-action="IndividualOwnerProfile">Other profile settings</a></li>
+    }
+
+
+    @if (Role == Roles.Company)
+    {
+        <li class="nav-item"><a class="nav-link @IsActive("otherProfile")" id="otherProfile" asp-controller="UserSettings" asp-action="CompanyProfile">Other profile settings</a></li>
+    }
+    
     @if (Role == Roles.IndividualPetOwner || Role == Roles.Company)
     {
-        <li class="nav-item"><a class="nav-link @IsActive("pets")" id="pets" asp-controller="PetOwner" asp-action="Pets">Pets</a></li>
+        <li class="nav-item"><a class="nav-link @IsActive("pets")" id="pets" asp-controller="UserSettings" asp-action="Pets">Pets</a></li>
     }
 </ul>

@@ -1,3 +1,5 @@
+using Contact_zoo_at_home.Shared;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -33,7 +35,7 @@ namespace Contact_zoo_at_home.WebUI
             .AddCookie("Cookies")
             .AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "https://localhost:44310";
+                options.Authority = Constants.SeverPath;
 
                 options.ClientId = "webui_id";
                 options.ClientSecret = "webui_secret"; // some secret password
@@ -42,26 +44,23 @@ namespace Contact_zoo_at_home.WebUI
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("webapi_scope");
-                //options.Scope.Add("offline_access");
-                //options.Scope.Add("verification");
-                //options.ClaimActions.MapJsonKey("email_verified", "email_verified");
-                options.GetClaimsFromUserInfoEndpoint = true;
+                options.Scope.Add("application_role");
+                options.ClaimActions.MapJsonKey("ApplicationRole", "ApplicationRole");
+                options.ClaimActions.MapJsonKey("name", "name");
 
-                options.MapInboundClaims = false; // Don't rename claim types
+                options.GetClaimsFromUserInfoEndpoint = true;
 
                 options.SaveTokens = true;
 
-                options.Events = new OpenIdConnectEvents
-                {
-                    OnUserInformationReceived = context =>
+                options.Events.OnUserInformationReceived = 
+                    context =>
                     {
                         var client = new HttpClient();
 
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", context.ProtocolMessage.AccessToken);
 
-                        return client.GetAsync("https://localhost:7192/api/settings"); // ensure user exists // aka Костиль
-                    }
-                };
+                        return client.GetAsync(Constants.WebAPIPath + "/api/settings"); // ensure user exists // aka Костиль
+                    };
             });
 
             var app = builder.Build();
