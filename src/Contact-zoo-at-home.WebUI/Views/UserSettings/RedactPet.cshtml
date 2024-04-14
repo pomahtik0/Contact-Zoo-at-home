@@ -1,0 +1,13 @@
+﻿@model CreateRedactPetDto
+@{
+    ViewData["Title"] = "Redact pet";
+    ViewData["CurrentId"] = "pets";
+}
+
+<form method="post">
+    <h2>@ViewData["Title"]:</h2>
+
+    <partial name="_CreateRedactPartial" model="Model" />
+
+    <button asp-controller="UserSettings" asp-action="RedactPet" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
+</form>

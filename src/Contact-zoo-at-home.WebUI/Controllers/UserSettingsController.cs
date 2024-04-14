@@ -73,11 +73,47 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             catch
             {
                 ModelState.AddModelError("", "something went wrong. Aka Bad request.");
+                return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("Pets");
 
         }
 
+        [HttpGet]
+        [Route("pets/{id}")]
+        public async Task<IActionResult> RedactPet(int id)
+        {
+            var responce = await HttpContext.MakeApiGetRequestAsync<CreateRedactPetDto>($"settings/pets/{id}");
+
+            var model = responce;
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Route("pets/{id}")]
+        public async Task<IActionResult> RedactPet(CreateRedactPetDto model, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid model");
+                return View(model);
+            }
+
+            try
+            {
+                await HttpContext.MakeApiPostRequestAsync($"settings/pets/{id}", model);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "something went wrong. Aka Bad request.");
+                return View(model);
+            }
+
+            return RedirectToAction("Pets");
+
+        }
     }
 }
