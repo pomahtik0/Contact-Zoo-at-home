@@ -38,5 +38,16 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             return View(model);
         }
 
+        [Route("pets")]
+        [HttpGet]
+        public async Task<IActionResult> Pets(int page = 1)
+        {
+            var responce = await HttpContext.MakeApiGetRequestAsync<DisplayPetsDto>("settings/pets");
+
+            var model = responce;
+
+            return View(model);
+        }
+
     }
 }

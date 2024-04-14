@@ -28,9 +28,14 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             int userId = User.Claims.GetId();
 
-            var listOfPets = await _petOwnerManager.GetAllOwnedPetsAsync(userId, page, pageElements);
+            var pets = await _petOwnerManager.GetAllOwnedPetsAsync(userId, page, pageElements); 
 
-            var model = _mapper.Map<IList<DisplayPetsDto>>(listOfPets);
+            DisplayPetsDto model = new DisplayPetsDto
+            {
+                Pets = _mapper.Map<IList<DisplayPetDto>>(pets),
+                CurrentPage = 1,
+                TotalPages = 1,
+            };
 
             return Json(model);
         }

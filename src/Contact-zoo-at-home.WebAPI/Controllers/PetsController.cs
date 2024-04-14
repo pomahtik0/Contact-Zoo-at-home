@@ -34,7 +34,12 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             {
                 var pets = await _petInfo.GetAllPetsAsync(page, pageElements);
 
-                var model = _mapper.Map<IList<DisplayPetsDto>>(pets);
+                DisplayPetsDto model = new DisplayPetsDto
+                {
+                    Pets = _mapper.Map<IList<DisplayPetDto>>(pets),
+                    CurrentPage = 1,
+                    TotalPages = 1,
+                };
 
                 return Json(model);
             }

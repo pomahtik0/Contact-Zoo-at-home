@@ -1,14 +1,11 @@
-﻿using Contact_zoo_at_home.Shared.Basics.Enums;
-
-namespace Contact_zoo_at_home.Shared.Dto
+﻿namespace Contact_zoo_at_home.Shared.Dto
 {
     public class DisplayPetsDto
     {
-        public int Id { get; set; }
-        public byte[] Image { get; set; }
-        public string Name { get; set; }
-        public string Species {  get; set; }
-        public float Rating {  get; set; }
-        public PetStatus PetStatus { get; set; }
+        public IList<DisplayPetDto> Pets { get; set; }
+
+        public int CurrentPage { get; set; }
+
+        public int TotalPages { get; set; }
     }
 }

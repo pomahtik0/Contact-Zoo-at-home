@@ -23,6 +23,10 @@ namespace Contact_zoo_at_home.WebUI
 
             builder.Services.AddAuthorization(opt =>
             {
+                opt.AddPolicy("Customer", policy => policy.RequireClaim("ApplicationRole", Roles.Customer.ToString()));
+                opt.AddPolicy("PetOwner", policy => policy.RequireClaim("ApplicationRole", [Roles.IndividualPetOwner.ToString(), Roles.Company.ToString()]));
+                opt.AddPolicy("IndividualOwner", policy => policy.RequireClaim("ApplicationRole", Roles.IndividualPetOwner.ToString()));
+                opt.AddPolicy("Company", policy => policy.RequireClaim("ApplicationRole", Roles.Company.ToString()));
             });
 
             // Add services to the container.

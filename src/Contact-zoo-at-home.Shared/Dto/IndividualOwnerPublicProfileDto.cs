@@ -10,6 +10,6 @@ namespace Contact_zoo_at_home.Shared.Dto
     {
         public string Phone {  get; set; }
         public string Email { get; set; }
-        public IList<DisplayPetsDto> OwnedPets { get; set; }
+        public IList<DisplayPetDto> OwnedPets { get; set; }
     }
 }
