@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Shared.Dto
 {
-    public class ShortDisplayPetDto : DisplayPetDto
+    public class DisplayPetShortDto : DisplayPetDto
     {
         public string ShortDescription {  get; set; }
         public LinkedUserDto Owner { get; set; }

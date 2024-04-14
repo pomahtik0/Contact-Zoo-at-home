@@ -1,0 +1,20 @@
+﻿@model DisplayPetsShortDto
+@{
+    ViewData["Title"] = $"Pets page {Model.CurrentPage}";
+}
+
+<div class="d-flex flex-wrap">
+    @foreach (var pet in Model.Pets)
+    {
+        <partial name="_PetCard" model="pet" />
+    }
+</div>
+
+<div class="modal fade" id="modalContainer">
+    <div class="modal-dialog modal-dialog-centered" id="modelDialog">
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/PetProfile.js"></script>
+}

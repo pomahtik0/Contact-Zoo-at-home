@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Shared.Dto
 {
-    public class FullDisplayPetDto : ShortDisplayPetDto
+    public class DisplayPetFullDto : DisplayPetShortDto
     {
         public byte[][] Images { get; set; }
         public string Description {  get; set; }
+        public IList<ExtraPetOptionsDTO> PetOptions { get; set; }
         public IList<PetCommentsDto> Comments { get; set; }
     }
 }

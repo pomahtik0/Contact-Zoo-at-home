@@ -37,11 +37,11 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
                 .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.FirstOrDefault().Image));
 
-            CreateMap<Pet, ShortDisplayPetDto>()
+            CreateMap<Pet, DisplayPetShortDto>()
                 .IncludeBase<Pet, DisplayPetDto>();
 
-            CreateMap<Pet, FullDisplayPetDto>()
-                .IncludeBase<Pet, ShortDisplayPetDto>()
+            CreateMap<Pet, DisplayPetFullDto>()
+                .IncludeBase<Pet, DisplayPetShortDto>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images));
 
             CreateMap<ExtraPetOptionsDTO, ExtraPetOption>()

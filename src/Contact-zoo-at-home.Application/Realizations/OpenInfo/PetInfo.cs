@@ -43,7 +43,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
         /// <param name="page">Current page. From 1 to max pages.</param>
         /// <param name="numberOfPetsOnPage">specify number of pets on one page, or as default. Not more then 100.</param>
         /// <returns>List of pets on selected page, and total number of pages.</returns>
-        public async Task<IList<Pet>> GetAllPetsAsync(int page, int numberOfPetsOnPage = 20)
+        public async Task<IList<Pet>> GetPetsAsync(int page, int numberOfPetsOnPage = 20)
         {
             if (page <= 0 || numberOfPetsOnPage <= 0 || numberOfPetsOnPage > maxNumberOfPetsOnPage)
             {
@@ -55,6 +55,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                 .Where(pet => pet.CurrentPetStatus == PetStatus.Active)
                 .Include(pet => pet.Species)
                 .Include(pet => pet.Images)
+                .Include(pet => pet.Owner)
                 .AsNoTracking()
                 .Skip(page * numberOfPetsOnPage)
                 .Take(numberOfPetsOnPage)
@@ -75,13 +76,13 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Images)
                 .Include(pet => pet.Species)
+                .Include(pet => pet.PetOptions)
                 .FirstOrDefaultAsync()
                 ?? throw new NotExistsException();
 
             await _dbContext.Entry(pet)
                 .Collection(pet => pet.Comments)
                 .Query()
-                //.Where(comment => comment.CommentTarget.Id ==  petId)
                 .OrderBy(comment => comment.Id)
                 .Take(10)
                 .LoadAsync();

@@ -1,0 +1,45 @@
+﻿@model DisplayPetFullDto
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@Model.Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        Species and subspecies: @Model.Species
+        <br />
+        Price: @Model.Price$
+        <br />
+        Owner Name: <a target="_blank" href="@Url.Action("Data", "UserProfile", new { id = Model.Owner.Id })">@Model.Owner.Name</a>
+        <br />
+        Rating: @Model.Rating
+        <br />
+        Characteristics:
+        <br />
+        @foreach (var option in Model.PetOptions)
+        {
+            <div>
+                @option.OptionName: @option.OptionValue
+            </div>
+            <br />
+        }
+        About Me:
+        <br />
+        @Model.Description
+        <br/>
+        Comments:       
+
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="border border-1 border-primary">
+                @comment.Author.Name
+                <br />
+                @comment.Text
+            </div>
+            
+        }
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-primary" target="_blank" href="@Url.Action("PetProfile", "Data", new { id = Model.Id })">Show Profile</a>
+    </div>
+</div>

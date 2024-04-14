@@ -1,0 +1,25 @@
+﻿@model DisplayPetFullDto
+@{
+    ViewData["Title"] = "PetProfile";
+}
+<h5 class="modal-title">@Model.Name</h5>
+Species and subspecies: @Model.Species
+<br />
+Price: @Model.Price$
+<br />
+Owner Name: <a target="_blank" href="@Url.Action("Data", "UserProfile", new { id = Model.Owner.Id })">@Model.Owner.Name</a>
+<br />
+Rating: @Model.Rating
+<br />
+Characteristics:
+<br />
+@foreach (var option in Model.PetOptions)
+{
+    <div>
+        @option.OptionName: @option.OptionValue
+    </div>
+    <br />
+}
+About Me:
+<br />
+@Model.Description

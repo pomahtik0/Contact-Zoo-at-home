@@ -32,11 +32,11 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             try
             {
-                var pets = await _petInfo.GetAllPetsAsync(page, pageElements);
+                var pets = await _petInfo.GetPetsAsync(page, pageElements);
 
-                DisplayPetsDto model = new DisplayPetsDto
+                var model = new DisplayPetsShortDto
                 {
-                    Pets = _mapper.Map<IList<DisplayPetDto>>(pets),
+                    Pets = _mapper.Map<IList<DisplayPetShortDto>>(pets),
                     CurrentPage = 1,
                     TotalPages = 1,
                 };
@@ -57,7 +57,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             {
                 var pet = await _petInfo.GetPetProfileAsync(petId);
 
-                var model = _mapper.Map<FullDisplayPetDto>(pet);
+                var model = _mapper.Map<DisplayPetFullDto>(pet);
 
                 return Json(model);
             }
@@ -113,7 +113,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             {
                 var pet = await _petInfo.GetPetProfileAsync(petId);
 
-                var model = _mapper.Map<ShortDisplayPetDto>(pet);
+                var model = _mapper.Map<DisplayPetShortDto>(pet);
 
                 return Json(model);
             }
