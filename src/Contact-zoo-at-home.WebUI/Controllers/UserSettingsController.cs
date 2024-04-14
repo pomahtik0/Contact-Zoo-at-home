@@ -68,21 +68,18 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         [Authorize(Policy = "PetOwner")]
         [HttpPost]
         [Route("pets/create")]
-        public async Task<IActionResult> CreateNewPet(CreateRedactPetDto model)
+        public async Task<IActionResult> CreateNewPet(CreateRedactPetModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Invalid model");
-                return View(model);
-            }
-
             try
             {
-                await HttpContext.MakeApiPostRequestAsync("settings/pets", model);
+                model.PetDto.Species.Name = "some random value to pass validation";
+                model.PetDto.PetOptions ??= new ExtraPetOptionsDTO[0];
+                await HttpContext.MakeApiPostRequestAsync("settings/pets", model.PetDto);
             }
             catch
             {
                 ModelState.AddModelError("", "something went wrong. Aka Bad request.");
+                model.Species = await HttpContext.MakeApiGetRequestAsync<IList<PetSpeciesDto>>($"pets/species");
                 return View(model);
             }
 
