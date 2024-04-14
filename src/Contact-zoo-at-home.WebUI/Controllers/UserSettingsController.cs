@@ -116,6 +116,8 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         {
             try
             {
+                model.PetDto.Species.Name = "some random value to pass validation";
+                model.PetDto.PetOptions ??= new ExtraPetOptionsDTO[0];
                 await HttpContext.MakeApiPatchRequestAsync($"settings/pets/{id}", model.PetDto);
             }
             catch

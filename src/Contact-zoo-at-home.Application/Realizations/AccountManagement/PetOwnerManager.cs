@@ -230,14 +230,21 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 ?? throw new NotExistsException();
 
             originalPet.Name = pet.Name;
-            originalPet.Species = pet.Species;
             originalPet.ShortDescription = pet.ShortDescription;
             originalPet.Description = pet.Description;
             originalPet.PetOptions = pet.PetOptions;
             originalPet.ActivityType = pet.ActivityType;
             originalPet.Price = pet.Price;
             originalPet.RestorationTimeInDays = pet.RestorationTimeInDays;
-            //originalPet.BlockedDates = pet.BlockedDates;
+
+            if (pet.Species.Id != 0)
+            {
+                originalPet.Species = await _dbContext.PetSpecies.FindAsync(pet.Species.Id) ?? throw new NotExistsException();
+            }
+            else
+            {
+                originalPet.Species = pet.Species;
+            }
 
             await _dbContext.SaveChangesAsync();
         }
