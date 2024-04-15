@@ -14,8 +14,7 @@ namespace Contact_zoo_at_home.WebUI.Helpers
         /// <returns></returns>
         public static async Task<Dto> MakeApiGetRequestAsync<Dto>(this HttpContext context, string apiUrl)
         {
-            var accessToken = await context.GetTokenAsync("access_token")
-                ?? throw new Exception("no access token found");
+            var accessToken = await context.GetTokenAsync("access_token");
 
             var client = new HttpClient();
 

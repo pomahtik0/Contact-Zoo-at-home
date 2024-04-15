@@ -1,0 +1,12 @@
+﻿@model PetCommentsModel
+
+@foreach(var comment in Model.Comments)
+{
+    <div class="border border-1 border-primary">
+        @(comment.Author?.Name ?? "Anonymus") 
+        <br />
+        @comment.Text
+    </div>
+}
+
+<button id="uploadMorePetCommentsButton" onclick="uploadMoreComments(@Model.PetId, @Model.LastCommentId)">Upload more comments</button>

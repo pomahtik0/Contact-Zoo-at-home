@@ -1,4 +1,4 @@
-﻿@model DisplayPetFullDto
+﻿@model PetProfileModel
 @{
     ViewData["Title"] = "PetProfile";
 }
@@ -23,3 +23,14 @@ Characteristics:
 About Me:
 <br />
 @Model.Description
+
+
+<div id="petComments">
+    <h1>Comments:</h1>
+    
+    <partial name="PetComments" model="Model.Comments" />
+</div>
+
+@section Scripts {
+    <script src="~/js/PetProfile.js"></script>
+}

@@ -1,6 +1,9 @@
 ﻿using Contact_zoo_at_home.Shared.Dto;
 using Contact_zoo_at_home.WebUI.Helpers;
+using Contact_zoo_at_home.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Xml.Linq;
 
 namespace Contact_zoo_at_home.WebUI.Controllers
 {
@@ -26,7 +29,26 @@ namespace Contact_zoo_at_home.WebUI.Controllers
         {
             var responce = await HttpContext.MakeApiGetRequestAsync<DisplayPetFullDto>($"pets/{id}");
 
-            return View(responce);
+            var model = new PetProfileModel
+            {
+                Id = responce.Id,
+                Name = responce.Name,
+                Description = responce.Description,
+                Owner = responce.Owner,
+                PetOptions = responce.PetOptions,
+                PetStatus = responce.PetStatus,
+                Price = responce.Price,
+                Rating = responce.Rating,
+                Species = responce.Species,
+                Comments = new PetCommentsModel
+                {
+                    Comments = responce.Comments,
+                    PetId = responce.Id,
+                    LastCommentId = responce.Comments.LastOrDefault()?.Id ?? 0
+                }
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -35,6 +57,23 @@ namespace Contact_zoo_at_home.WebUI.Controllers
             var responce = await HttpContext.MakeApiGetRequestAsync<DisplayPetFullDto>($"pets/{id}");
 
             return PartialView(responce);
+        }
+
+        [HttpGet]
+        [Route("/pets/{petId}/comments/{lastCommentId}")]
+        public async Task<IActionResult> PetComments(int petId, int lastCommentId)
+        {
+            var responce = await HttpContext.MakeApiGetRequestAsync<IEnumerable<PetCommentsDto>>($"pets/{petId}/comments/{lastCommentId}");
+
+
+            PetCommentsModel model = new PetCommentsModel
+            {
+                Comments = responce,
+                PetId = petId,
+                LastCommentId = responce.LastOrDefault()?.Id ?? lastCommentId
+            };
+
+            return PartialView(model);
         }
     }
 }

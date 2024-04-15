@@ -87,6 +87,7 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
                 .Where(comment => comment.CommentTarget.Id == petId)
                 .OrderBy(comment => comment.Id)
                 .Where(comment => comment.Id > lastCommentId)
+                .Include(comment => comment.Author)
                 .Take(10)
                 .ToListAsync();
 
