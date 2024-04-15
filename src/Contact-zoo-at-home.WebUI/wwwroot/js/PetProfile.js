@@ -71,4 +71,42 @@ function openPetCard(id) {
         });
     });
 }
+function uploadMoreComments(petId, lastCommentId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var url, response, partialHtml, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    url = "/pets/" + petId + "/comments/" + lastCommentId;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 6, , 7]);
+                    return [4 /*yield*/, fetch(url, {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        })];
+                case 2:
+                    response = _a.sent();
+                    if (!response.ok) return [3 /*break*/, 4];
+                    document.getElementById("uploadMorePetCommentsButton").remove();
+                    return [4 /*yield*/, response.text()];
+                case 3:
+                    partialHtml = _a.sent();
+                    document.getElementById("petComments").innerHTML += partialHtml;
+                    return [3 /*break*/, 5];
+                case 4:
+                    console.error("Error fetching data:", response.status, response.statusText);
+                    _a.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
+                    error_2 = _a.sent();
+                    console.error("An error occurred:", error_2);
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
+            }
+        });
+    });
+}
 //# sourceMappingURL=PetProfile.js.map
