@@ -39,6 +39,8 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                     cache);
             });
 
+            services.AddScoped<ICustomerManager, CustomerManager>();
+
             return services;
         }
     }

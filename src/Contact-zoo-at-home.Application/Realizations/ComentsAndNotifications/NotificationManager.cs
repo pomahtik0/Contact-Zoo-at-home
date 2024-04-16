@@ -6,7 +6,7 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
     public class NotificationManager
     {
-        internal static void CreateNotification(ApplicationDbContext dbContext, InnerNotification notification)
+        internal static InnerNotification CreateNotification(ApplicationDbContext dbContext, InnerNotification notification)
         {
             if(string.IsNullOrEmpty(notification.Text))
             {
@@ -26,7 +26,7 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 
             dbContext.Attach(notification);
 
-            // make some external notifications here
+            return notification;
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Contact_zoo_at_home.Shared.Basics.Enums;
 using System.Data.Common;
+using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
@@ -77,48 +78,109 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         }
 
 
-
-        public async Task CreateNewContractAsync(BaseContract baseContract) // Aplyes to Standart and longterm contracts
+        public async Task<InnerNotification> CreateNewStandartContractAsync(StandartContract standartContract, int customerId, IEnumerable<int> petIds)
         {
-            if (baseContract == null)
+            if (standartContract == null)
             {
                 throw new ArgumentNullException("Contract is not specified");
             }
 
-            if (baseContract.Contractor is null || baseContract.Customer is null)
-            {
-                throw new ArgumentNullException("Customer or contractor is set to null");
-            }
-
-            if (baseContract.Contractor.Id <= 0 || baseContract.Customer.Id <= 0)
-            {
-                throw new ArgumentException("Contractors or customers id is set to wrong value, ensure both of them exist in DB");
-            }
-
-            if (baseContract.PetsInContract.IsNullOrEmpty())
+            if (petIds.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("No pets are specified in the contract");
             }
 
-            if (baseContract.PetsInContract.Any(pet => pet.Owner.Id != baseContract.Contractor.Id))
+            standartContract.PetsInContract = await _dbContext.Pets
+                .Where(pet => petIds.Contains(pet.Id))
+                .Include(pet => pet.Owner)
+                .ToListAsync();
+
+            if (petIds.Count() != standartContract.PetsInContract.Count)
             {
-                throw new ArgumentException("Not all pets belong to Contractor");
+                throw new ArgumentException("Not all pets are valid");
             }
 
-            if (baseContract.Representative is not null)
+            standartContract.Contractor = standartContract.PetsInContract.First().Owner;
+
+            if(standartContract.PetsInContract.Any(pet => pet.Owner != standartContract.Contractor))
             {
-                throw new ArgumentException("No pet representative should be assigned on ContractCreate");
+                throw new ArgumentException("Not all pets belong to same owner");
             }
 
-            baseContract.StatusOfTheContract = ContractStatus.Active;
+            standartContract.StatusOfTheContract = ContractStatus.Active;
 
-            _dbContext.Attach(baseContract);
+            standartContract.Customer = await _dbContext.Customers.FindAsync(customerId) ?? throw new NotExistsException();
+
+            _dbContext.Attach(standartContract);
 
             await _dbContext.SaveChangesAsync(); // need to save changes to get contract id
             
-            NotificationManager.CreateNotification(_dbContext, ContractIsCreatedNotification(baseContract));
+            var notification = NotificationManager.CreateNotification(_dbContext, ContractIsCreatedNotification(standartContract));
 
             await _dbContext.SaveChangesAsync();
+
+            return notification;
+        }
+
+        public async Task<IEnumerable<InnerRatingNotification>> ForceCloseContractAsync(int contractId) // temporary method for tests
+        {
+            if (contractId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contractId));
+            }
+
+            var contractToClose = await _dbContext.Contracts
+                .Where(contract => contract.Id == contractId)
+                .Include(contract => contract.Contractor)
+                .Include(contract => contract.Customer)
+                .Include(contract => contract.PetsInContract)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (contractToClose.StatusOfTheContract != ContractStatus.Active)
+            {
+                throw new Exception("contract is impossible to close");
+            }
+
+            var listOfNotifications = new List<InnerRatingNotification>()
+            {
+                new InnerRatingNotification()
+                {
+                    NotificationTarget = contractToClose.Contractor,
+                    Text = $"How do you rate customer {contractToClose.Customer.Name}?",
+                    Title = $"Contract-num.{contractToClose.Id} is closed",
+                    RateTargetUser = contractToClose.Customer,
+                    Status = NotificationStatus.NotShown
+                },
+                new InnerRatingNotification()
+                {
+                    NotificationTarget = contractToClose.Customer,
+                    Text = $"How do you rate pet owner {contractToClose.Contractor.Name}?",
+                    Title = $"Contract-num.{contractToClose.Id} is closed",
+                    RateTargetUser = contractToClose.Contractor,
+                    Status = NotificationStatus.NotShown
+                }
+            };
+
+            foreach(var pet in contractToClose.PetsInContract)
+            {
+                listOfNotifications.Add(new InnerRatingNotification()
+                {
+                    NotificationTarget = contractToClose.Customer,
+                    Text = $"How do you rate pet {pet.Name}?",
+                    Title = "Rate pet you've played with",
+                    RateTargetPet = pet,
+                    Status = NotificationStatus.NotShown
+                });
+            }
+
+            contractToClose.StatusOfTheContract = ContractStatus.Perfermed;
+
+            _dbContext.AttachRange(listOfNotifications);
+
+            await _dbContext.SaveChangesAsync();
+
+            return listOfNotifications;
         }
 
         public async Task<IList<BaseContract>> GetAllContractsAsync(int customerId)

@@ -19,7 +19,7 @@ namespace Contact_zoo_at_home.Core.Entities.Contracts
         public Representative? Representative { get; set; }
 
         // Pets that are part of a contract
-        public IList<Pet> PetsInContract { get; init; } = [];
+        public IList<Pet> PetsInContract { get; set; } = [];
 
         // Current status of the contract
         public ContractStatus StatusOfTheContract { get; set; }

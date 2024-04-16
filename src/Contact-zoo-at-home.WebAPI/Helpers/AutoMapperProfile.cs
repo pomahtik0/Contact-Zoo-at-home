@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Contracts;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
@@ -56,6 +58,16 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<Pet, CreateRedactPetDto>()
                 .ReverseMap();
 
+            CreateMap<CreateStandartContractDto, StandartContract>();
+
+            CreateMap<InnerNotification, NotificationDto>()
+                .ForMember(dest => dest.NotificationTargetId, opt => opt.MapFrom(src => src.NotificationTarget.Id));
+
+            CreateMap<InnerRatingNotification, RatingNotificationDto>()
+                .IncludeBase<InnerNotification, NotificationDto>()
+                .ForMember(dest => dest.RateTargetPetId, opt => opt.MapFrom(src => src.RateTargetPet.Id))
+                .ForMember(dest => dest.RateTargetUserId, opt => opt.MapFrom(src => src.RateTargetUser.Id));
+                
         }
     }
 }

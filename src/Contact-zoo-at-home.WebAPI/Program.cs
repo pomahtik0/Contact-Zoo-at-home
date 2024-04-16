@@ -45,6 +45,7 @@ namespace Contact_zoo_at_home.WebAPI
                 });
                 options.AddPolicy("IndividualOwner", policy => policy.RequireClaim("ApplicationRole", Roles.IndividualPetOwner.ToString()));
                 options.AddPolicy("PetOwner", policy => policy.RequireClaim("ApplicationRole", [Roles.IndividualPetOwner.ToString(), Roles.Company.ToString()]));
+                options.AddPolicy("Customer", policy => policy.RequireClaim("ApplicationRole", Roles.Customer.ToString()));
             });
 
             builder.Services.AddSwaggerGen(options =>
