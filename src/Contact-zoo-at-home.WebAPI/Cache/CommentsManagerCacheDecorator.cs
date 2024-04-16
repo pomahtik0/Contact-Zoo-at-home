@@ -104,5 +104,10 @@ namespace Contact_zoo_at_home.WebAPI.Cache
         {
             return _commentsManager.RatePetAsync(authorId, rateMark, ratingNotificationId);
         }
+
+        public Task DeleteNotificationAsync(int notificationId, int userId)
+        {
+            return _commentsManager.DeleteNotificationAsync(notificationId, userId);
+        }
     }
 }

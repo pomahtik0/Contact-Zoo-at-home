@@ -34,9 +34,18 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 
         [HttpDelete]
         [Route("{notificationId}")]
-        public IActionResult DeleteNotification(int notificationId)
+        public async Task<IActionResult> DeleteNotification(int notificationId)
         {
-            return View();
+            try
+            {
+                int userId = User.Claims.GetId();
+                await _commentsManager.DeleteNotificationAsync(notificationId, userId);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPatch]

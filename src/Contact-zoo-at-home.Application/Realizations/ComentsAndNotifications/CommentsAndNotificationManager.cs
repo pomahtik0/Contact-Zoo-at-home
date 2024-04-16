@@ -183,5 +183,32 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteNotificationAsync(int notificationId, int userId)
+        {
+            if (notificationId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(notificationId));
+            }
+
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId));
+            }
+
+            var notificationToDelete = await _dbContext.InnerNotifications
+                .Where(notification => notification.Id == notificationId)
+                .Include(notification => notification.NotificationTarget)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (notificationToDelete.NotificationTarget.Id != userId)
+            {
+                throw new NoRightsException();
+            }
+
+            _dbContext.Remove(notificationToDelete);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
