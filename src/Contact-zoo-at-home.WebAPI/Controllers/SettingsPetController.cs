@@ -29,7 +29,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         {
             int userId = User.Claims.GetId();
 
-            var pets = await _petOwnerManager.GetAllOwnedPetsAsync(userId, page, pageElements); 
+            var pets = await _petOwnerManager.GetAllOwnedPetsAsync(userId, page, pageElements);
 
             DisplayPetsDto model = new DisplayPetsDto
             {
@@ -110,6 +110,59 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("{petId}/images")]
+        public async Task<IActionResult> AddNewPetImage(int petId, [FromBody] PetImage image)
+        {
+            int userId = User.Claims.GetId();
+
+            try
+            {
+                await _petOwnerManager.AddNewImageToPetAsync(petId, userId, image);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{petId}/images/{petImageId}")]
+        public async Task<IActionResult> DeletePetImage(int petId, int petImageId)
+        {
+            int userId = User.Claims.GetId();
+
+            try
+            {
+                await _petOwnerManager.RemovePetImageAsync(petId, userId, petImageId);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("{petId}/images/{newPetProfileImageId}")]
+        public async Task<IActionResult> SetProfileImage(int petId, int newPetProfileImageId)
+        {
+            int userId = User.Claims.GetId();
+            
+            try
+            {
+                int petProfileId = await _petOwnerManager.SetPetImageAsProfileAsync(petId, userId, newPetProfileImageId);
+                return Ok(petProfileId);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

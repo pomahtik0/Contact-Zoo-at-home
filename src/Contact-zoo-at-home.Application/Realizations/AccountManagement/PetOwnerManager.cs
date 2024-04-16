@@ -283,32 +283,48 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task AddNewImageToPetAsync(int petId, PetImage image) 
+        public async Task<int> AddNewImageToPetAsync(int petId, int ownerId, PetImage image) 
         {
             if (petId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
             }
 
-            // maybe some image checks later
-
-            var pet = await _dbContext.Pets.FindAsync(petId);
-
-            if (pet is null)
+            if (ownerId <= 0)
             {
-                throw new InvalidOperationException("Pet was not found, impossible to add image");
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            pet.Images.Add(image); // hope this works
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .Where(pet => pet.Id == petId)
+                .Include(pet => pet.Owner)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (pet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
+            
+            pet.Images.Add(image);
 
             await _dbContext.SaveChangesAsync();
+
+            return image.Id;
         }
 
-        public async Task RemovePetImage(int petId, int petImageId)
+        public async Task RemovePetImageAsync(int petId, int ownerId, int petImageId)
         {
             if (petId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
             if (petImageId <= 0)
@@ -316,9 +332,137 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(petImageId), $"Invalid Id={petImageId}");
             }
 
-            await _dbContext.PetImages
-                   .Where(image => image.Id == petImageId)
-                   .ExecuteDeleteAsync();
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .Where(pet => pet.Id == petId)
+                .Include(pet => pet.Owner)
+                .Include(pet => pet.Images)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if(pet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
+
+            var imageToRemove = pet.Images
+                .Where(image => image.Id == petImageId)
+                .FirstOrDefault()
+                ?? throw new NotExistsException();
+
+            _dbContext.Remove(imageToRemove);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> SetPetImageAsProfileAsync(int petId, int ownerId, int petImageId)
+        {
+            if (petId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
+            }
+
+            if (petImageId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petImageId), $"Invalid Id={petImageId}");
+            }
+
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .Where(pet => pet.Id == petId)
+                .Include(pet => pet.Owner)
+                .Include(pet => pet.Images)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (pet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
+
+            var currentProfileImage = pet.Images.FirstOrDefault() ?? throw new Exception("no images");
+
+            var newProfileImage = pet.Images.FirstOrDefault(image => image.Id == petImageId) ?? throw new NotExistsException();
+
+            var tmp = new PetImage
+            {
+                Name = currentProfileImage.Name,
+                Image = currentProfileImage.Image
+            };
+
+            currentProfileImage.Name = newProfileImage.Name;
+            currentProfileImage.Image = newProfileImage.Image;
+            newProfileImage.Name = tmp.Name;
+            newProfileImage.Image = tmp.Image;
+
+            await _dbContext.SaveChangesAsync();
+
+            return currentProfileImage.Id;
+        }
+
+        public async Task FreezePetAsync(int petId, int ownerId)
+        {
+            if (petId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
+            }
+
+            var pet = await _dbContext.Pets
+                .Where(pet => pet.Id == petId)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (pet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
+
+            pet.CurrentPetStatus = PetStatus.Frozen;
+
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UnfreezePetAsync(int petId, int ownerId)
+        {
+            if (petId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(petId), $"Invalid Id={petId}");
+            }
+
+            if (ownerId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
+            }
+
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus == PetStatus.Frozen)
+                .Where(pet => pet.Id == petId)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            if (pet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
+
+            pet.CurrentPetStatus = PetStatus.Frozen;
+
+
+            await _dbContext.SaveChangesAsync();
         }
 
         // Contracts:

@@ -23,9 +23,9 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 
         Task CreateNewOwnedPetAsync(Pet newPet, int ownerId);
 
-        Task AddNewImageToPetAsync(int petId, PetImage image);
+        Task<int> AddNewImageToPetAsync(int petId, int ownerId, PetImage image);
 
-        Task RemovePetImage(int petId, int petImageId);
+        Task RemovePetImageAsync(int petId, int ownerId, int petImageId);
         Task RemovePetAsync(int petId, int ownerId);
         Task UpdatePetAsync(Pet pet, int ownerId);
 
@@ -37,5 +37,6 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
         Task<IList<Pet>> GetAllContractPetsAsync(int contractId, int contractorId);
 
         Task CancelContractAsync(int contractId, int contractorId);
+        Task<int> SetPetImageAsProfileAsync(int petId, int ownerId, int petImageId);
     }
 }
