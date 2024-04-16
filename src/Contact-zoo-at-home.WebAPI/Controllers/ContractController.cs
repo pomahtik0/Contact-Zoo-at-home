@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Contracts;
-using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Dto.Contracts;
+using Contact_zoo_at_home.Shared.Dto.Notifications;
 using Contact_zoo_at_home.Shared.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -4,7 +4,7 @@ using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Dto.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

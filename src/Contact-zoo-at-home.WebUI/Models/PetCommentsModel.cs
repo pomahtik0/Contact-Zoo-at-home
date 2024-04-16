@@ -1,4 +1,4 @@
-﻿using Contact_zoo_at_home.Shared.Dto;
+﻿using Contact_zoo_at_home.Shared.Dto.Notifications;
 
 namespace Contact_zoo_at_home.WebUI.Models
 {

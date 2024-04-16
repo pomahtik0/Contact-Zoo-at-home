@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Shared.Dto;
+﻿using Contact_zoo_at_home.Shared.Dto.Pet;
+using Contact_zoo_at_home.Shared.Dto.Users;
 using Contact_zoo_at_home.WebUI.Helpers;
 using Contact_zoo_at_home.WebUI.Models;
 using Microsoft.AspNetCore.Authorization;

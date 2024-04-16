@@ -5,7 +5,10 @@ using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Dto.Contracts;
+using Contact_zoo_at_home.Shared.Dto.Notifications;
+using Contact_zoo_at_home.Shared.Dto.Pet;
+using Contact_zoo_at_home.Shared.Dto.Users;
 
 namespace Contact_zoo_at_home.WebAPI.Helpers
 {

@@ -135,7 +135,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 .First();
 
             // Act
-            var listOfPets = testPetOwnerManager.GetAllOwnedPetsAsync(owner.Id).GetAwaiter().GetResult();
+            var listOfPets = testPetOwnerManager.GetAllOwnedPetsAsync(owner.Id).GetAwaiter().GetResult().pets;
 
             // Assert
             Assert.AreEqual(2, listOfPets.Count);
@@ -153,7 +153,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 .First();
 
             // Act
-            var listOfPets = testPetOwnerManager.GetAllOwnedPetsAsync(owner.Id, 2, 1).GetAwaiter().GetResult();
+            var listOfPets = testPetOwnerManager.GetAllOwnedPetsAsync(owner.Id, 2, 1).GetAwaiter().GetResult().pets;
 
             // Assert
             Assert.AreEqual(1, listOfPets.Count);

@@ -2,7 +2,7 @@
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Pets;
-using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Dto.Pet;
 using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;

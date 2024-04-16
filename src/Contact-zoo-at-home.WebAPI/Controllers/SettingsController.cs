@@ -2,7 +2,6 @@
 using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
-using Contact_zoo_at_home.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Contact_zoo_at_home.WebAPI.Extensions;
@@ -10,6 +9,7 @@ using Contact_zoo_at_home.Application.Exceptions;
 using Contact_zoo_at_home.WebAPI.Helpers;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Shared.Extentions;
+using Contact_zoo_at_home.Shared.Dto.Users;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {

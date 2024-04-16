@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contact_zoo_at_home.Shared.Dto.Notifications;
 
-namespace Contact_zoo_at_home.Shared.Dto
+namespace Contact_zoo_at_home.Shared.Dto.Users
 {
     public class CustomerPublicProfileDto
     {

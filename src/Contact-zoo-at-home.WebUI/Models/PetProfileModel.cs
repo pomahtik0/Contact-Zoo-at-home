@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Shared.Basics.Enums;
-using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Dto.Pet;
+using Contact_zoo_at_home.Shared.Dto.Users;
 
 namespace Contact_zoo_at_home.WebUI.Models
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Contact_zoo_at_home.Shared.Dto
+namespace Contact_zoo_at_home.Shared.Dto.Pet
 {
     public record CreateRedactPetDto
     {
