@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Contact-zoo-at-home.Shared.Basics\Contact-zoo-at-home.Shared.Basics.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Shared.Basics\Contact-zoo-at-home.Shared.Basics.csproj" />
   </ItemGroup>
 </Project>
