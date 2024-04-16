@@ -69,8 +69,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{petId}/comments/{lastCommentId}")]
-        public async Task<IActionResult> Pet(int petId, int lastCommentId)
+        [Route("{petId}/comments/{lastCommentId}")] // upload more comments
+        public async Task<IActionResult> LoadMorePetComments(int petId, int lastCommentId)
         {
             try
             {

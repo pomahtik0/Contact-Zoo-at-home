@@ -43,16 +43,26 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
         /// <param name="page">Current page. From 1 to max pages.</param>
         /// <param name="numberOfPetsOnPage">specify number of pets on one page, or as default. Not more then 100.</param>
         /// <returns>List of pets on selected page, and total number of pages.</returns>
-        public async Task<IList<Pet>> GetPetsAsync(int page, int numberOfPetsOnPage = 20)
+        public async Task<(IList<Pet> pets, int totalPages)> GetPetsAsync(int page, int numberOfPetsOnPage = 20)
         {
             if (page <= 0 || numberOfPetsOnPage <= 0 || numberOfPetsOnPage > maxNumberOfPetsOnPage)
             {
                 throw new ArgumentOutOfRangeException($"Incorect page values page={page}; numberOfPetsOnPage={numberOfPetsOnPage}(max {maxNumberOfPetsOnPage}).");
             }
-            page = page - 1;
+
+            int petsCount = await _dbContext.Pets
+                .CountAsync();
+            
+            if(petsCount == 0)
+            {
+                return (new List<Pet>(), petsCount);
+            }
+
+            int totalPages = (petsCount - 1) / numberOfPetsOnPage + 1;
+
+            page = page > totalPages ? totalPages - 1: page - 1;
 
             var pets = await _dbContext.Pets
-                .Where(pet => pet.CurrentPetStatus == PetStatus.Active)
                 .Include(pet => pet.Species)
                 .Include(pet => pet.Images)
                 .Include(pet => pet.Owner)
@@ -61,7 +71,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                 .Take(numberOfPetsOnPage)
                 .ToListAsync();
 
-            return pets;
+            return (pets, totalPages);
         }
 
         public async Task<Pet> GetPetProfileAsync(int petId)

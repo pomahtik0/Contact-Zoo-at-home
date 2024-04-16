@@ -13,9 +13,9 @@ namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
     {
 
         // Pets:
-        Task<IList<Pet>> GetAllOwnedPetsAsync(int ownerId, int page = 1, int elementsOnPage = 10, Language language = Language.English);
+        Task<(IList<Pet> pets, int totalPages)> GetAllOwnedPetsAsync(int ownerId, int page = 1, int elementsOnPage = 10);
 
-        Task<Pet> GetOwnedPetAsync(int petId, int ownerId, Language language = Language.English);
+        Task<Pet> GetOwnedPetAsync(int petId, int ownerId);
 
         Task<Pet> GetOwnedPetWithImagesAsync(int petId, int ownerId);
 

@@ -50,30 +50,42 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
         }
 
         // Pets:
-        public async Task<IList<Pet>> GetAllOwnedPetsAsync(int ownerId, int page = 1, int elementsOnPage = 10, Language language = Language.English)
+        public async Task<(IList<Pet> pets, int totalPages)> GetAllOwnedPetsAsync(int ownerId, int page = 1, int elementsOnPage = 10)
         {
             if (ownerId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            // page checks
-            
-            page = page - 1;
+            int petsCount = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .CountAsync();
+
+            if (petsCount == 0)
+            {
+                return (new List<Pet>(), petsCount);
+            }
+
+            int totalPages = (petsCount - 1) / elementsOnPage + 1;
+
+            page = page > totalPages ? totalPages - 1 : page - 1;
 
             var pets = await _dbContext.Pets
+                .IgnoreQueryFilters()
                 .Where(pet => pet.Owner.Id == ownerId)
                 .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
                 .AsNoTracking()
-                .Include(x => x.Species)
+                .Include(pet => pet.Species)
+                .Include(pet => pet.Images)
                 .Skip(elementsOnPage * page)
                 .Take(elementsOnPage)
                 .ToListAsync();
 
-            return pets;
+            return (pets, totalPages);
         }
 
-        public async Task<Pet> GetOwnedPetAsync(int petId, int ownerId, Language language = Language.English)
+        public async Task<Pet> GetOwnedPetAsync(int petId, int ownerId)
         {
             if (petId <= 0)
             {
@@ -86,6 +98,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
                 .Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
@@ -94,7 +108,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             if (pet == null)
             {
-                throw new ArgumentException($"No pet with specified Id={petId} found", nameof(petId));
+                throw new NotExistsException();
             }
 
             if (pet.Owner.Id != ownerId)
@@ -117,7 +131,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.Images)
@@ -125,12 +142,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             if (pet == null)
             {
-                throw new ArgumentException($"No pet with specified Id={petId} found", nameof(petId));
+                throw new NotExistsException();
             }
 
             if (pet.Owner.Id != ownerId)
             {
-                throw new ArgumentException($"User with specified Id={ownerId} is not an owner of a pet", nameof(ownerId));
+                throw new NoRightsException();
             }
 
             return pet;
@@ -148,7 +165,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            var pet = await _dbContext.Pets.Where(pet => pet.Id == petId)
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived)
+                .Where(pet => pet.Id == petId)
                 .AsNoTracking()
                 .Include(pet => pet.Owner)
                 .Include(pet => pet.BlockedDates)
@@ -156,12 +176,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
             if (pet == null)
             {
-                throw new ArgumentException($"No pet with specified Id={petId} found", nameof(petId));
+                throw new NotExistsException();
             }
 
             if (pet.Owner.Id != ownerId)
             {
-                throw new ArgumentException($"User with specified Id={ownerId} is not an owner of a pet", nameof(ownerId));
+                throw new NoRightsException();
             }
 
             return pet;
@@ -174,17 +194,17 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentNullException("No pet to create is specified");
             }
 
+            if(newPet.Id != 0)
+            {
+                throw new ArgumentOutOfRangeException("PetId");
+            }
+
             if (ownerId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            var owner = await _dbContext.PetOwners.FindAsync(ownerId);
-
-            if (owner == null)
-            {
-                throw new ArgumentException($"No pet owner, with Id={ownerId} exists.", nameof(ownerId));
-            }
+            var owner = await _dbContext.PetOwners.FindAsync(ownerId) ?? throw new NotExistsException();
 
             _dbContext.Attach(newPet);
 
@@ -205,10 +225,16 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 throw new ArgumentOutOfRangeException(nameof(ownerId), $"Invalid Id={ownerId}");
             }
 
-            await _dbContext.Pets
+            var pet = await _dbContext.Pets
+                .IgnoreQueryFilters()
                 .Where(pet => pet.Id == petId)
                 .Where(pet => pet.Owner.Id == ownerId)
-                .ExecuteUpdateAsync(pet => pet.SetProperty(x => x.CurrentPetStatus, PetStatus.Archived));
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            _dbContext.Remove(pet);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdatePetAsync(Pet pet, int ownerId)
@@ -224,10 +250,18 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             }
 
             Pet originalPet = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => pet.CurrentPetStatus != PetStatus.Archived 
+                           && pet.CurrentPetStatus != PetStatus.FrozenByModerator)
                 .Where(_pet => _pet.Id == pet.Id)
-                .Where(_pet => _pet.Owner.Id == ownerId)
+                .Include(pet => pet.Owner)
                 .FirstOrDefaultAsync()
                 ?? throw new NotExistsException();
+
+            if(originalPet.Owner.Id != ownerId)
+            {
+                throw new NoRightsException();
+            }
 
             originalPet.Name = pet.Name;
             originalPet.ShortDescription = pet.ShortDescription;
@@ -249,7 +283,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task AddNewImageToPetAsync(int petId, PetImage image) // maybe owner id to check ownership
+        public async Task AddNewImageToPetAsync(int petId, PetImage image) 
         {
             if (petId <= 0)
             {
@@ -270,7 +304,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RemovePetImage(int petId, int petImageId) // maybe owner id to check ownership
+        public async Task RemovePetImage(int petId, int petImageId)
         {
             if (petId <= 0)
             {
