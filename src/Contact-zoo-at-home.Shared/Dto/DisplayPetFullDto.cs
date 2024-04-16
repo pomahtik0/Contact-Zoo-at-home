@@ -8,7 +8,7 @@ namespace Contact_zoo_at_home.Shared.Dto
 {
     public class DisplayPetFullDto : DisplayPetShortDto
     {
-        public byte[][] Images { get; set; }
+        public string[] Images { get; set; }
         public string Description {  get; set; }
         public IList<ExtraPetOptionsDTO> PetOptions { get; set; }
         public IList<PetCommentsDto> Comments { get; set; }

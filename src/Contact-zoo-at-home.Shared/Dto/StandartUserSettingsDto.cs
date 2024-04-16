@@ -20,6 +20,6 @@ namespace Contact_zoo_at_home.Shared.Dto
         [EmailAddress]
         public string? Email { get; set; } = string.Empty;
 
-        public byte[]? ProfileImage { get; set; }
+        public string? ProfileImage { get; set; }
     }
 }

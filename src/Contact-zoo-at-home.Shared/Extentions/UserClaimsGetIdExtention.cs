@@ -1,15 +1,15 @@
-﻿using Contact_zoo_at_home.Shared;
 using System.Security.Claims;
 
-namespace Contact_zoo_at_home.WebAPI.Extensions
+namespace Contact_zoo_at_home.Shared.Extentions
 {
-    internal static class ClaimGetters
+    public static class UserClaimsGetIdExtention
     {
         private const string _idClaimName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+        private const string _idAlternativeClaimName = "sub";
 
-        internal static int GetId(this IEnumerable<Claim> claims)
+        public static int GetId(this IEnumerable<Claim> claims)
         {
-            var idClaim = claims.FirstOrDefault(x => x.Type == _idClaimName);
+            var idClaim = claims.FirstOrDefault(x => x.Type == _idClaimName || x.Type == _idAlternativeClaimName);
 
             if (idClaim is null)
             {

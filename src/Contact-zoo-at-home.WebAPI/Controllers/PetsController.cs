@@ -5,6 +5,7 @@ using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
 using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Shared.Dto;
+using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

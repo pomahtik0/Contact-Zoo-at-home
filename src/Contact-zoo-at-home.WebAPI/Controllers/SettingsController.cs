@@ -9,6 +9,7 @@ using Contact_zoo_at_home.WebAPI.Extensions;
 using Contact_zoo_at_home.Application.Exceptions;
 using Contact_zoo_at_home.WebAPI.Helpers;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
+using Contact_zoo_at_home.Shared.Extentions;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {

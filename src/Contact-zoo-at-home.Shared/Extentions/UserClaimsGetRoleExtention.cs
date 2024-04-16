@@ -4,11 +4,9 @@ namespace Contact_zoo_at_home.Shared.Extentions
 {
     public static class UserClaimsGetRoleExtention
     {
-        private const string _applicationRoleName = "ApplicationRole"; // to shared constants maybe
-
         public static Roles GetRole(this IEnumerable<Claim> claims)
         {
-            var roleClaim = claims.FirstOrDefault(x => x.Type == _applicationRoleName);
+            var roleClaim = claims.FirstOrDefault(x => x.Type == Constants.RoleClaimName);
 
             if (roleClaim is null)
             {

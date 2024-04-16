@@ -259,9 +259,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Image")
+                    b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -294,36 +294,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.ToTable("Species", (string)null);
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BaseUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("CurrentRating")
-                        .HasColumnType("decimal(8, 5)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("RatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
-
-                    b.UseTptMappingStrategy();
-                });
-
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Images.CompanyImage", b =>
                 {
                     b.Property<int>("Id")
@@ -339,9 +309,9 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
+                    b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -355,8 +325,8 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -389,6 +359,36 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("RepresentativesOfCompanies", (string)null);
+                });
+
+            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.StandartUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CurrentRating")
+                        .HasColumnType("decimal(8, 5)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("RatedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("PetsInContract", b =>
@@ -464,14 +464,14 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", b =>
                 {
-                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.BaseUser");
+                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.StandartUser");
 
                     b.ToTable("PetOwners", (string)null);
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CustomerUser", b =>
                 {
-                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.BaseUser");
+                    b.HasBaseType("Contact_zoo_at_home.Core.Entities.Users.StandartUser");
 
                     b.ToTable("Customers", (string)null);
                 });
@@ -502,7 +502,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Comments.BaseComment", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", "Author")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", "Author")
                         .WithMany("MyComments")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -537,7 +537,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Notifications.InnerNotification", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", "NotificationTarget")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", "NotificationTarget")
                         .WithMany()
                         .HasForeignKey("NotificationTargetId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -548,7 +548,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Notifications.NotificationOptions", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", null)
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", null)
                         .WithOne("NotificationOptions")
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Notifications.NotificationOptions", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -608,7 +608,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Images.ProfileImage", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", null)
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", null)
                         .WithOne("ProfileImage")
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Users.Images.ProfileImage", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -667,7 +667,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Comments.UserComment", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", "CommentTarget")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", "CommentTarget")
                         .WithMany("Comments")
                         .HasForeignKey("CommentTargetId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -703,7 +703,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                         .WithMany()
                         .HasForeignKey("RateTargetPetId");
 
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", "RateTargetUser")
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", "RateTargetUser")
                         .WithMany()
                         .HasForeignKey("RateTargetUserId");
 
@@ -714,7 +714,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", null)
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", null)
                         .WithOne()
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -723,7 +723,7 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CustomerUser", b =>
                 {
-                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.BaseUser", null)
+                    b.HasOne("Contact_zoo_at_home.Core.Entities.Users.StandartUser", null)
                         .WithOne()
                         .HasForeignKey("Contact_zoo_at_home.Core.Entities.Users.IndividualUsers.CustomerUser", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -759,7 +759,12 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
                     b.Navigation("PetOptions");
                 });
 
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BaseUser", b =>
+            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Representative", b =>
+                {
+                    b.Navigation("ContractsToRepresent");
+                });
+
+            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.StandartUser", b =>
                 {
                     b.Navigation("Comments");
 
@@ -770,11 +775,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data.Migrations
 
                     b.Navigation("ProfileImage")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.Representative", b =>
-                {
-                    b.Navigation("ContractsToRepresent");
                 });
 
             modelBuilder.Entity("Contact_zoo_at_home.Core.Entities.Users.BasePetOwner", b =>
