@@ -9,24 +9,24 @@ using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
-    public class CommentsManager : BaseService, ICommentsManager
+    public class CommentsAndNotificationManager : BaseService, ICommentsManager
     {
-        public CommentsManager() : base()
+        public CommentsAndNotificationManager() : base()
         {
 
         }
 
-        public CommentsManager(DbConnection activeDbConnection) : base(activeDbConnection)
+        public CommentsAndNotificationManager(DbConnection activeDbConnection) : base(activeDbConnection)
         {
 
         }
 
-        public CommentsManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
+        public CommentsAndNotificationManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
         {
 
         }
 
-        public CommentsManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        public CommentsAndNotificationManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
         {
 
         }
@@ -101,11 +101,6 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
                 throw new ArgumentException(nameof(userComment));
             }
 
-            if (userComment.CommentTarget is null)
-            {
-                throw new ArgumentNullException(nameof(userComment.CommentTarget));
-            }
-
             if (authorId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(authorId));
@@ -117,23 +112,31 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
             }
 
             var notification = await _dbContext.InnerRatingNotifications
+                .Include(notification => notification.NotificationTarget)
+                .Include(notification => notification.RateTargetUser)
                 .Where(notification => notification.Id == ratingNotificationId)
-                .Where(notification => notification.RateTargetUser == userComment.CommentTarget)
                 .Where(notification => notification.NotificationTarget.Id == authorId)
                 .FirstOrDefaultAsync()
                 ?? throw new NoRightsException();
 
-            if (userComment.CommentRating != 0)
+            if (notification.NotificationTarget.Id != authorId)
             {
-                var user = _dbContext.Users.Find(userComment.CommentTarget.Id) ?? throw new Exception();
-                user.CurrentRating = UpdateRating(user.CurrentRating, user.RatedBy, userComment.CommentRating);
-                user.RatedBy++;
+                throw new NoRightsException();
             }
 
-            userComment.Author = new StandartUser
+            if (notification.RateTargetUser is null)
             {
-                Id = authorId
-            };
+                throw new Exception("something wrong with notification");
+            }
+
+            
+            notification.RateTargetUser.CurrentRating = 
+                UpdateRating(notification.RateTargetUser.CurrentRating, notification.RateTargetUser.RatedBy, userComment.CommentRating);
+            notification.RateTargetUser.RatedBy++;
+
+            userComment.Author = notification.NotificationTarget;
+
+            userComment.CommentTarget = notification.RateTargetUser;
 
             userComment.Date = DateTime.Now;
 

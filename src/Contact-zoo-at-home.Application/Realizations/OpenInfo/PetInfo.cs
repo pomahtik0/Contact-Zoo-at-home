@@ -102,7 +102,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
 
         public Task<List<PetSpecies>> GetAllPetSpeciesAsync()
         {
-            return _dbContext.PetSpecies.ToListAsync(); // check if works
+            return _dbContext.PetSpecies.ToListAsync();
         }
     }
 }

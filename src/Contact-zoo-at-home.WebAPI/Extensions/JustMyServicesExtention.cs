@@ -30,12 +30,12 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
             services.AddScoped<IUserInfo, UserInfo>();
             services.AddScoped<IPetInfo, PetInfo>();
-            services.AddScoped<ICommentsManager, CommentsManager>();
+            services.AddScoped<ICommentsManager, CommentsAndNotificationManager>();
             services.AddScoped<ICommentsManager>(opt =>
             {
                 IMemoryCache cache = opt.GetService<IMemoryCache>() ?? throw new Exception("Register memory cache");
                 return new CommentsManagerCacheDecorator(
-                    new CommentsManager(),
+                    new CommentsAndNotificationManager(),
                     cache);
             });
 
