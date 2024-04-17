@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.WebAPI.Helpers;
 using Contact_zoo_at_home.WebAPI.Configuration;
 using Contact_zoo_at_home.Shared;
+using Contact_zoo_at_home.Translations.Infrastructure;
+using Contact_zoo_at_home.Translations;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -78,6 +80,11 @@ namespace Contact_zoo_at_home.WebAPI
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // ensure it is not null
 
             builder.Services.AddMyServices(connectionString);
+
+            builder.Services.AddDbContext<TranslationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TranslationsConnection")));
+
+            builder.Services.AddScoped<ITranslationService, MyTranslationManager>();
 
             var app = builder.Build();
 

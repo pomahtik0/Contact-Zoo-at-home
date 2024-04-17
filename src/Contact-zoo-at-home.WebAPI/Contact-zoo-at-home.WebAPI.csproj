@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Contact-zoo-at-home.Application\Contact-zoo-at-home.Application.csproj" />
     <ProjectReference Include="..\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj" />
+    <ProjectReference Include="..\translations\Contact-zoo-at-home.Translations\Contact-zoo-at-home.Translations.csproj" />
   </ItemGroup>
 
 </Project>

@@ -49,9 +49,9 @@ namespace Contact_zoo_at_home.Translations
                 return;
             }
 
-            var oldTranslations = await _dbContext.PetSpecies
+            var oldTranslations = _dbContext.PetSpecies
                 .Where(x => x.Id == id)
-                .ToListAsync();
+                .ToList();
 
             foreach (var translation in oldTranslations) // updating existing translations
             {

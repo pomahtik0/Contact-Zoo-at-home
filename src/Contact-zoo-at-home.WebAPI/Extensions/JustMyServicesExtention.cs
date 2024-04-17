@@ -20,7 +20,6 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 throw new ArgumentNullException(nameof(connectionString), "Configure connection string");
             }
 
-
             DBConnections.ConnectionString = connectionString;
             using var connection = DBConnections.GetNewDbConnection();
             using var dbContext = new ApplicationDbContext(connection);
