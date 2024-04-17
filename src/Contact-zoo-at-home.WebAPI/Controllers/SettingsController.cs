@@ -11,6 +11,8 @@ using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.Shared.Dto.Users;
 using Contact_zoo_at_home.Translations;
+using Contact_zoo_at_home.Translations.Infrastructure.Entities;
+using Contact_zoo_at_home.Shared.Basics.Factories;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
@@ -155,7 +157,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 
                 if (language is not null) // load translation
                 {
-
+                    await _translationService.MakeCompanyProfileTranslation(company, LanguageFactory.GetLanguage(language));
                 }
 
                 var dto = _mapper.Map<CompanyPublicProfileSettingsDto>(company);
@@ -173,12 +175,11 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         [Authorize(Policy = "Company")]
         public async Task<IActionResult> CompanyProfilePage(CompanyPublicProfileSettingsDto dto, string? language)
         {
+            int userId = User.Claims.GetId();
             if(language is null) // defaults
             {
                 try
                 {
-                    int userId = User.Claims.GetId();
-
                     var company = _mapper.Map<Company>(dto);
 
                     await  _companyManager.RedactProfileAsync(company, userId);
@@ -192,7 +193,18 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             }
             else // translations
             {
-                throw new NotImplementedException();
+                try
+                {
+                    var company = _mapper.Map<CompanyTranslative>(dto);
+
+                    await _translationService.CreateCompanyProfileTranslation(company, userId, LanguageFactory.GetLanguage(language));
+
+                    return Ok();
+                }
+                catch
+                {
+                    return BadRequest();
+                }
             }
         }
     }

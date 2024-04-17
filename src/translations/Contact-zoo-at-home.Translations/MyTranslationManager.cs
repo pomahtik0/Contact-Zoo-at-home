@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Shared.Basics.Enums;
 using Contact_zoo_at_home.Translations.Infrastructure;
 using Contact_zoo_at_home.Translations.Infrastructure.Entities;
@@ -74,7 +75,7 @@ namespace Contact_zoo_at_home.Translations
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task GetPetSpeciesTranslationAsync(Language language, PetSpecies petSpecies)
+        public async Task MakePetSpeciesTranslationAsync(Language language, PetSpecies petSpecies)
         {
             var translation = await _dbContext.PetSpecies
                 .Where(t => t.Id == petSpecies.Id)
@@ -88,7 +89,7 @@ namespace Contact_zoo_at_home.Translations
             }
         }
 
-        public async Task GetPetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language)
+        public async Task MakePetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language)
         {
             var translations = await _dbContext.PetSpecies
                 .Where(t => t.Language == language)
@@ -113,6 +114,44 @@ namespace Contact_zoo_at_home.Translations
                 .ToListAsync();
 
             return translations;
+        }
+
+        // Translating Company profiles:
+
+        public async Task CreateCompanyProfileTranslation(CompanyTranslative companyTranslative, int companyId, Language language)
+        {
+            var existingTranslation = _dbContext.Companies
+                .Where(company => company.Id == companyId)
+                .Where(company => company.Language == language)
+                .FirstOrDefault();
+
+            if (existingTranslation is not null)
+            {
+                existingTranslation.Name = companyTranslative.Name;
+                existingTranslation.Description = companyTranslative.Description;
+            }
+            else
+            {
+                companyTranslative.Id = companyId;
+                companyTranslative.Language = language;
+                await _dbContext.AddAsync(companyTranslative);
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task MakeCompanyProfileTranslation(Company companyToTranslate, Language language)
+        {
+            var existingTranslation = await _dbContext.Companies
+                .Where(company => company.Id == companyToTranslate.Id)
+                .Where(company => company.Language == language)
+                .FirstOrDefaultAsync();
+
+            if (existingTranslation is not null)
+            {
+                companyToTranslate.Name = existingTranslation.Name;
+                companyToTranslate.Description = existingTranslation.Description;
+            }
         }
     }
 }

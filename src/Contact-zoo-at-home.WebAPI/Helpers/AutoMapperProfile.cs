@@ -9,6 +9,7 @@ using Contact_zoo_at_home.Shared.Dto.Contracts;
 using Contact_zoo_at_home.Shared.Dto.Notifications;
 using Contact_zoo_at_home.Shared.Dto.Pet;
 using Contact_zoo_at_home.Shared.Dto.Users;
+using Contact_zoo_at_home.Translations.Infrastructure.Entities;
 
 namespace Contact_zoo_at_home.WebAPI.Helpers
 {
@@ -43,6 +44,9 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
                 .ReverseMap();
 
             CreateMap<Company, CompanyPublicProfileSettingsDto>()
+                .ReverseMap();
+
+            CreateMap<CompanyTranslative, CompanyPublicProfileSettingsDto>()
                 .ReverseMap();
 
             CreateMap<Pet, DisplayPetDto>()

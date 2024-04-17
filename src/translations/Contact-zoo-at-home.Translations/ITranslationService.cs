@@ -1,4 +1,5 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Pets;
+using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Shared.Basics.Enums;
 using Contact_zoo_at_home.Translations.Infrastructure.Entities;
 using System;
@@ -11,10 +12,12 @@ namespace Contact_zoo_at_home.Translations
 {
     public interface ITranslationService
     {
+        Task CreateCompanyProfileTranslation(CompanyTranslative companyTranslative, int companyId, Language language);
         Task CreatePetSpeciesTranslationAsync(int id, string name, Language language);
         Task CreatePetSpeciesTranslationAsync(int id, IList<PetSpeciesTranslative> petSpeciesTranslatives);
         Task<IList<PetSpeciesTranslative>> GetAllSpeciesTranslations(int id);
-        Task GetPetSpeciesTranslationAsync(Language language, PetSpecies petSpecies);
-        Task GetPetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language);
+        Task MakeCompanyProfileTranslation(Company companyToTranslate, Language language);
+        Task MakePetSpeciesTranslationAsync(Language language, PetSpecies petSpecies);
+        Task MakePetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language);
     }
 }
