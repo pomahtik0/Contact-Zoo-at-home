@@ -10,6 +10,7 @@ using Contact_zoo_at_home.WebAPI.Helpers;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.Shared.Dto.Users;
+using Contact_zoo_at_home.Translations;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
@@ -20,14 +21,20 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     {
         private readonly IUserManager _userManager;
         private readonly IIndividualOwnerManager _individualOwnerManager;
+        private readonly ICompanyManager _companyManager;
+        private readonly ITranslationService _translationService;
         private readonly IMapper _mapper;
 
         public SettingsController(IUserManager userManager,
             IIndividualOwnerManager individualOwnerManager,
+            ICompanyManager companyManager,
+            ITranslationService translationService,
             IMapper mapper)
         {
             _userManager = userManager;
             _individualOwnerManager = individualOwnerManager;
+            _companyManager = companyManager;
+            _translationService = translationService;
             _mapper = mapper;
         }
 
@@ -87,7 +94,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("description")]
+        [Route("profilepage/individualowner")]
         [Authorize(Policy = "IndividualOwner")]
         public async Task<IActionResult> UniqueSettings() 
         {
@@ -117,7 +124,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("description")]
+        [Route("profilepage/individualowner")]
         [Authorize(Policy = "IndividualOwner")]
         public async Task<IActionResult> UniqueSettings([FromBody] IndividualOwnerSpecialSettingsDto dto)
         {
@@ -134,6 +141,59 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             }
 
             return Ok();
+        }
+        
+        [HttpGet]
+        [Route("profilepage/company")]
+        [Authorize(Policy = "Company")]
+        public async Task<IActionResult> CompanyProfilePage(string? language)
+        {
+            try
+            {
+                int userId = User.Claims.GetId();
+                var company = await _companyManager.GetProfileAsync(userId);
+
+                if (language is not null) // load translation
+                {
+
+                }
+
+                var dto = _mapper.Map<CompanyPublicProfileSettingsDto>(company);
+
+                return Json(dto);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("profilepage/company")]
+        [Authorize(Policy = "Company")]
+        public async Task<IActionResult> CompanyProfilePage(CompanyPublicProfileSettingsDto dto, string? language)
+        {
+            if(language is null) // defaults
+            {
+                try
+                {
+                    int userId = User.Claims.GetId();
+
+                    var company = _mapper.Map<Company>(dto);
+
+                    await  _companyManager.RedactProfileAsync(company, userId);
+
+                    return Ok();
+                }
+                catch
+                { 
+                    return BadRequest(); 
+                }
+            }
+            else // translations
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

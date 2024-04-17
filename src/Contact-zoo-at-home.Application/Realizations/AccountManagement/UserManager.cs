@@ -73,6 +73,12 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 case Roles.IndividualPetOwner:
                     newUser = new IndividualOwner();
                     break;
+                case Roles.Company:
+                    newUser = new Company
+                    {
+                        Description = ""
+                    };
+                    break;
                 default:
                     throw new NotImplementedException();
             }

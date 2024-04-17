@@ -35,7 +35,14 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
                 .ReverseMap();
 
+            CreateMap<Company, StandartUserSettingsDto>()
+                .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
+                .ReverseMap();
+
             CreateMap<IndividualOwner, IndividualOwnerSpecialSettingsDto>()
+                .ReverseMap();
+
+            CreateMap<Company, CompanyPublicProfileSettingsDto>()
                 .ReverseMap();
 
             CreateMap<Pet, DisplayPetDto>()

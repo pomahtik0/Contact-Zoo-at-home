@@ -26,6 +26,12 @@ namespace Contact_zoo_at_home.Translations.Infrastructure
         public TranslationDbContext(DbContextOptions<TranslationDbContext> options) : base(options) { }
 
         public DbSet<PetSpeciesTranslative> PetSpecies { get; set; }
+        public DbSet<CompanyTranslative> Companies { get; set; }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi.translations;Trusted_Connection=True;MultipleActiveResultSets=true");
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -37,6 +37,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
             services.AddScoped<IUserInfo, UserInfo>();
             services.AddScoped<IPetInfo, PetInfo>();
+            services.AddScoped<ICompanyManager, CompanyManager>();
             services.AddScoped<ICommentsManager, CommentsAndNotificationManager>();
             services.AddScoped<ICommentsManager>(opt =>
             {
