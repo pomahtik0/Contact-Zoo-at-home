@@ -4,7 +4,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 
 namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
-    public interface ICustomerManager : IDisposable
+    public interface ICustomerManager
     {
         Task<InnerNotification> CreateNewStandartContractAsync(StandartContract standartContract, int customerId, IEnumerable<int> petIds);
 

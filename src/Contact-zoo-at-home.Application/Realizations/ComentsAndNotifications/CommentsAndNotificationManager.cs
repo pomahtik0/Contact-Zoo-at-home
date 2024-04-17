@@ -9,26 +9,13 @@ using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
-    public class CommentsAndNotificationManager : BaseService, ICommentsManager
+    public class CommentsAndNotificationManager : ICommentsManager
     {
-        public CommentsAndNotificationManager() : base()
+        private readonly ApplicationDbContext _dbContext;
+
+        public CommentsAndNotificationManager(ApplicationDbContext dbContext)
         {
-
-        }
-
-        public CommentsAndNotificationManager(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public CommentsAndNotificationManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public CommentsAndNotificationManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
+            _dbContext = dbContext;
         }
 
         private float UpdateRating(float oldRating, int numberOfVoters, float newRatingMark)

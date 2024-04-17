@@ -13,29 +13,16 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// class to get open information about pets
     /// use to get what customers should see
     /// </summary>
-    public class PetInfo : BaseService, IPetInfo
+    public class PetInfo : IPetInfo
     {
-        public PetInfo() : base()
-        {
-
-        }
-
-        public PetInfo(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public PetInfo(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public PetInfo(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
-        }
-
         private const int maxNumberOfPetsOnPage = 100; // some random number, can do without it.
+        private readonly ApplicationDbContext _dbContext;
+
+        public PetInfo(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
 
         /// <summary>
         /// Returns all pets on the page. If you need filters, use filter variant of this function. 

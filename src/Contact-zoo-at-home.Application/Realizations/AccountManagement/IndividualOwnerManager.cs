@@ -8,22 +8,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
     public class IndividualOwnerManager : PetOwnerManager, IIndividualOwnerManager
     {
-        public IndividualOwnerManager() : base()
-        {
-
-        }
-
-        public IndividualOwnerManager(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public IndividualOwnerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public IndividualOwnerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
+        public IndividualOwnerManager(ApplicationDbContext dbContext) : base(dbContext)
         {
 
         }

@@ -17,26 +17,13 @@ using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class UserManager : BaseService, IUserManager
+    public class UserManager : IUserManager
     {
-        public UserManager() : base()
+        private readonly ApplicationDbContext _dbContext;
+
+        public UserManager(ApplicationDbContext dbContext)
         {
-
-        }
-
-        public UserManager(DbConnection activeDbConnection) : base(activeDbConnection) 
-        { 
-        
-        }
-
-        public UserManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public UserManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
+            _dbContext = dbContext;
         }
 
         public async Task CreateNewUserAsync(StandartUser newUser)

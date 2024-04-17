@@ -6,19 +6,19 @@ using System.Reflection;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Notifications;
-using System.Data.Common;
-using Contact_zoo_at_home.Core.Entities.Users.Images;
-using Contact_zoo_at_home.Infrastructure.Data.Helpers;
 
 namespace Contact_zoo_at_home.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private DbConnection _connection;
-
-        public ApplicationDbContext(DbConnection connection)
+        public ApplicationDbContext()
         {
-            _connection = connection;
+
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
+        { 
+        
         }
 
         // Users
@@ -48,14 +48,6 @@ namespace Contact_zoo_at_home.Infrastructure.Data
 
         // Supportive
         public DbSet<PetImage> PetImages { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connection)
-                .AddInterceptors(new SoftDeletePetInterceptor()); // move to configuration
-        }
-        
-        // optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.webapi;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

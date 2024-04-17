@@ -4,7 +4,7 @@ using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
-    public interface IUserManager : IDisposable
+    public interface IUserManager
     {
         Task CreateNewUserAsync(int userId, Roles role);
         Task CreateNewUserAsync(StandartUser newUser);

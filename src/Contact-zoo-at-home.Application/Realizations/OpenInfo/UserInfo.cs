@@ -17,27 +17,13 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// Getting public information about users,
     /// profile, images, etc.
     /// </summary>
-    public class UserInfo : BaseService, IUserInfo
+    public class UserInfo : IUserInfo
     {
+        private readonly ApplicationDbContext _dbContext;
 
-        public UserInfo() : base()
+        public UserInfo(ApplicationDbContext dbContext)
         {
-
-        }
-
-        public UserInfo(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public UserInfo(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public UserInfo(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
+            _dbContext = dbContext;
         }
 
         /// <summary>

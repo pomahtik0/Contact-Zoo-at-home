@@ -77,14 +77,7 @@ namespace Contact_zoo_at_home.WebAPI
 
             builder.Services.AddEndpointsApiExplorer();
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // ensure it is not null
-
-            builder.Services.AddMyServices(connectionString);
-
-            builder.Services.AddDbContext<TranslationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("TranslationsConnection")));
-
-            builder.Services.AddScoped<ITranslationService, MyTranslationManager>();
+            builder.Services.AddMyServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -102,6 +95,8 @@ namespace Contact_zoo_at_home.WebAPI
                     options.OAuthUsePkce();
                 });
             }
+
+            app.Services.EnsureDatabaseCreated();
 
             app.MapControllers();
 

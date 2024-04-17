@@ -16,26 +16,13 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// <summary>
     /// Abstraction for all PetOwners to be able to manage their pets.
     /// </summary>
-    public abstract class PetOwnerManager : BaseService, IPetOwnerManager, IDisposable
+    public abstract class PetOwnerManager : IPetOwnerManager
     {
-        public PetOwnerManager() : base()
+        protected readonly ApplicationDbContext _dbContext;
+
+        public PetOwnerManager(ApplicationDbContext dbContext)
         {
-
-        }
-
-        public PetOwnerManager(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public PetOwnerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public PetOwnerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
+            _dbContext = dbContext;
         }
 
 

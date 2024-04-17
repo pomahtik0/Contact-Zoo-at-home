@@ -1,13 +1,8 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.Images;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
+using Contact_zoo_at_home.Infrastructure.Data;
 using Contact_zoo_at_home.Shared.Basics.Enums;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
@@ -16,8 +11,10 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// </summary>
     public class CompanyManager : PetOwnerManager
     {
-        public CompanyManager(DbConnection? connection) : base(connection) { }
-        public CompanyManager(DbTransaction transaction) : base(transaction) { }
+        public CompanyManager(ApplicationDbContext dbContext) : base(dbContext) 
+        { 
+        
+        }
 
         public async Task<Company> GetProfileInSpecifiedLanAsync(int companyId, Language language)
         {

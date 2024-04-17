@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Interfaces.OpenInfo
 {
-    public interface IUserInfo : IDisposable
+    public interface IUserInfo
     {
         Task<StandartUser> GetPublicUserProfileAsync(int userId);
     }

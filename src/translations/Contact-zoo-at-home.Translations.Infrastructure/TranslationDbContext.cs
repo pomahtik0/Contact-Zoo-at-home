@@ -18,7 +18,12 @@ namespace Contact_zoo_at_home.Translations.Infrastructure
 {
     public class TranslationDbContext : DbContext
     {
-        public TranslationDbContext(DbContextOptions options) : base(options) { }
+        public TranslationDbContext()
+        {
+
+        }
+
+        public TranslationDbContext(DbContextOptions<TranslationDbContext> options) : base(options) { }
 
         public DbSet<PetSpeciesTranslative> PetSpecies { get; set; }
 

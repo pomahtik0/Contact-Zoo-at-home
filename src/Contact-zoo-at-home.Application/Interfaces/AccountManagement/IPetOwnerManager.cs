@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
-    public interface IPetOwnerManager : IDisposable
+    public interface IPetOwnerManager
     {
 
         // Pets:

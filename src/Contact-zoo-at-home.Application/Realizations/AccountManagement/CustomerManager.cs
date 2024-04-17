@@ -12,26 +12,13 @@ using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class CustomerManager : BaseService, ICustomerManager
+    public class CustomerManager : ICustomerManager
     {
-        public CustomerManager() : base()
+        private readonly ApplicationDbContext _dbContext;
+
+        public CustomerManager(ApplicationDbContext dbContext)
         {
-
-        }
-
-        public CustomerManager(DbConnection activeDbConnection) : base(activeDbConnection)
-        {
-
-        }
-
-        public CustomerManager(DbTransaction activeDbTransaction) : base(activeDbTransaction)
-        {
-
-        }
-
-        public CustomerManager(ApplicationDbContext activeDbContext) : base(activeDbContext)
-        {
-
+            _dbContext = dbContext;
         }
 
 
