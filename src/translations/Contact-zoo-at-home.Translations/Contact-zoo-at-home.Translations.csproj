@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Contact_zoo_at_home.Translations</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contact-zoo-at-home.Shared.Basics\Contact-zoo-at-home.Shared.Basics.csproj" />
+    <ProjectReference Include="..\Contact-zoo-at-home.Translations.Infrastructure\Contact-zoo-at-home.Translations.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
