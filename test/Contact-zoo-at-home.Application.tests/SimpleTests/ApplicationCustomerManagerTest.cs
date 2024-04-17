@@ -22,20 +22,16 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
     [TestClass]
     public class ApplicationCustomerManagerTest
     {
-        private static DbConnection classDbConnection;
-        private static ApplicationDbContext classDbContext; // use to arrange data
+        private static ApplicationDbContext classDbContext;
         private static TestContext classTestContext;
 
-        private DbConnection testDbConnection;
-        private ApplicationDbContext testDbContext; // use to act and assert
-        private IDbContextTransaction testTransaction;
+        private ApplicationDbContext testDbContext;
         private CustomerManager testCustomerManager;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
-            classDbContext = new ApplicationDbContext(classDbConnection);
+            classDbContext = TestConstants.CreateApplicationDbContext();
             classDbContext.Database.EnsureCreated();
             classTestContext = context;
 
@@ -74,26 +70,21 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             classDbContext.Database.EnsureDeleted();
             classDbContext.Dispose();
-            classDbConnection.Dispose();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            testDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
-            testDbContext = new ApplicationDbContext(testDbConnection); // local db context to act
-            testTransaction = testDbContext.Database.BeginTransaction();
-            testCustomerManager = new CustomerManager(testTransaction.GetDbTransaction());
+            testDbContext = TestConstants.CreateApplicationDbContext();
+            testDbContext.Database.BeginTransaction();
+            testCustomerManager = new CustomerManager(testDbContext);
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            testTransaction.Rollback();
-            testTransaction.Dispose();
-            testCustomerManager.Dispose();
+            testDbContext.Database.RollbackTransaction();
             testDbContext.Dispose();
-            testDbConnection.Dispose();
         }
 
 
@@ -115,7 +106,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            testCustomerManager.CreateNewContractAsync(baseContract).Wait();
+            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>(pet.Id)).Wait();
 
             // Assert
             var createdContract = testDbContext.Contracts
@@ -149,7 +140,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             baseContract.PetsInContract.Add(pet!);
 
             // Act
-            testCustomerManager.CreateNewContractAsync(baseContract).Wait();
+            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>(pet.Id)).Wait();
 
             // Assert
             var createdNotification = testDbContext.InnerNotifications

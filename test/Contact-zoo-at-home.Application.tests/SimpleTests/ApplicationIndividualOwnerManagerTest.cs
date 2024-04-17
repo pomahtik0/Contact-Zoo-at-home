@@ -20,21 +20,16 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
     [TestClass]
     public class ApplicationIndividualOwnerManagerTest
     {
-        private static DbConnection classDbConnection;
         private static ApplicationDbContext classDbContext; // use to arrange data
         private static TestContext classTestContext;
 
-        private DbConnection testDbConnection;
         private ApplicationDbContext testDbContext; // use to act and assert
-        private IDbContextTransaction testTransaction;
-
         private IIndividualOwnerManager testIndividualOwnerManager; // what is tested
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            classDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
-            classDbContext = new ApplicationDbContext(classDbConnection);
+            classDbContext = TestConstants.CreateApplicationDbContext();
             classDbContext.Database.EnsureCreated();
             classTestContext = context;
         }
@@ -44,26 +39,21 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         {
             classDbContext.Database.EnsureDeleted();
             classDbContext.Dispose();
-            classDbConnection.Dispose();
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            testDbConnection = new SqlConnection(TestConstants.testDbConnectionString);
-            testDbContext = new ApplicationDbContext(testDbConnection);
-            testTransaction = testDbContext.Database.BeginTransaction();
-            testIndividualOwnerManager = new IndividualOwnerManager(testTransaction.GetDbTransaction());
+            testDbContext = TestConstants.CreateApplicationDbContext();
+            testDbContext.Database.BeginTransaction();
+            testIndividualOwnerManager = new IndividualOwnerManager(testDbContext);
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            testTransaction.Rollback();
-            testTransaction.Dispose();
-            testIndividualOwnerManager.Dispose();
+            testDbContext.Database.RollbackTransaction();
             testDbContext.Dispose();
-            testDbConnection.Dispose();
         }
 
         [TestMethod]
