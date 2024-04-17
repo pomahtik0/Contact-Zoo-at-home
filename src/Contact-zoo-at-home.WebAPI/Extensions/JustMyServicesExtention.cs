@@ -11,6 +11,7 @@ using Contact_zoo_at_home.Translations;
 using Contact_zoo_at_home.WebAPI.Cache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
+using Contact_zoo_at_home.Infrastructure.Data.Helpers;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -28,6 +29,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 .AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseSqlServer(connectionString);
+                    options.AddInterceptors(new SoftDeletePetInterceptor());
                 });
 
             services.AddScoped<ITranslationService, MyTranslationManager>();
