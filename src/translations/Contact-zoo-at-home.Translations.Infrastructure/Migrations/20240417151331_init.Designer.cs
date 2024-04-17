@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact_zoo_at_home.Translations.Infrastructure.Migrations
 {
     [DbContext(typeof(TranslationDbContext))]
-    [Migration("20240417090102_init")]
+    [Migration("20240417151331_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -23,6 +23,27 @@ namespace Contact_zoo_at_home.Translations.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Contact_zoo_at_home.Translations.Infrastructure.Entities.CompanyTranslative", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id", "Language");
+
+                    b.ToTable("Companies", "Translations");
+                });
 
             modelBuilder.Entity("Contact_zoo_at_home.Translations.Infrastructure.Entities.PetSpeciesTranslative", b =>
                 {
