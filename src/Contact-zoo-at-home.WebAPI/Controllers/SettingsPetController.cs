@@ -5,6 +5,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Shared.Dto.Pet;
 using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.WebAPI.Extensions;
+using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
     [Authorize(Policy = "PetOwner")]
-    [Route("api/settings/pets")]
+    [Route("api/{culture=en}/settings/pets")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     public class SettingsPetController : Controller
     {
         private readonly IPetOwnerManager _petOwnerManager;

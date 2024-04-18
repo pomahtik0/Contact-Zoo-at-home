@@ -1,6 +1,7 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Shared.Extentions;
+using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("notifications")]
+    [Route("api/{culture=en}/notifications")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     public class NotificationController : Controller
     {
         private readonly ICommentsManager _commentsManager;

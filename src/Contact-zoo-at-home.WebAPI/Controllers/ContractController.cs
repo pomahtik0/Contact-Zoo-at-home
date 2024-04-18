@@ -4,13 +4,15 @@ using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Shared.Dto.Contracts;
 using Contact_zoo_at_home.Shared.Dto.Notifications;
 using Contact_zoo_at_home.Shared.Extentions;
+using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/contracts")]
+    [Route("api/{culture=en}/contracts")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     [Authorize]
     public class ContractController : Controller
     {

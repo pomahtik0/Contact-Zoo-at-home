@@ -7,14 +7,16 @@ using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Shared.Dto.Notifications;
 using Contact_zoo_at_home.Shared.Dto.Pet;
 using Contact_zoo_at_home.Shared.Extentions;
-using Contact_zoo_at_home.WebAPI.Extensions;
+using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/pets")]
+    [Route("api/{culture}/pets")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     [AllowAnonymous]
     public class PetsController : Controller
     {

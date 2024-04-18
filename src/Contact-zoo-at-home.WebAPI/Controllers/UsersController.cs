@@ -5,13 +5,15 @@ using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Core.Entities.Users.IndividualUsers;
 using Contact_zoo_at_home.Shared.Dto.Users;
+using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/users/{userId}")]
+    [Route("api/{culture=en}/users/{userId}")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     [AllowAnonymous]
     public class UsersController : Controller
     {

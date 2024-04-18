@@ -5,7 +5,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/settings/contracts")]
+    [Route("api/{culture=en}/settings/contracts")]
     public class SettingsContractsController : Controller
     {
         [HttpGet]

@@ -6,6 +6,10 @@ using Contact_zoo_at_home.WebAPI.Configuration;
 using Contact_zoo_at_home.Shared;
 using Contact_zoo_at_home.Translations.Infrastructure;
 using Contact_zoo_at_home.Translations;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Localization.Routing;
 
 namespace Contact_zoo_at_home.WebAPI
 {
@@ -80,6 +84,8 @@ namespace Contact_zoo_at_home.WebAPI
 
             builder.Services.AddMyServices(builder.Configuration);
 
+            builder.Services.MyLocalizationOptions();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -97,8 +103,8 @@ namespace Contact_zoo_at_home.WebAPI
                 });
             }
 
-            app.Services.EnsureDatabaseCreated();
-
+            app.Services.EnsureDatabaseCreated(); 
+           
             app.MapControllers();
 
             app.Run();

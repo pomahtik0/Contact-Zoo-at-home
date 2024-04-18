@@ -18,7 +18,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/settings")]
+    [Route("api/{culture=en}/settings")]
+    [MiddlewareFilter(typeof(LocalizationPipeline))]
     public class SettingsController : Controller
     {
         private readonly IUserManager _userManager;
