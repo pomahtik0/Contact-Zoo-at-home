@@ -6,6 +6,7 @@ using Contact_zoo_at_home.Core.Entities.Pets;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
@@ -196,6 +197,68 @@ namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 
             _dbContext.Remove(notificationToDelete);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IList<InnerNotification>> GetAllUserNotificationsAsync(int userId)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId));
+            }
+
+            var notifications = await _dbContext.InnerNotifications
+                .Where(notification => notification.NotificationTarget.Id == userId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return notifications;
+        }
+
+        public async Task<InnerNotification> GetUserNotification(int notificationId, int userId)
+        {
+            if (notificationId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(notificationId));
+            }
+
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId));
+            }
+
+
+            var notification = await _dbContext.InnerNotifications
+                .Where(notification => notification.Id == notificationId)
+                .Include(notification => notification.NotificationTarget)
+                .AsNoTracking()
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            return notification;
+        }
+
+        public async Task<InnerRatingNotification> GetUserRatingNotification(int notificationId, int userId)
+        {
+            if (notificationId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(notificationId));
+            }
+
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId));
+            }
+
+            var notification = await _dbContext.InnerRatingNotifications
+                .Where(notification => notification.Id == notificationId)
+                .Include(notification => notification.NotificationTarget)
+                .Include(notification => notification.RateTargetPet)
+                .Include(notification => notification.RateTargetUser)
+                .AsNoTracking()
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+            return notification;
         }
     }
 }

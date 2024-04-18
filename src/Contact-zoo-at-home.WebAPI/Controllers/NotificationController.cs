@@ -1,5 +1,7 @@
-﻿using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
+﻿using AutoMapper;
+using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Shared.Dto.Notifications;
 using Contact_zoo_at_home.Shared.Extentions;
 using Contact_zoo_at_home.WebAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -14,24 +16,56 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
     public class NotificationController : Controller
     {
         private readonly ICommentsManager _commentsManager;
+        private readonly IMapper _mapper;
 
-        public NotificationController(ICommentsManager commentsManager)
+        public NotificationController(IMapper mapper, ICommentsManager commentsManager)
         {
             _commentsManager = commentsManager;
+            _mapper = mapper;
         }
 
         [Route("")]
         [HttpGet]
-        public IActionResult UserNotifications()
+        public async Task<IActionResult> UserNotifications()
         {
-            return View();
+            try
+            {
+                int userId = User.Claims.GetId();
+                var notifications = await _commentsManager.GetAllUserNotificationsAsync(userId);
+
+                var dtos = _mapper.Map<IList<SimplifiedNotificationDto>>(notifications);
+                
+                foreach(var dto in dtos)
+                {
+                    dto.NotificationTargetId = userId;
+                }
+
+                return Json(dtos);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [Route("{notificationId}")]
         [HttpGet]
-        public IActionResult GetNotification(int notificationId)
+        public async Task<IActionResult> GetNotification(int notificationId)
         {
-            return View();
+            try
+            {
+                int userId = User.Claims.GetId();
+                var notification = await _commentsManager.GetUserRatingNotification(notificationId, userId) 
+                                ?? await _commentsManager.GetUserNotification(notificationId, userId);
+
+                var dto = _mapper.Map<NotificationDto>(notification);
+
+                return Json(dto); 
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete]

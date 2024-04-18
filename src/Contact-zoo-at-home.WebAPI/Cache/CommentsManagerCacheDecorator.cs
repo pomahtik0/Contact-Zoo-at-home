@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Core.Entities.Comments;
+using Contact_zoo_at_home.Core.Entities.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
@@ -108,6 +109,21 @@ namespace Contact_zoo_at_home.WebAPI.Cache
         public Task DeleteNotificationAsync(int notificationId, int userId)
         {
             return _commentsManager.DeleteNotificationAsync(notificationId, userId);
+        }
+
+        public Task<IList<InnerNotification>> GetAllUserNotificationsAsync(int userId)
+        {
+            return _commentsManager.GetAllUserNotificationsAsync(userId);
+        }
+
+        public Task<InnerNotification> GetUserNotification(int notificationId, int userId)
+        {
+            return _commentsManager.GetUserNotification(notificationId, userId);
+        }
+
+        public Task<InnerRatingNotification> GetUserRatingNotification(int notificationId, int userId)
+        {
+            return _commentsManager.GetUserRatingNotification(notificationId, userId);
         }
     }
 }

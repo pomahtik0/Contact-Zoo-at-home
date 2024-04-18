@@ -52,6 +52,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<PetImage, PetImageDto>();                
 
             CreateMap<Pet, DisplayPetDto>()
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.CurrentRating))
                 .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images[0].Image));
 
@@ -75,10 +76,14 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
 
             CreateMap<CreateStandartContractDto, StandartContract>();
 
-            CreateMap<InnerNotification, NotificationDto>()
-                .ForMember(dest => dest.NotificationTargetId, opt => opt.MapFrom(src => src.NotificationTarget.Id));
+            CreateMap<InnerNotification, SimplifiedNotificationDto>()
+                .ForMember(dest => dest.NotificationTargetId, opt => opt.MapFrom(src => src.NotificationTarget.Id))
+                .IncludeAllDerived();
 
-            CreateMap<InnerRatingNotification, RatingNotificationDto>()
+            CreateMap<InnerNotification, NotificationDto>()
+                .IncludeBase<InnerNotification, SimplifiedNotificationDto>();
+
+            CreateMap<InnerRatingNotification, NotificationDto>()
                 .IncludeBase<InnerNotification, NotificationDto>()
                 .ForMember(dest => dest.RateTargetPetId, opt => opt.MapFrom(src => src.RateTargetPet.Id))
                 .ForMember(dest => dest.RateTargetUserId, opt => opt.MapFrom(src => src.RateTargetUser.Id));

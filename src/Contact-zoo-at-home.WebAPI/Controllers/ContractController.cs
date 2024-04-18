@@ -37,7 +37,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             try
             {
                 var notification = await _customerManager.CreateNewStandartContractAsync(contractInfo, userId, dto.PetIds);
-                var model = _mapper.Map<NotificationDto>(notification);
+                var model = _mapper.Map<SimplifiedNotificationDto>(notification);
                 return Ok(model);
             }
             catch
@@ -55,7 +55,7 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             try
             {
                 var notifications = await _customerManager.ForceCloseContractAsync(contractId);
-                var model = _mapper.Map<IEnumerable<NotificationDto>>(notifications);
+                var model = _mapper.Map<IEnumerable<SimplifiedNotificationDto>>(notifications);
                 return Ok(model);
             }
             catch
