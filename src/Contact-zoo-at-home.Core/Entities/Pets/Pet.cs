@@ -1,6 +1,7 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Comments;
 using Contact_zoo_at_home.Core.Entities.Users;
 using Contact_zoo_at_home.Shared.Basics.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Contact_zoo_at_home.Core.Entities.Pets
 {

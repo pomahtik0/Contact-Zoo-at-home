@@ -40,9 +40,9 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
 
                 var model = new DisplayPetsShortDto
                 {
-                    Pets = _mapper.Map<IList<DisplayPetShortDto>>(pets),
-                    CurrentPage = 1,
-                    TotalPages = 1,
+                    Pets = _mapper.Map<IList<DisplayPetShortDto>>(pets.pets),
+                    CurrentPage = page > pets.totalPages? pets.totalPages : page,
+                    TotalPages = pets.totalPages,
                 };
 
                 return Json(model);

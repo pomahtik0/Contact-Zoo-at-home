@@ -15,9 +15,8 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 };
             var options = new RequestLocalizationOptions()
             {
-                DefaultRequestCulture = new RequestCulture(culture: "en-GB", uiCulture: "en-GB"),
+                DefaultRequestCulture = new RequestCulture(culture: "en"),
                 SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
             };
             options.RequestCultureProviders = new[]
             {

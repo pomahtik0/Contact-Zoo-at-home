@@ -49,16 +49,17 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<CompanyTranslative, CompanyPublicProfileSettingsDto>()
                 .ReverseMap();
 
+            CreateMap<PetImage, PetImageDto>();                
+
             CreateMap<Pet, DisplayPetDto>()
                 .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.FirstOrDefault().Image));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images[0].Image));
 
             CreateMap<Pet, DisplayPetShortDto>()
                 .IncludeBase<Pet, DisplayPetDto>();
 
             CreateMap<Pet, DisplayPetFullDto>()
-                .IncludeBase<Pet, DisplayPetShortDto>()
-                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images));
+                .IncludeBase<Pet, DisplayPetShortDto>();
 
             CreateMap<ExtraPetOptionsDTO, ExtraPetOption>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.OptionName))
