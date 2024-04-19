@@ -74,7 +74,11 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<Pet, CreateRedactPetDto>()
                 .ReverseMap();
 
+            CreateMap<Pet, LinkedPet>();
+
             CreateMap<CreateStandartContractDto, StandartContract>();
+
+            CreateMap<StandartContract, SimpleDisplayContractDto>();
 
             CreateMap<InnerNotification, SimplifiedNotificationDto>()
                 .ForMember(dest => dest.NotificationTargetId, opt => opt.MapFrom(src => src.NotificationTarget.Id))

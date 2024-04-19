@@ -183,6 +183,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 .AsNoTracking()
                 .Include(contract => contract.Customer)
                 .Include(contract => contract.Contractor)
+                .Include(contract => contract.PetsInContract)
                 .ToListAsync();
 
             return contracts;

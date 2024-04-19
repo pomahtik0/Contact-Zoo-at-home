@@ -454,7 +454,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 
         // Contracts:
 
-        public async Task<IList<BaseContract>> GetAllActiveContractsAsync(int contractorId) // paging here!
+        public async Task<IList<BaseContract>> GetAllActiveContractsAsync(int contractorId)
         {
             if (contractorId <= 0)
             {
@@ -467,6 +467,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
                 .AsNoTracking()
                 .Include(contract => contract.Customer)
                 .Include(contract => contract.Contractor)
+                .Include(contract => contract.PetsInContract)
                 .ToListAsync();
 
             return contracts;
