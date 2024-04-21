@@ -58,7 +58,13 @@ namespace Contact_zoo_at_home.Translations
 
         public async Task TranslateAllPetsAsync(IList<Pet> pets, Language language)
         {
+            if(pets.IsNullOrEmpty())
+            {
+                return;
+            }
+
             List<PetSpecies> petSpecies = new List<PetSpecies>();
+
             foreach (var pet in pets)
             {
                 petSpecies.Add(pet.Species);

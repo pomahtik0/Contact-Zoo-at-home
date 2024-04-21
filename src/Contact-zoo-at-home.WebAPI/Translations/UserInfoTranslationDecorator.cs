@@ -40,6 +40,10 @@ namespace Contact_zoo_at_home.WebAPI.Translations
             {
                 await _translationService.MakeCompanyProfileTranslation((Company)userProfile, _language);
             }
+            if (userProfile is BasePetOwner)
+            {
+                await _translationService.TranslateAllPetsAsync(((BasePetOwner)userProfile).OwnedPets, _language);
+            }
             return userProfile;
         }
     }

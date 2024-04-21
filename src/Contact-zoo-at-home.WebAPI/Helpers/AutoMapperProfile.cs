@@ -28,6 +28,9 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<PetComment, PetCommentsDto>()
                 .ReverseMap();
 
+            CreateMap<UserComment, UserCommentsDto>()
+                .ReverseMap();
+
             CreateMap<CustomerUser, StandartUserSettingsDto>()
                 .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage.Image))
                 .ReverseMap();

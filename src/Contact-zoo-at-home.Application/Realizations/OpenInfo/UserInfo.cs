@@ -42,25 +42,13 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
             var userProfile = await _dbContext.Users
                 .Where(user => user.Id == userId)
                 .Include(user => user.Comments)
+                .ThenInclude(comment => comment.Author)
+                .Include(user => (user as BasePetOwner).OwnedPets)
+                .ThenInclude(pets => pets.Species)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .FirstOrDefaultAsync()
                 ?? throw new NotExistsException();
-
-            if (userProfile is IndividualOwner)
-            {
-                await _dbContext
-                    .Entry((IndividualOwner)userProfile)
-                    .Collection(user => user.OwnedPets)
-                    .LoadAsync();
-            }
-
-            if (userProfile is Company)
-            {
-                await _dbContext
-                    .Entry((Company)userProfile)
-                    .Collection(user => user.OwnedPets)
-                    .LoadAsync();
-            }
 
             if (userProfile == null)
             {

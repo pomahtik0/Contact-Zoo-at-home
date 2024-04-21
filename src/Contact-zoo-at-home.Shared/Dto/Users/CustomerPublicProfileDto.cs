@@ -12,7 +12,7 @@ namespace Contact_zoo_at_home.Shared.Dto.Users
         public string Name { get; set; }
         public string ProfileImage { get; set; }
         public IList<UserCommentsDto> Comments { get; set; }
-        public float Rating { get; set; }
+        public float CurrentRating { get; set; }
         public int RatedBy { get; set; }
     }
 }

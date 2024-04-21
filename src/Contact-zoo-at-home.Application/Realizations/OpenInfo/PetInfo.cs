@@ -81,6 +81,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                 .Collection(pet => pet.Comments)
                 .Query()
                 .OrderBy(comment => comment.Id)
+                .Include(comment => comment.Author)
                 .Take(10)
                 .LoadAsync();
 
