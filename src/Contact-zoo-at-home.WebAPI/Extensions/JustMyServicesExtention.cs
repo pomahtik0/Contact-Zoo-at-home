@@ -12,6 +12,8 @@ using Contact_zoo_at_home.WebAPI.Cache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.Infrastructure.Data.Helpers;
+using Contact_zoo_at_home.Application.Interfaces.Admin;
+using Contact_zoo_at_home.Application.Realizations.Admin;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -33,6 +35,9 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 });
 
             services.AddScoped<ITranslationService, MyTranslationManager>();
+            services.AddScoped<IAdminSpeciesTranslationService, AdminSpeciesTranslationService>();
+
+            services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
             services.AddScoped<IUserInfo, UserInfo>();

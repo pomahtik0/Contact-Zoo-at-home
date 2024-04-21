@@ -13,8 +13,6 @@ namespace Contact_zoo_at_home.Translations
     public interface ITranslationService
     {
         Task CreateCompanyProfileTranslation(CompanyTranslative companyTranslative, int companyId, Language language);
-        Task CreatePetSpeciesTranslationAsync(int id, string name, Language language);
-        Task CreatePetSpeciesTranslationAsync(int id, IList<PetSpeciesTranslative> petSpeciesTranslatives);
         Task<IList<PetSpeciesTranslative>> GetAllSpeciesTranslations(int id);
         Task MakeCompanyProfileTranslation(Company companyToTranslate, Language language);
         Task MakePetSpeciesTranslationAsync(Language language, PetSpecies petSpecies);

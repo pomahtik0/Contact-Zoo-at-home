@@ -17,64 +17,6 @@ namespace Contact_zoo_at_home.Translations
             _dbContext = dbContext;
         }
 
-        // Translating PetSpecies:
-
-        public async Task CreatePetSpeciesTranslationAsync(int id, string name, Language language)
-        {
-            var oldTranslation = await _dbContext.PetSpecies
-                .Where(x => x.Id == id)
-                .Where(x => x.Language == language)
-                .FirstOrDefaultAsync();
-
-            if (oldTranslation != null) 
-            {
-                oldTranslation.Name = name;
-            }
-            else
-            {
-                oldTranslation = new PetSpeciesTranslative
-                {
-                    Id = id,
-                    Language = language,
-                    Name = name
-                };
-                await _dbContext.AddAsync(oldTranslation);
-            }
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task CreatePetSpeciesTranslationAsync(int id, IList<PetSpeciesTranslative> petSpeciesTranslatives) // petSpeciesTranslatives will be modified
-        {
-            if(petSpeciesTranslatives.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            var oldTranslations = _dbContext.PetSpecies
-                .Where(x => x.Id == id)
-                .ToList();
-
-            foreach (var translation in oldTranslations) // updating existing translations
-            {
-                var newTranslation = petSpeciesTranslatives
-                    .Where(t => t.Language == translation.Language)
-                    .FirstOrDefault();
-
-                if(newTranslation is not null)
-                {
-                    translation.Name = newTranslation.Name;
-                    petSpeciesTranslatives.Remove(newTranslation);
-                }
-            }
-
-            foreach (var translation in petSpeciesTranslatives) // adding new translations
-            {
-                await _dbContext.AddAsync(translation);
-            }
-
-            await _dbContext.SaveChangesAsync();
-        }
-
         public async Task MakePetSpeciesTranslationAsync(Language language, PetSpecies petSpecies)
         {
             var translation = await _dbContext.PetSpecies
