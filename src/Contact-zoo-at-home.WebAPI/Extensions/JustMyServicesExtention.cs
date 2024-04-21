@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.Infrastructure.Data.Helpers;
 using Contact_zoo_at_home.Application.Interfaces.Admin;
 using Contact_zoo_at_home.Application.Realizations.Admin;
+using Contact_zoo_at_home.WebAPI.Translations;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -23,6 +24,8 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException("Connection string not configurated");
             var translationConnectionStrinc = configuration.GetConnectionString("TranslationsConnection") ?? throw new ArgumentNullException("Connection string not configurated");
+
+            services.AddHttpContextAccessor();
 
             services.AddDbContext<TranslationDbContext>(options => 
                 {
@@ -40,7 +43,13 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
-            services.AddScoped<IUserInfo, UserInfo>();
+            services.AddScoped<IUserInfo>(opt =>
+            {
+                var userInfo = new UserInfo(opt.GetService<ApplicationDbContext>());
+                var translationService = opt.GetService<ITranslationService>();
+                var httpContextAccessor = opt.GetService<IHttpContextAccessor>();
+                return new UserInfoTranslationDecorator(userInfo, translationService, httpContextAccessor);
+            });
             services.AddScoped<IPetInfo, PetInfo>();
             services.AddScoped<ICompanyManager, CompanyManager>();
             services.AddScoped<ICommentsManager, CommentsAndNotificationManager>();

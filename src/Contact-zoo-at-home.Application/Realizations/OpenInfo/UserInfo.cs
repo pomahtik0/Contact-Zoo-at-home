@@ -54,6 +54,14 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
                     .LoadAsync();
             }
 
+            if (userProfile is Company)
+            {
+                await _dbContext
+                    .Entry((Company)userProfile)
+                    .Collection(user => user.OwnedPets)
+                    .LoadAsync();
+            }
+
             if (userProfile == null)
             {
                 throw new ArgumentException("Invalid id, User does not exist", nameof(userId));

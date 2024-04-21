@@ -71,6 +71,8 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
 
             CreateMap<CustomerUser, CustomerPublicProfileDto>();
 
+            CreateMap<Company, CompanyPublicProfileDto>();
+
             CreateMap<Pet, CreateRedactPetDto>()
                 .ReverseMap();
 

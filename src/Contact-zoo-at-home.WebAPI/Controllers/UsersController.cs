@@ -34,6 +34,8 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
                     return _mapper.Map<CustomerPublicProfileDto>(user);
                 case IndividualOwner: 
                     return _mapper.Map<IndividualOwnerPublicProfileDto>(user);
+                case Company:
+                    return _mapper.Map<CompanyPublicProfileDto>(user);
                 default:
                     throw new NotImplementedException();
             }
