@@ -1,4 +1,5 @@
-﻿using Contact_zoo_at_home.Application.Interfaces.Admin;
+﻿using Contact_zoo_at_home.Application.Exceptions;
+using Contact_zoo_at_home.Application.Interfaces.Admin;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -30,12 +31,25 @@ namespace Contact_zoo_at_home.Application.Realizations.Admin
                 return;
             }
 
-            await _dbContext.Pets
-                .Where(pet => idsToCombine.
-                Contains(pet.Species.Id))
-                .ExecuteUpdateAsync(pet => 
-                pet.SetProperty(x => x.Species, 
-                                new Core.Entities.Pets.PetSpecies { Id = mainId }));
+            var pets = await _dbContext.Pets
+                .IgnoreQueryFilters()
+                .Where(pet => idsToCombine
+                    .Contains(pet.Species.Id))
+                .Include(pet => pet.Species)
+                .ToListAsync();
+
+            var species = await _dbContext.PetSpecies
+                .Where(species => species.Id == mainId)
+                .FirstOrDefaultAsync()
+                ?? throw new NotExistsException();
+
+
+            foreach (var pet in pets)
+            {
+                pet.Species = species;
+            }
+
+            await _dbContext.SaveChangesAsync();
 
             await _dbContext.PetSpecies
                     .Where(species => idsToCombine.Contains(species.Id))
