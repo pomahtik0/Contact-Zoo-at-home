@@ -27,6 +27,15 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             _adminService = adminService;
         }
 
+        [HttpGet]
+        [Route("species")]
+        public async Task<IActionResult> GetAllSpecies(int page)
+        {
+            var species = await _adminSpeciesTranslationService.GetAllSpeciesAsync(page);
+
+            return Json(species.speciesList);
+        }
+
         [HttpPost]
         [Route("species/{id}")]
         public async Task<IActionResult> CreateNewTranslation(int id, [FromBody] IList<PetSpeciesTranslative> species)
@@ -62,5 +71,6 @@ namespace Contact_zoo_at_home.WebAPI.Controllers
             }
             return Ok();
         }
+
     }
 }

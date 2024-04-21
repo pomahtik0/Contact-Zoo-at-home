@@ -12,5 +12,6 @@ namespace Contact_zoo_at_home.Translations
         Task CombineSpeciesAsync(int mainId, [MaxLength(5)] IList<int> idsToCombine);
         Task CreatePetSpeciesTranslationAsync(int id, IList<PetSpeciesTranslative> petSpeciesTranslatives);
         Task CreatePetSpeciesTranslationAsync(int id, string name, Language language);
+        Task<(IList<PetSpeciesTranslative> speciesList, int totalPages)> GetAllSpeciesAsync(int page);
     }
 }

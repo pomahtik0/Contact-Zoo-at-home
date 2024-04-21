@@ -87,5 +87,16 @@ namespace Contact_zoo_at_home.Translations
                 .Where(species => idsToCombine.Contains(species.Id))
                 .ExecuteDeleteAsync();
         }
+
+        public async Task<(IList<PetSpeciesTranslative> speciesList, int totalPages)> GetAllSpeciesAsync(int page)
+        {
+            var species = await _dbContext.PetSpecies
+                .OrderBy(x => x.Id)
+                .OrderBy(x => x.Language)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return (species, 1);
+        }
     }
 }
