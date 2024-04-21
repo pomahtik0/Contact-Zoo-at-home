@@ -17,5 +17,6 @@ namespace Contact_zoo_at_home.Translations
         Task MakeCompanyProfileTranslation(Company companyToTranslate, Language language);
         Task MakePetSpeciesTranslationAsync(Language language, PetSpecies petSpecies);
         Task MakePetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language);
+        Task TranslateAllPetsAsync(IList<Pet> pets, Language language);
     }
 }

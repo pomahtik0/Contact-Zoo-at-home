@@ -54,7 +54,7 @@ namespace Contact_zoo_at_home.WebAPI.Helpers
             CreateMap<Pet, DisplayPetDto>()
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.CurrentRating))
                 .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species.Name))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images[0].Image));
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Images.FirstOrDefault().Image));
 
             CreateMap<Pet, DisplayPetShortDto>()
                 .IncludeBase<Pet, DisplayPetDto>();

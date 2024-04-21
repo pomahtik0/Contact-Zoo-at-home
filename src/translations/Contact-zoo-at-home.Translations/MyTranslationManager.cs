@@ -33,18 +33,55 @@ namespace Contact_zoo_at_home.Translations
 
         public async Task MakePetSpeciesTranslationsAsync(IList<PetSpecies> petSpecies, Language language)
         {
+            HashSet<int> ids = new HashSet<int>();
+            foreach(var species in petSpecies)
+            {
+                ids.Add(species.Id);
+            }
+
             var translations = await _dbContext.PetSpecies
                 .Where(t => t.Language == language)
-                .Where(t => petSpecies.Any(s => s.Id == t.Id)) // won't work?
+                .Where(t => ids.Contains(t.Id))
                 .AsNoTracking()
-                .ToListAsync();
+                .ToDictionaryAsync(x => x.Id);
 
-            foreach(var translation in translations)
+            foreach(var species in petSpecies)
             {
-                var species = petSpecies.Where(s => s.Id == translation.Id)
-                    .First();
-                
-                species.Name = translation.Name;
+                var translation = translations.GetValueOrDefault(species.Id);
+
+                if(translation is not null) 
+                {
+                    species.Name = translation.Name;
+                }
+            }
+        }
+
+        public async Task TranslateAllPetsAsync(IList<Pet> pets, Language language)
+        {
+            List<PetSpecies> petSpecies = new List<PetSpecies>();
+            foreach (var pet in pets)
+            {
+                petSpecies.Add(pet.Species);
+            }
+            
+            HashSet<int> listOfIds = new HashSet<int>();
+            foreach (var species in petSpecies)
+            {
+                listOfIds.Add(species.Id);
+            }
+
+            var translations = await _dbContext.PetSpecies
+                .Where(species => listOfIds.Contains(species.Id))
+                .Where(species => species.Language == language)
+                .ToDictionaryAsync(x => x.Id);
+
+            foreach(var species in petSpecies)
+            {
+                var translation = translations.GetValueOrDefault(species.Id);
+                if (translation != null)
+                {
+                    species.Name = translation.Name;
+                }
             }
         }
 

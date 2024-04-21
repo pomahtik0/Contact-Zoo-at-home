@@ -1,5 +1,4 @@
-﻿using Contact_zoo_at_home.Application;
-using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
+﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
 using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
@@ -43,6 +42,7 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
+
             services.AddScoped<IUserInfo>(opt =>
             {
                 var userInfo = new UserInfo(opt.GetService<ApplicationDbContext>());
@@ -50,7 +50,15 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                 var httpContextAccessor = opt.GetService<IHttpContextAccessor>();
                 return new UserInfoTranslationDecorator(userInfo, translationService, httpContextAccessor);
             });
-            services.AddScoped<IPetInfo, PetInfo>();
+
+            services.AddScoped<IPetInfo>(opt =>
+            {
+                var petInfo = new PetInfo(opt.GetService<ApplicationDbContext>());
+                var translationService = opt.GetService<ITranslationService>();
+                var httpContextAccessor = opt.GetService<IHttpContextAccessor>();
+                return new PetInfoTranslationDecorator(petInfo, translationService, httpContextAccessor);
+            });
+
             services.AddScoped<ICompanyManager, CompanyManager>();
             services.AddScoped<ICommentsManager, CommentsAndNotificationManager>();
             services.AddScoped<ICommentsManager>(opt =>
