@@ -53,7 +53,7 @@ namespace Contact_zoo_at_home.Core.Entities.Pets
 
 
         // images of current pet
-        public IList<PetImage> Images { get; } = [];
+        public IList<PetImage> Images { get; set; } = [];
 
     }
 }
