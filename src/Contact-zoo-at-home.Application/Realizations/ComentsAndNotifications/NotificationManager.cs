@@ -4,7 +4,7 @@ using Contact_zoo_at_home.Shared.Basics.Enums;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
-    public class NotificationManager
+    internal class NotificationManager
     {
         internal static InnerNotification CreateNotification(ApplicationDbContext dbContext, InnerNotification notification)
         {

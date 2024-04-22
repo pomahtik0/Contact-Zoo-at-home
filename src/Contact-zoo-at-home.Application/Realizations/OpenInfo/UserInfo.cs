@@ -17,7 +17,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// Getting public information about users,
     /// profile, images, etc.
     /// </summary>
-    public class UserInfo : IUserInfo
+    internal class UserInfo : IUserInfo
     {
         private readonly ApplicationDbContext _dbContext;
 

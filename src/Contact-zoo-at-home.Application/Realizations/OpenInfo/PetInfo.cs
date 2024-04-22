@@ -13,7 +13,7 @@ namespace Contact_zoo_at_home.Application.Realizations.OpenInfo
     /// class to get open information about pets
     /// use to get what customers should see
     /// </summary>
-    public class PetInfo : IPetInfo
+    internal class PetInfo : IPetInfo
     {
         private const int maxNumberOfPetsOnPage = 100; // some random number, can do without it.
         private readonly ApplicationDbContext _dbContext;

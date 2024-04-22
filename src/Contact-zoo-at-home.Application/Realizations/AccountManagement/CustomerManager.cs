@@ -12,7 +12,7 @@ using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class CustomerManager : ICustomerManager
+    internal class CustomerManager : ICustomerManager
     {
         private readonly ApplicationDbContext _dbContext;
 

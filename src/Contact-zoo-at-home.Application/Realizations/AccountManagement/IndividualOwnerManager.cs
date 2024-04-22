@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class IndividualOwnerManager : PetOwnerManager, IIndividualOwnerManager
+    internal class IndividualOwnerManager : PetOwnerManager, IIndividualOwnerManager
     {
         public IndividualOwnerManager(ApplicationDbContext dbContext) : base(dbContext)
         {

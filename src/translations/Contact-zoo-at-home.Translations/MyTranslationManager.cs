@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Contact_zoo_at_home.Translations
 {
-    public class MyTranslationManager : ITranslationService
+    internal class MyTranslationManager : ITranslationService
     {
         private readonly TranslationDbContext _dbContext;
 

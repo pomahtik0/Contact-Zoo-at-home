@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Localization;
 
 namespace Contact_zoo_at_home.Translations.TranslationDecorators
 {
-    public class PetInfoTranslationDecorator : IPetInfo
+    internal class PetInfoTranslationDecorator : IPetInfo
     {
         private readonly IPetInfo _petInfo;
         private readonly ITranslationService _translationService;

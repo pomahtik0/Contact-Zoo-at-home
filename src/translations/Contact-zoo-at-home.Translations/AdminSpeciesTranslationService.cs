@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Translations
 {
-    public class AdminSpeciesTranslationService : IAdminSpeciesTranslationService
+    internal class AdminSpeciesTranslationService : IAdminSpeciesTranslationService
     {
         private readonly TranslationDbContext _dbContext;
 

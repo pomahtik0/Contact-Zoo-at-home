@@ -10,7 +10,7 @@ using Contact_zoo_at_home.Core.Entities.Notifications;
 
 namespace Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications
 {
-    public class CommentsAndNotificationManager : ICommentsManager
+    internal class CommentsAndNotificationManager : ICommentsManager
     {
         private readonly ApplicationDbContext _dbContext;
 

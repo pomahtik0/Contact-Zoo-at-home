@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Contact_zoo_at_home.Application.Realizations.Admin
 {
-    public class AdminService : IAdminService
+    internal class AdminService : IAdminService
     {
         private readonly ApplicationDbContext _dbContext;
 

@@ -13,7 +13,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// <summary>
     /// Finish only if i have time, focus on Customers/IndividualOwner relationship
     /// </summary>
-    public class CompanyManager : PetOwnerManager, ICompanyManager
+    internal class CompanyManager : PetOwnerManager, ICompanyManager
     {
         public CompanyManager(ApplicationDbContext dbContext) : base(dbContext) 
         { 

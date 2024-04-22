@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Localization;
 
 namespace Contact_zoo_at_home.Translations.TranslationDecorators
 {
-    public class UserInfoTranslationDecorator : IUserInfo
+    internal class UserInfoTranslationDecorator : IUserInfo
     {
         private readonly IUserInfo _userInfo;
         private readonly Language _language;

@@ -17,7 +17,7 @@ using Contact_zoo_at_home.Application.Exceptions;
 
 namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
 {
-    public class UserManager : IUserManager
+    internal class UserManager : IUserManager
     {
         private readonly ApplicationDbContext _dbContext;
 

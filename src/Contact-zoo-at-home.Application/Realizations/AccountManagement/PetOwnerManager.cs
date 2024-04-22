@@ -16,7 +16,7 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     /// <summary>
     /// Abstraction for all PetOwners to be able to manage their pets.
     /// </summary>
-    public abstract class PetOwnerManager : IPetOwnerManager
+    internal abstract class PetOwnerManager : IPetOwnerManager
     {
         protected readonly ApplicationDbContext _dbContext;
 
