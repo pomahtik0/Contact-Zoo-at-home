@@ -1,19 +1,13 @@
-﻿using Contact_zoo_at_home.Application.Interfaces.AccountManagement;
-using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
+﻿using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
-using Contact_zoo_at_home.Application.Realizations.AccountManagement;
-using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
-using Contact_zoo_at_home.Application.Realizations.OpenInfo;
 using Contact_zoo_at_home.Infrastructure.Data;
 using Contact_zoo_at_home.Translations.Infrastructure;
 using Contact_zoo_at_home.Translations;
 using Contact_zoo_at_home.WebAPI.Cache;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Contact_zoo_at_home.Infrastructure.Data.Helpers;
-using Contact_zoo_at_home.Application.Interfaces.Admin;
-using Contact_zoo_at_home.Application.Realizations.Admin;
 using Contact_zoo_at_home.WebAPI.Translations;
+using Contact_zoo_at_home.Application;
 
 namespace Contact_zoo_at_home.WebAPI.Extensions
 {
@@ -36,39 +30,11 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
                     options.AddInterceptors(new SoftDeletePetInterceptor());
                 });
 
-            services.AddScoped<ITranslationService, MyTranslationManager>();
-            services.AddScoped<IAdminSpeciesTranslationService, AdminSpeciesTranslationService>();
+            services.RegisterApplication();
 
-            services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<IUserManager, UserManager>();
-            services.AddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
+            services.DecorateWithTranslation();
 
-            services.AddScoped<IUserInfo>(opt =>
-            {
-                var userInfo = new UserInfo(opt.GetService<ApplicationDbContext>());
-                var translationService = opt.GetService<ITranslationService>();
-                var httpContextAccessor = opt.GetService<IHttpContextAccessor>();
-                return new UserInfoTranslationDecorator(userInfo, translationService, httpContextAccessor);
-            });
-
-            services.AddScoped<IPetInfo>(opt =>
-            {
-                var petInfo = new PetInfo(opt.GetService<ApplicationDbContext>());
-                var translationService = opt.GetService<ITranslationService>();
-                var httpContextAccessor = opt.GetService<IHttpContextAccessor>();
-                return new PetInfoTranslationDecorator(petInfo, translationService, httpContextAccessor);
-            });
-
-            services.AddScoped<ICompanyManager, CompanyManager>();
-            services.AddScoped<ICommentsManager, CommentsAndNotificationManager>();
-            services.AddScoped<ICommentsManager>(opt =>
-            {
-                IMemoryCache cache = opt.GetService<IMemoryCache>() ?? throw new Exception("Register memory cache");
-                return new CommentsManagerCacheDecorator(
-                    new CommentsAndNotificationManager(opt.GetService<ApplicationDbContext>() ?? throw new Exception("ApplicationDbContext not registered")),
-                    cache);
-            });
-            services.AddScoped<ICustomerManager, CustomerManager>();
+            services.Decorate<ICommentsManager, CommentsManagerCacheDecorator>();
 
             return services;
         }

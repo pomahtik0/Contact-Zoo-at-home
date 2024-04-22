@@ -10,6 +10,7 @@
   <ItemGroup>
 	<ProjectReference Include="..\Contact-zoo-at-home.Shared.Basics\Contact-zoo-at-home.Shared.Basics.csproj" />
     <ProjectReference Include="..\Contact-zoo-at-home.Core\Contact-zoo-at-home.Core.csproj" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
     <ProjectReference Include="..\Contact-zoo-at-home.Infrastructure.Data\Contact-zoo-at-home.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Contact-zoo-at-home.Shared\Contact-zoo-at-home.Shared.csproj" />
   </ItemGroup>
