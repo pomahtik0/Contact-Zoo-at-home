@@ -59,6 +59,25 @@
         "UserClaims": [
           "address"
         ]
+      },
+      {
+        "Name": "application_role",
+        "Enabled": true,
+        "DisplayName": "Role within Contact-zoo-at-home",
+        "UserClaims": [
+          "ApplicationRole",
+          "name"
+        ]
+      }
+    ],
+    "ApiScopes": [
+      {
+        "Name": "webapi_scope",
+        "DisplayName": "WebAPI",
+        "Required": true,
+        "UserClaims": [
+          "ApplicationRole"
+        ]
       }
     ],
     "Clients": [
@@ -90,6 +109,59 @@
           "email",
           "profile",
           "roles"
+        ]
+      },
+      {
+        "ClientId": "webui_id",
+        "ClientName": "webui_id",
+        "ClientUri": "https://localhost:7293",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "webui_secret"
+          }
+        ],
+        "RedirectUris": [
+          "https://localhost:7293/signin-oidc"
+        ],
+        "FrontChannelLogoutUri": "https://localhost:7293/signout-oidc",
+        "PostLogoutRedirectUris": [
+          "https://localhost:7293/signout-callback-oidc"
+        ],
+        "AllowedCorsOrigins": [
+          "https://localhost:7293"
+        ],
+        "AllowedScopes": [
+          "openid",
+          "application_role",
+          "webapi_scope"
+        ]
+      },
+      {
+        "ClientId": "webapi_id",
+        "ClientName": "webapi_id",
+        "ClientUri": "https://localhost:7192",
+        "AllowedGrantTypes": [
+          "authorization_code"
+        ],
+        "RequirePkce": true,
+        "ClientSecrets": [
+          {
+            "Value": "webapi_secret"
+          }
+        ],
+        "RedirectUris": [
+          "https://localhost:7192/swagger/oauth2-redirect.html"
+        ],
+        "AllowedCorsOrigins": [
+          "https://localhost:7192"
+        ],
+        "AllowedScopes": [
+          "openid",
+          "webapi_scope"
         ]
       }
     ]

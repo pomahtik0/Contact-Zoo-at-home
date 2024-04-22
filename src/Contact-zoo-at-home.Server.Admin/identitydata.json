@@ -3,6 +3,9 @@
     "Roles": [
       {
         "Name": "SkorubaIdentityAdminAdministrator"
+      },
+      {
+        "Name": "User"
       }
     ],
     "Users": [
@@ -17,6 +20,124 @@
           {
             "Type": "name",
             "Value": "admin"
+          }
+        ]
+      },
+      {
+        "Username": "Customer1",
+        "Password": "Pa$$word123",
+        "Email": "Customer1@skoruba.com",
+        "Roles": [
+          "User"
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Customer"
+          }
+        ]
+      },
+      {
+        "Username": "Customer2",
+        "Password": "Pa$$word123",
+        "Email": "Customer2@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Customer"
+          }
+        ]
+      },
+      {
+        "Username": "Customer3",
+        "Password": "Pa$$word123",
+        "Email": "Customer3@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Customer"
+          }
+        ]
+      },
+      {
+        "Username": "PetOwner1",
+        "Password": "Pa$$word123",
+        "Email": "PetOwner1@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "IndividualPetOwner"
+          }
+        ]
+      },
+      {
+        "Username": "PetOwner2",
+        "Password": "Pa$$word123",
+        "Email": "PetOwner2@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "IndividualPetOwner"
+          }
+        ]
+      },
+      {
+        "Username": "PetOwner3",
+        "Password": "Pa$$word123",
+        "Email": "PetOwner3@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "IndividualPetOwner"
+          }
+        ]
+      },
+      {
+        "Username": "Company1",
+        "Password": "Pa$$word123",
+        "Email": "Company1@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Company"
+          }
+        ]
+      },
+      {
+        "Username": "Company2",
+        "Password": "Pa$$word123",
+        "Email": "Company2@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Company"
+          }
+        ]
+      },
+      {
+        "Username": "Company3",
+        "Password": "Pa$$word123",
+        "Email": "Company3@skoruba.com",
+        "Roles": [
+        ],
+        "Claims": [
+          {
+            "Type": "ApplicationRole",
+            "Value": "Company"
           }
         ]
       }
