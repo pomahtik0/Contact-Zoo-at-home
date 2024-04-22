@@ -9,6 +9,7 @@ using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -25,13 +26,13 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         private static ApplicationDbContext classDbContext;
         private static TestContext classTestContext;
 
+        private ICustomerManager testCustomerManager;
         private ApplicationDbContext testDbContext;
-        private CustomerManager testCustomerManager;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            classDbContext = TestConstants.CreateApplicationDbContext();
+            classDbContext = TestConstants.serviceProvider.GetRequiredService<ApplicationDbContext>();
             classDbContext.Database.EnsureCreated();
             classTestContext = context;
 
@@ -75,16 +76,17 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
         [TestInitialize]
         public void TestInitialize()
         {
-            testDbContext = TestConstants.CreateApplicationDbContext();
-            testDbContext.Database.BeginTransaction();
-            testCustomerManager = new CustomerManager(testDbContext);
+            testCustomerManager = TestConstants.serviceProvider.GetRequiredService<ICustomerManager>();
+            testCustomerManager.DbContext.Database.BeginTransaction();
+            testDbContext = (ApplicationDbContext)testCustomerManager.DbContext;
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            testDbContext.Database.RollbackTransaction();
-            testDbContext.Dispose();
+            testCustomerManager.DbContext.Database.RollbackTransaction();
+            testCustomerManager = null;
+            testDbContext = null;
         }
 
 
@@ -103,10 +105,9 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 ContractAdress = "someAddress",
                 ContractDate = DateTime.Now,
             };
-            baseContract.PetsInContract.Add(pet!);
 
             // Act
-            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>(pet.Id)).Wait();
+            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>([pet.Id])).Wait();
 
             // Assert
             var createdContract = testDbContext.Contracts
@@ -137,10 +138,8 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
                 ContractDate = DateTime.Now,
             };
 
-            baseContract.PetsInContract.Add(pet!);
-
             // Act
-            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>(pet.Id)).Wait();
+            testCustomerManager.CreateNewStandartContractAsync(baseContract, customer.Id, new List<int>([pet.Id])).Wait();
 
             // Assert
             var createdNotification = testDbContext.InnerNotifications
@@ -229,6 +228,7 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             // Assert
 
             var contract = testDbContext.Contracts
+                .IgnoreQueryFilters()
                 .Where(contract => contract.Id == baseContract.Id)
                 .AsNoTracking()
                 .FirstOrDefault();
@@ -271,7 +271,6 @@ namespace Contact_zoo_at_home.Application.tests.SimpleTests
             // Assert
             Assert.AreEqual(0, listOfContracts.Count);
         }
-
 
         [TestMethod]
         public void CancelContractAsync_CanceledOrPerfermedContract_ThrowsInvalidOperationException()

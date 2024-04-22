@@ -1,11 +1,13 @@
 ﻿using Contact_zoo_at_home.Core.Entities.Contracts;
 using Contact_zoo_at_home.Core.Entities.Notifications;
 using Contact_zoo_at_home.Core.Entities.Pets;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contact_zoo_at_home.Application.Interfaces.AccountManagement
 {
     public interface ICustomerManager
     {
+        DbContext DbContext { get; }
         Task<InnerNotification> CreateNewStandartContractAsync(StandartContract standartContract, int customerId, IEnumerable<int> petIds);
 
         Task<IList<BaseContract>> GetAllContractsAsync(int customerId);

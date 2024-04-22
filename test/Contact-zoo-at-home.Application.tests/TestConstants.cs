@@ -1,5 +1,6 @@
 ﻿using Contact_zoo_at_home.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Contact_zoo_at_home.Application.tests
 {
@@ -7,13 +8,18 @@ namespace Contact_zoo_at_home.Application.tests
     {
         internal const string testDbConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Contact-zoo-at-home.test;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-        internal static ApplicationDbContext CreateApplicationDbContext()
+        internal static readonly IServiceProvider serviceProvider;
+
+        static TestConstants()
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var services = new ServiceCollection();
 
-            options.UseSqlServer(testDbConnectionString);
+            services.AddDbContext<ApplicationDbContext>(opt =>
+                opt.UseSqlServer(testDbConnectionString));
 
-            return new ApplicationDbContext(options.Options);
+            services.RegisterApplication();
+
+            serviceProvider = services.BuildServiceProvider();
         }
     }
 }

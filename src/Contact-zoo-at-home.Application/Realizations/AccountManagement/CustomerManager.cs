@@ -16,6 +16,8 @@ namespace Contact_zoo_at_home.Application.Realizations.AccountManagement
     {
         private readonly ApplicationDbContext _dbContext;
 
+        public DbContext DbContext => _dbContext;
+
         public CustomerManager(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
