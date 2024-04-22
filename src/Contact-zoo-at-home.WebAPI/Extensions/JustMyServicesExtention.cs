@@ -36,6 +36,8 @@ namespace Contact_zoo_at_home.WebAPI.Extensions
 
             services.Decorate<ICommentsManager, CommentsManagerCacheDecorator>();
 
+            services.Decorate<ICommentsManager, CommentsManagerCacheLogDecorator>();
+
             return services;
         }
 

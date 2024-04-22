@@ -2,6 +2,7 @@
 using Contact_zoo_at_home.Application.Interfaces.Admin;
 using Contact_zoo_at_home.Application.Interfaces.CommentsAndNotifications;
 using Contact_zoo_at_home.Application.Interfaces.OpenInfo;
+using Contact_zoo_at_home.Application.Logging;
 using Contact_zoo_at_home.Application.Realizations.AccountManagement;
 using Contact_zoo_at_home.Application.Realizations.Admin;
 using Contact_zoo_at_home.Application.Realizations.ComentsAndNotifications;
@@ -13,20 +14,22 @@ namespace Contact_zoo_at_home.Application
 {
     public static class RegisterApplicationExtension
     {
-        public static IServiceCollection RegisterApplication(this IServiceCollection serviceProvider)
+        public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            serviceProvider.TryAddScoped<IUserInfo, UserInfo>();
-            serviceProvider.TryAddScoped<IPetInfo, PetInfo>();
+            services.TryAddScoped<IUserInfo, UserInfo>();
+            services.TryAddScoped<IPetInfo, PetInfo>();
 
-            serviceProvider.TryAddScoped<IAdminService, AdminService>();
-            serviceProvider.TryAddScoped<IUserManager, UserManager>();
-            serviceProvider.TryAddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
+            services.TryAddScoped<IAdminService, AdminService>();
+            services.TryAddScoped<IUserManager, UserManager>();
+            services.TryAddScoped<IIndividualOwnerManager, IndividualOwnerManager>();
 
-            serviceProvider.TryAddScoped<ICompanyManager, CompanyManager>();
-            serviceProvider.TryAddScoped<ICommentsManager, CommentsAndNotificationManager>();
-            serviceProvider.TryAddScoped<ICustomerManager, CustomerManager>();
+            services.TryAddScoped<ICompanyManager, CompanyManager>();
+            services.TryAddScoped<ICommentsManager, CommentsAndNotificationManager>();
+            services.TryAddScoped<ICustomerManager, CustomerManager>();
 
-            return serviceProvider;
+            services.Decorate<ICommentsManager, CommentManagerLogDecorator>();
+
+            return services;
         }
     }
 }
