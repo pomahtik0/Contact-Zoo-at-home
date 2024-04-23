@@ -22,7 +22,7 @@ namespace Contact_zoo_at_home.WebUI.Helpers
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var culture = context.Features.GetRequiredFeature<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            var culture = "en";
 
             var responce = await client.GetAsync($"{Constants.WebAPIPath}/api/{culture}/{apiUrl}")
                 ?? throw new Exception("No api responce");

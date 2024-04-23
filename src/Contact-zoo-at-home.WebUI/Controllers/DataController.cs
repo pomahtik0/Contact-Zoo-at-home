@@ -11,7 +11,8 @@ namespace Contact_zoo_at_home.WebUI.Controllers
     public class DataController : Controller
     {
         [HttpGet]
-        [Route("/pets")]
+        [Route("{culture}/pets")]
+        [MiddlewareFilter(typeof(LocalizationPipeline))]
         public async Task<IActionResult> Pets()
         {
             var responce = await HttpContext.MakeApiGetRequestAsync<DisplayPetsShortDto>("pets");

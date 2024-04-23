@@ -40,7 +40,7 @@ function openPetCard(id) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "Data/PetProfileCard/" + id;
+                    url = "PetProfileCard/" + id;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);

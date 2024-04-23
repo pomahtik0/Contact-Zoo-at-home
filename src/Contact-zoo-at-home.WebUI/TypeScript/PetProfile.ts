@@ -1,5 +1,5 @@
 ﻿async function openPetCard(id: string) {
-    const url = "Data/PetProfileCard/" + id;
+    const url = "PetProfileCard/" + id;
     try {
         const response = await fetch(url, {
             method: "GET",

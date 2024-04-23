@@ -1,7 +1,14 @@
 ﻿@model DisplayPetShortDto
 
 <div class="card m-md-2 col-md-3">
-    <img class="card-img-top" alt="Imagine I am image">
+    @if (string.IsNullOrEmpty(Model.Image))
+    {
+        <img class="card-img-top" alt="Imagine I am image">
+    }
+    else
+    {
+        <img src="data:image;base64,@Model.Image">
+    }
     <div class="card-body">
         Name: @Model.Name
         <br />
