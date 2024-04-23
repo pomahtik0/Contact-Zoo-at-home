@@ -1,5 +1,7 @@
 ﻿using Contact_zoo_at_home.Shared;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Localization;
 using System.Net.Http.Headers;
 
 namespace Contact_zoo_at_home.WebUI.Helpers
@@ -20,7 +22,9 @@ namespace Contact_zoo_at_home.WebUI.Helpers
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var responce = await client.GetAsync(Constants.WebAPIPath + "/api/" + apiUrl)
+            var culture = context.Features.GetRequiredFeature<IRequestCultureFeature>().RequestCulture.Culture.Name;
+
+            var responce = await client.GetAsync($"{Constants.WebAPIPath}/api/{culture}/{apiUrl}")
                 ?? throw new Exception("No api responce");
 
             if (!responce.IsSuccessStatusCode)
