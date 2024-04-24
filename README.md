@@ -110,3 +110,12 @@ Represents action only within app.
 
 ## Database
 ![Relations in Database](extra/Diagrams/DatabaseRelations.png)
+
+## Libraries Used
+  - Bogus - database seed;
+  - AutoMapper - mapping to dto's and backwards;
+  - Scrutor - decorating services in simplier way;
+  - Ef Core - working with database;
+  - Duende(+ OpenIdConnect + JwtBearer + IdentityModel + IdentityUser) - server side;
+  - LigerShark.WebOptimizer - bundling and minification;
+  - Swashbuckle - simple API interface;
